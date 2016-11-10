@@ -421,6 +421,8 @@
 
                 if (m.Ready && m.Angr >= 1 && !m.frozen)
                 {
+                    if (m.name == CardDB.cardName.silithidswarmer && !m.silenced && p.ownHero.numAttacksThisTurn == 0) continue; //this minion can't attack unless hero attacked
+
                     //BEGIN:cut (double/similar) attacking minions out#####################################
                     // DONT LET SIMMILAR MINIONS ATTACK IN ONE TURN (example 3 unlesh the hounds-hounds doesnt need to simulated hole)
                     if (attackordermatters)
