@@ -573,9 +573,12 @@
                     {
                         heroAttackPen = pen.getAttackWithHeroPenality(trgt, p, isLethalCheck);
                     }
-                    //pf.attackWithWeapon(trgt.target, trgt.targetEntity, heroAttackPen);
-                    Action a = new Action(actionEnum.attackWithHero, null, p.ownHero, 0, trgt, heroAttackPen, 0);
-                    ret.Add(a);
+                    if (heroAttackPen < 500)
+                    {
+                        //pf.attackWithWeapon(trgt.target, trgt.targetEntity, heroAttackPen);
+                        Action a = new Action(actionEnum.attackWithHero, null, p.ownHero, 0, trgt, heroAttackPen, 0);
+                        ret.Add(a);
+                    }
 
                 }
             }
