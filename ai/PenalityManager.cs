@@ -284,6 +284,8 @@ namespace HREngine.Bots
             {
                 return 25 * ((p.ownWeaponAttack * p.ownWeaponDurability) - (2 * alsoEquipsWeaponDB[card.name]));
             }
+            if (card.name == CardDB.cardName.spiritclaws && p.ownWeaponName == CardDB.cardName.spiritclaws) return 500;
+
             if (card.type == CardDB.cardtype.WEAPON && card.Attack <= p.ownWeaponAttack)
             {
                 return Math.Max(10 + p.ownWeaponAttack * p.ownWeaponDurability - card.Attack * card.Durability, 0); //small penalty for replacing similar attack for more charges
