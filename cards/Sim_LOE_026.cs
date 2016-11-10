@@ -11,7 +11,9 @@ namespace HREngine.Bots
         public override void onCardPlay(Playfield p, bool ownplay, Minion target, int choice)
         {
             int place = (ownplay) ? p.ownMinions.Count : p.enemyMinions.Count;
-            Dictionary<CardDB.cardIDEnum, int> temp = (ownplay) ? Probabilitymaker.Instance.ownCardsPlayed : Probabilitymaker.Instance.enemyCardsPlayed;
+            Dictionary<CardDB.cardIDEnum, int> temp = (ownplay)
+                ? Probabilitymaker.Instance.ownCardsPlayed
+                : Probabilitymaker.Instance.enemyCardsPlayed;
             if (place > 6) return;
 
             CardDB.Card c;
@@ -32,6 +34,8 @@ namespace HREngine.Bots
                 }
             }
             if (place > 6) return;
+            if (p.diedMinions == null) return;
+
             foreach (GraveYardItem gi in p.diedMinions)
             {
                 if (gi.own == ownplay)
@@ -46,5 +50,5 @@ namespace HREngine.Bots
                 }
             }
         }
-    }
+	}
 }
