@@ -195,8 +195,8 @@
             int heropowermana = p.ownHeroAblility.card.getManaCost(p, 2);
             if (p.manaTurnEnd >= heropowermana && !useAbili && p.ownAbilityReady)
             {
-                if (!(p.ownHeroName == HeroEnum.thief && (p.ownWeaponDurability >= 2 || p.ownWeaponAttack >= 2))) retval -= 20;
-                if (p.ownHeroName == HeroEnum.pala && enemyhaspatron) retval += 20;
+                if (!(p.ownHeroName == HeroEnum.thief && (p.ownWeaponDurability >= 2 || p.ownWeaponAttack >= 2))) retval -= 100;
+                if (p.ownHeroName == HeroEnum.pala && enemyhaspatron) retval += 100;
             }
             if (useAbili && usecoin == 2) retval -= 5;
             //if (usecoin && p.manaTurnEnd >= 1 && p.owncards.Count <= 8) retval -= 100;

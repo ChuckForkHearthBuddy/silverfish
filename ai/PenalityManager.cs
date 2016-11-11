@@ -1372,7 +1372,9 @@ namespace HREngine.Bots
                     continue;
                 }
 
-                if (a.actionType == actionEnum.useHeroPower && (p.ownHeroName != HeroEnum.shaman && p.ownHeroName != HeroEnum.warlock)) //todo sepefeets - change this to the actual hero powers for finley
+                if (a.actionType == actionEnum.useHeroPower
+                    && p.ownHeroAblility.card.name != CardDB.cardName.totemiccall && p.ownHeroAblility.card.name != CardDB.cardName.totemicslam
+                    && p.ownHeroAblility.card.name != CardDB.cardName.lifetap && p.ownHeroAblility.card.name != CardDB.cardName.soultap)
                 {
                     first = false;
                     continue;
@@ -1722,23 +1724,28 @@ namespace HREngine.Bots
         {
             CardDB.Card card = hcard.card;
             CardDB.cardName name = card.name;
+            int pen = 0;
 
             // penalize playing hero power after spell dmg cards
             if (name == CardDB.cardName.totemiccall || name == CardDB.cardName.totemicslam)  // shaman
             {
-                return p.playactions.FindAll(a => a.actionType == actionEnum.playcard && a.card.card.type == CardDB.cardtype.SPELL
+                pen += p.playactions.FindAll(a => a.actionType == actionEnum.playcard && a.card.card.type == CardDB.cardtype.SPELL
                     && (DamageTargetSpecialDatabase.ContainsKey(a.card.card.name) || DamageTargetDatabase.ContainsKey(a.card.card.name) 
                         || DamageAllEnemysDatabase.ContainsKey(a.card.card.name) || DamageHeroDatabase.ContainsKey(a.card.card.name)
                         || DamageRandomDatabase.ContainsKey(a.card.card.name) || a.card.card.name == CardDB.cardName.elementaldestruction)).Count * 9;
             }
 
-            // penalize playing shapeshift after other moves
+            // slightly penalize playing shapeshift after other moves to recover a bit from HR data sync
             if (name == CardDB.cardName.shapeshift || name == CardDB.cardName.direshapeshift)
             {
-                return p.playactions.Count;
+                pen += p.playactions.Count;
             }
 
-            return 0;
+            //to counteract randomness penalty for playing hero power 2nd after inspire minion (maybe move to getRandomPenalty)
+            if ((name == CardDB.cardName.totemiccall || name == CardDB.cardName.totemicslam || name == CardDB.cardName.lifetap || name == CardDB.cardName.soultap)
+                && p.playactions.Find(a => a.actionType == actionEnum.playcard && this.strongInspireEffectMinions.ContainsKey(a.card.card.name)) != null) pen += -7;
+
+            return pen;
         }
 
         private int getPlayMobPenalty(Handmanager.Handcard card, Minion target, Playfield p, bool lethal)
