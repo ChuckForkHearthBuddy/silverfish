@@ -3824,7 +3824,6 @@ namespace HREngine.Bots
 
         private void setupEnemyTargetPriority()
         {
-            //priorityTargets.Add(CardDB.cardName.angrychicken, 1);  // minion canot be enraged until hp is buffed, so generally not a priority
             priorityTargets.Add(CardDB.cardName.lightwarden, 4);
             priorityTargets.Add(CardDB.cardName.secretkeeper, 3);
             priorityTargets.Add(CardDB.cardName.youngdragonhawk, 4);
@@ -3848,7 +3847,6 @@ namespace HREngine.Bots
             priorityTargets.Add(CardDB.cardName.raidleader, 6);
             priorityTargets.Add(CardDB.cardName.thrallmarfarseer, 10);
             priorityTargets.Add(CardDB.cardName.cultmaster, 10);
-            //priorityTargets.Add(CardDB.cardName.leeroyjenkins, 10);  // charge already used when on the field, no need for additional penalty
             priorityTargets.Add(CardDB.cardName.violetteacher, 6);
             priorityTargets.Add(CardDB.cardName.gadgetzanauctioneer, 10);
             priorityTargets.Add(CardDB.cardName.hogger, 10);
@@ -3856,6 +3854,7 @@ namespace HREngine.Bots
             priorityTargets.Add(CardDB.cardName.barongeddon, 10);
             priorityTargets.Add(CardDB.cardName.stormwindchampion, 10);
             priorityTargets.Add(CardDB.cardName.gurubashiberserker, 10);
+            priorityTargets.Add(CardDB.cardName.ragnarosthefirelord, 20);
 
             //warrior cards
             priorityTargets.Add(CardDB.cardName.frothingberserker, 10);
