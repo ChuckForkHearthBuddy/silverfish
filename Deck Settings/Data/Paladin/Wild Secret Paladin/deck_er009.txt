@@ -1,22 +1,22 @@
 // Cards
-Avenge × 2
-Competitive Spirit × 1
-Noble Sacrifice × 2
-Redemption × 1
-Repentance × 1
-Secretkeeper × 2
-Haunted Creeper x 1
-Knife Juggler x 1
-Shielded Minibot × 2
-Cog hammer x 1
-Muster for Battle × 2
-Steward of Darkshire × 1
-Keeper of Uldaman × 2
-Truesilver Champion × 1
-Consecration x 1
-Piloted Shredder × 2
-Sludge Belcher × 2
-Mysterious Challenger × 2
-Tirion Fordring × 1
-Dr. Boom × 1
-N'Zoth, the Corruptor × 1
+Competitive Spirit
+Noble Sacrifice x 2
+Redemption
+Avenge x 2
+Secretkeeper x 2
+Haunted Creeper
+Knife Juggler x 2
+Shielded Minibot x 2
+Coghammer
+Divine Favor
+Muster for Battle x 2
+Barnes
+Blessing of Kings
+Consecration
+Piloted Shredder x 2
+Keeper of Uldaman x 2
+Sludge Belcher
+Mysterious Challenger x 2
+Dr. Boom
+Tirion Fordring
+N'zoth
