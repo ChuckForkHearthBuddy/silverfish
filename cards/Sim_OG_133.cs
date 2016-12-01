@@ -17,7 +17,7 @@ namespace HREngine.Bots
 
             if (kids > 0)
             {
-                foreach (KeyValuePair<CardDB.cardIDEnum, int> e in Probabilitymaker.Instance.ownCardsPlayed)
+                foreach (KeyValuePair<CardDB.cardIDEnum, int> e in Probabilitymaker.Instance.ownGraveyard)
                 {
                     kid = CardDBI.getCardDataFromID(e.Key);
                     if (kid.deathrattle)

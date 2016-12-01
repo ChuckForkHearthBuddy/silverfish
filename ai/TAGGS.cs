@@ -242,6 +242,7 @@
     public enum TAG_CLASS
     {
         INVALID,
+        ALL,
         DEATHKNIGHT,
         DRUID,
         HUNTER,
@@ -252,8 +253,7 @@
         SHAMAN,
         WARLOCK,
         WARRIOR,
-        DREAM,
-        ALL
+        DREAM
 
     }
 

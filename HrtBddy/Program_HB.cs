@@ -143,7 +143,32 @@ namespace HREngine.Bots
         //LOE stuff###############################################################################################################
         List<CardDB.cardIDEnum> choiceCards = new List<CardDB.cardIDEnum>(); // here we save all available tracking/discover cards ordered from left to right
         public List<int> choiceCardsEntitys = new List<int>(); //list of entitys same order as choiceCards
-        
+
+        Dictionary<string, int> startDeck = new Dictionary<string, int>();
+        Dictionary<CardDB.cardIDEnum, int> turnDeck = new Dictionary<CardDB.cardIDEnum, int>();
+        Dictionary<int, extraCard> extraDeck = new Dictionary<int, extraCard>();
+        bool noDuplicates = false;
+        private class extraCard
+        {
+            public string id;
+            public bool isindeck;
+
+            public extraCard(string s, bool b)
+            {
+                this.id = s;
+                this.isindeck = b;
+            }
+            public void setId(string s)
+            {
+                this.id = s;
+            }
+            public void setisindeck(bool b)
+            {
+                this.isindeck = b;
+            }
+        }
+
+
         private static Silverfish instance;
 
         public static Silverfish Instance
@@ -203,7 +228,48 @@ namespace HREngine.Bots
 
         public void setNewGame()
         {
-            string deckname = Triton.Bot.Logic.Bots.DefaultBot.DefaultBotSettings.Instance.ConstructedCustomDeck;
+            setnewLoggFile();
+            Settings.Instance.loggCleanPath();
+            Mulligan.Instance.loggCleanPath();
+            Discovery.Instance.loggCleanPath();
+            ComboBreaker.Instance.loggCleanPath();
+            Probabilitymaker.Instance.clearAll();
+            Hrtprozis.Instance.clearDecks();
+
+            startDeck.Clear();
+            extraDeck.Clear();
+            string deckname = Triton.Bot.Logic.Bots.DefaultBot.DefaultBotSettings.Instance.ConstructedCustomDeck; //use custom deck for initialization
+            long DeckId = Triton.Bot.Logic.Bots.DefaultBot.DefaultBotSettings.Instance.LastDeckId;
+            foreach (var deck in Triton.Bot.Settings.MainSettings.Instance.CustomDecks)
+            {
+                if (deck.DeckId == DeckId)
+                {
+                    deckname = deck.Name; //update real deck name
+                    foreach (string s in deck.CardIds)
+                    {
+                        if (startDeck.ContainsKey(s)) startDeck[s]++;
+                        else startDeck.Add(s, 1);
+                    }
+                    foreach (var card in startDeck)
+                    {
+                        Hrtprozis.Instance.addCardToDecks(CardDB.Instance.cardIdstringToEnum(card.Key), card.Value);
+                    }
+                    break;
+                }
+            }
+
+            if (Hrtprozis.Instance.startDeck.Count > 0)
+            {
+                string deckcards = "Deck: ";
+                foreach (KeyValuePair<CardDB.cardIDEnum, int> card in Hrtprozis.Instance.startDeck)
+                {
+                    deckcards += card.Key;
+                    if (card.Value > 1) deckcards += "," + card.Value;
+                    deckcards += ";";
+                }
+                Helpfunctions.Instance.logg(deckcards);
+            }
+
             this.heroname = Hrtprozis.Instance.heroIDtoName(TritonHs.OurHero.Id);
             HeroEnum heroname = Hrtprozis.Instance.heroNametoEnum(this.heroname);
             if (deckname != Hrtprozis.Instance.deckName || heroname != Hrtprozis.Instance.heroname)
@@ -231,32 +297,23 @@ namespace HREngine.Bots
             Helpfunctions.Instance.writeBufferToDeckFile();
         }
 
-        public bool updateEverything(Behavior botbase, bool queueActions, bool runExtern = false, bool passiveWait = false, bool nodruidchoice=true)
+        public bool updateEverything(Behavior botbase, bool runExtern = false, bool passiveWait = false, bool nodruidchoice=true)
         {
-            queueActions = false;
             Helpfunctions.Instance.ErrorLog("updateEverything");
 
             this.updateBehaveString(botbase);
-
             ownPlayerController = TritonHs.OurHero.ControllerId;
+            
+            Hrtprozis.Instance.clearAll();
+            Handmanager.Instance.clearAll();
 
-            // create hero + minion data
             getHerostuff();
-
-            //small fix for not knowing when to mulligan:
-            /*if (ownMaxMana == 1 && currentMana == 1 && numMinionsPlayedThisTurn == 0 && cardsPlayedThisTurn == 0)
-            {
-                setnewLoggFile();
-            }*/
 
             getMinions();
             getHandcards(nodruidchoice);
             getDecks();
             correctSpellpower();
-            // send ai the data:
-            Hrtprozis.Instance.clearAll();
-            Handmanager.Instance.clearAll();
-
+            
             Hrtprozis.Instance.setOwnPlayer(ownPlayerController);
             Handmanager.Instance.setOwnPlayer(ownPlayerController);
 
@@ -285,8 +342,7 @@ namespace HREngine.Bots
             //learnmode :D
 
             Playfield p = new Playfield();
-
-
+            
             if (lastpf != null)
             {
                 if (lastpf.isEqualf(p))
@@ -345,13 +401,17 @@ namespace HREngine.Bots
                 //Ai.Instance.nextMoveGuess.printBoard();
                 if (p.isEqual(Ai.Instance.nextMoveGuess, true))
                 {
-
                     printstuff(p, false);
                     Ai.Instance.doNextCalcedMove();
-
                 }
                 else
                 {
+                    List<Handmanager.Handcard> newcards = p.getNewHandCards(Ai.Instance.nextMoveGuess);
+                    foreach (var card in newcards)
+                    {
+                        if (!isCardCreated(card)) Hrtprozis.Instance.removeCardFromTurnDeck(card.card.cardIDenum);
+                    }
+
                     printstuff(p, true);
                     readActionFile(passiveWait);
                 }
@@ -368,6 +428,20 @@ namespace HREngine.Bots
             Helpfunctions.Instance.ErrorLog("calculating ended! " + DateTime.Now.ToString("HH:mm:ss.ffff"));
 
             return true;
+        }
+
+        public bool isCardCreated(Handmanager.Handcard handcard)
+        {
+            List<HSCard> allEntitys = TritonHs.GetAllCards();
+            foreach (var card in allEntitys)
+            {
+                if (card.EntityId == handcard.entity)
+                {
+                    if (card.CreatorId != 0) return true;
+                    else return false;
+                }
+            }
+            return false;
         }
 
         private void getHerostuff()
@@ -957,7 +1031,7 @@ namespace HREngine.Bots
                 if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.SECRET && ent.ControllerId == enemycontroler) continue; // cant know enemy secrets :D
                 if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.DECK) continue;
 
-                if(ent.IsMinion || ent.IsWeapon || ent.IsSpell)
+                if (ent.IsMinion || ent.IsWeapon || ent.IsSpell)
                 {
 
                     CardDB.cardIDEnum cardid = CardDB.Instance.cardIdstringToEnum(ent.Id);
@@ -1004,7 +1078,6 @@ namespace HREngine.Bots
                 Ai.Instance.updateTwoTurnSim();
             }
             Probabilitymaker.Instance.setGraveYard(graveYard, isTurnStart);
-
         }
 
         private void updateBehaveString(Behavior botbase)

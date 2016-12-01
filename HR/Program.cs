@@ -228,7 +228,18 @@ namespace HREngine.Bots
             Mulligan.Instance.loggCleanPath();
             Discovery.Instance.loggCleanPath();
             ComboBreaker.Instance.loggCleanPath();
-
+            
+            if (Hrtprozis.Instance.startDeck.Count > 0)
+            {
+                string deckcards = "Deck: ";
+                foreach (KeyValuePair<CardDB.cardIDEnum, int> card in Hrtprozis.Instance.startDeck)
+                {
+                    deckcards += card.Key;
+                    if (card.Value > 1) deckcards += "," + card.Value;
+                    deckcards += ";";
+                }
+                Helpfunctions.Instance.logg(deckcards);
+            }
 
             //reload external process settings too
             Helpfunctions.Instance.resetBuffer();
@@ -315,9 +326,6 @@ namespace HREngine.Bots
         /// <param name="e">e.deck_list -- all cards id in the deck.</param>
         public override void OnGameStart(GameStartEventArgs e)
         {
-            //todo sepefeets - GameStartEventArgs has the deck name and list
-            //do something here
-
             // reset instance vars
             numExecsReceived = 0;
             numActionsSent = 0;
@@ -331,6 +339,13 @@ namespace HREngine.Bots
             else
             {
                 deckChanged = false;
+            }
+            
+            Probabilitymaker.Instance.clearAll();
+            Hrtprozis.Instance.clearDecks();
+            foreach (var card in e.deck_list)
+            {
+                Hrtprozis.Instance.addCardToDecks(CardDB.Instance.cardIdstringToEnum(card.card_id), card.num);
             }
         }
 
@@ -1112,15 +1127,13 @@ namespace HREngine.Bots
             }
         }
 
+        public void setNewGame()
+        {
+            //todo sepefeets - move stuff here to make things more consistant between HR/HB versions
+        }
+
         public bool updateEverything(HSRangerLib.BotBase rangerbot, Behavior botbase, bool queueActions, bool runExtern = false, bool passiveWait = false)
         {
-            // data sync workaround for temp buffs - something is wrong
-            /*if (lastpf != null && lastpf.playactions[0].actionType == actionEnum.playcard && (lastpf.playactions[0].card.card.name == CardDB.cardName.savageroar ||
-                lastpf.playactions[0].card.card.name == CardDB.cardName.bloodlust || PenalityManager.Instance.buffing1TurnDatabase.ContainsKey(lastpf.playactions[0].card.card.name)))
-            {
-                System.Threading.Thread.Sleep(1000);
-            }*/
-
             Helpfunctions.Instance.ErrorLog("updateEverything");
             latestGameState = rangerbot.gameState;
 
@@ -1130,6 +1143,8 @@ namespace HREngine.Bots
             Entity enemyPlayer = rangerbot.EnemyHero;
             ownPlayerController = ownPlayer.ControllerId;//ownPlayer.GetHero().GetControllerId()
 
+            Hrtprozis.Instance.clearAll();
+            Handmanager.Instance.clearAll();
 
             // create hero + minion data
             getHerostuff(rangerbot);
@@ -1137,9 +1152,6 @@ namespace HREngine.Bots
             getHandcards(rangerbot);
             getDecks(rangerbot);
             correctSpellpower(rangerbot);
-            // send ai the data:
-            Hrtprozis.Instance.clearAll();
-            Handmanager.Instance.clearAll();
 
             Hrtprozis.Instance.setOwnPlayer(ownPlayerController);
             Handmanager.Instance.setOwnPlayer(ownPlayerController);
@@ -1248,13 +1260,17 @@ namespace HREngine.Bots
                 //Ai.Instance.nextMoveGuess.printBoard();
                 if (p.isEqual(Ai.Instance.nextMoveGuess, true))
                 {
-
                     printstuff(p, false);
                     Ai.Instance.doNextCalcedMove();
-
                 }
                 else
                 {
+                    List<Handmanager.Handcard> newcards = p.getNewHandCards(Ai.Instance.nextMoveGuess);
+                    foreach (var card in newcards)
+                    {
+                        if (!isCardCreated(card)) Hrtprozis.Instance.removeCardFromTurnDeck(card.card.cardIDenum);
+                    }
+
                     printstuff(p, true);
                     readActionFile(passiveWait);
                 }
@@ -1268,6 +1284,19 @@ namespace HREngine.Bots
             Helpfunctions.Instance.ErrorLog("calculating ended! " + DateTime.Now.ToString("HH:mm:ss.ffff"));
 
             return true;
+        }
+
+        public bool isCardCreated(Handmanager.Handcard handcard)
+        {
+            foreach (var card in latestGameState.GameEntityList)
+            {
+                if (card.EntityId == handcard.entity)
+                {
+                    if (card.CreatorId != 0) return true;
+                    else return false;
+                }
+            }
+            return false;
         }
 
         private void getHerostuff(HSRangerLib.BotBase rangerbot)
@@ -1908,7 +1937,10 @@ namespace HREngine.Bots
         {
             Dictionary<int, Entity> allEntitys = new Dictionary<int, Entity>();
 
-            foreach (var item in rangerbot.gameState.GameEntityList)
+            //string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(rangerbot.gameState.GameEntityList, Newtonsoft.Json.Formatting.Indented);
+            //System.IO.File.WriteAllText(Settings.Instance.path + "boarddump.txt", jsonData);
+
+            foreach (Entity item in rangerbot.gameState.GameEntityList)
             {
                 allEntitys.Add(item.EntityId, item);
             }
@@ -1927,6 +1959,7 @@ namespace HREngine.Bots
                 {
 
                     CardDB.cardIDEnum cardid = CardDB.Instance.cardIdstringToEnum(ent.CardId);
+
                     //string owner = "own";
                     //if (ent.GetControllerId() == enemycontroler) owner = "enemy";
                     //if (ent.GetControllerId() == enemycontroler && ent.GetZone() == HRCardZone.HAND) Helpfunctions.Instance.logg("enemy card in hand: " + "cardindeck: " + cardid + " " + ent.GetName());

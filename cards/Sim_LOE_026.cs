@@ -12,8 +12,8 @@ namespace HREngine.Bots
         {
             int place = (ownplay) ? p.ownMinions.Count : p.enemyMinions.Count;
             Dictionary<CardDB.cardIDEnum, int> temp = (ownplay)
-                ? Probabilitymaker.Instance.ownCardsPlayed
-                : Probabilitymaker.Instance.enemyCardsPlayed;
+                ? Probabilitymaker.Instance.ownGraveyard
+                : Probabilitymaker.Instance.enemyGraveyard;
             if (place > 6) return;
 
             CardDB.Card c;

@@ -52,9 +52,10 @@
 
         public List<CardDB.cardIDEnum> ownSecretList = new List<CardDB.cardIDEnum>();
         public int enemySecretCount;
+
         public Dictionary<CardDB.cardIDEnum, int> startDeck = new Dictionary<CardDB.cardIDEnum, int>();
         public Dictionary<CardDB.cardIDEnum, int> turnDeck = new Dictionary<CardDB.cardIDEnum, int>();
-
+        public bool noDuplicates = false;
 
 
         public HeroEnum heroname = HeroEnum.druid, enemyHeroname = HeroEnum.druid;
@@ -118,18 +119,13 @@
 
         private int ownPlayerController;
         
+        
+        private static readonly Lazy<Hrtprozis> lazy =
+            new Lazy<Hrtprozis>(() => new Hrtprozis());
 
-        private static Hrtprozis instance;
+        public static Hrtprozis Instance { get { return lazy.Value; } }
 
-        public static Hrtprozis Instance
-        {
-            get
-            {
-                return instance ?? (instance = new Hrtprozis());
-            }
-        }
-
-        private Hrtprozis() { }
+        private Hrtprozis() {}
 
 
         public void setAttackFaceHP(int hp)
@@ -177,9 +173,21 @@
             ownCurrentRecall = 0;
             this.ownHeroWeapon = CardDB.cardName.unknown;
             this.enemyHeroWeapon = CardDB.cardName.unknown;
-
+            noDuplicates = false;
         }
 
+        public void clearDecks()
+        {
+            startDeck.Clear();
+            turnDeck.Clear();
+        }
+
+        public void addCardToDecks(CardDB.cardIDEnum card, int num)
+        {
+            startDeck.Add(card, num);
+            turnDeck.Add(card, num);
+        }
+        
         public void setDeckName(string deckname)
         {
             this.deckName = deckname;
@@ -340,6 +348,15 @@
             }
         }
 
+
+        public void removeCardFromTurnDeck(CardDB.cardIDEnum crd)
+        {
+            if (turnDeck.ContainsKey(crd))
+            {
+                if (turnDeck[crd] > 1) turnDeck[crd]--;
+                else turnDeck.Remove(crd);
+            }
+        }
 
         public void updateMinions(List<Minion> om, List<Minion> em)
         {

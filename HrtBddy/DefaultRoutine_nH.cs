@@ -1362,14 +1362,7 @@ def Execute():
         private void GameEventManagerOnNewGame(object sender, NewGameEventArgs newGameEventArgs)
         {
             Log.InfoFormat("[GameEventManagerOnNewGame]");
-            Silverfish.Instance.setnewLoggFile();
-            HREngine.Bots.Settings.Instance.loggCleanPath();
-            Mulligan.Instance.loggCleanPath();
-            Discovery.Instance.loggCleanPath();
-            ComboBreaker.Instance.loggCleanPath();
-            //Hrtprozis.Instance.clearAll();
-            //Hrtprozis.Instance.ownHeroStartClass = TAG_CLASS.INVALID;
-            //Hrtprozis.Instance.enemyHeroStartClass = TAG_CLASS.INVALID;
+            
         }
 
         private void GameEventManagerOnQuestUpdate(object sender, QuestUpdateEventArgs questUpdateEventArgs)

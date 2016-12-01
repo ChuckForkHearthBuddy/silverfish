@@ -464,11 +464,17 @@
                     posmoves.Clear();
                     posmoves.Add(new Playfield());
                     posmoves[0].sEnemTurn = Settings.Instance.simulateEnemysTurn;
+
+                    List<Handmanager.Handcard> newcards = posmoves[0].getNewHandCards(Ai.Instance.nextMoveGuess);
+                    foreach (var card in newcards)
+                    {
+                        if (!Silverfish.Instance.isCardCreated(card)) Hrtprozis.Instance.removeCardFromTurnDeck(card.card.cardIDenum);
+                    }
+
                     help.logg("no lethal, do something random######");
                     strt = DateTime.Now;
                     doallmoves(false, false);
                     help.logg("calculated " + (DateTime.Now - strt).TotalSeconds);
-
                 }
             }
 

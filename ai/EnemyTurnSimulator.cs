@@ -305,7 +305,7 @@
         {
             if (p.enemyHeroName == HeroEnum.mage)
             {
-                if (Probabilitymaker.Instance.enemyCardsPlayed.ContainsKey(CardDB.cardIDEnum.EX1_561)) p.ownHero.Hp = Math.Max(5, p.ownHero.Hp - 7);
+                if (Probabilitymaker.Instance.enemyGraveyard.ContainsKey(CardDB.cardIDEnum.EX1_561)) p.ownHero.Hp = Math.Max(5, p.ownHero.Hp - 7);
             }
 
             //if he is a "mage" he will attack us (even if he decides to attack another minion with it :D)

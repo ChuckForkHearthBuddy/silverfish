@@ -1600,6 +1600,28 @@ namespace HREngine.Bots
             return true;
         }
 
+        // get hand cards that came from the deck
+        public List<Handmanager.Handcard> getNewHandCards(Playfield p)
+        {
+            //todo sepefeets - p needs to be the last board instead of the expected one
+            List<Handmanager.Handcard> list = new List<Handmanager.Handcard>();
+
+            foreach (var tcard in this.owncards)
+            {
+                bool match = false;
+                foreach (var pcard in p.owncards)
+                {
+                    if (tcard.entity == pcard.entity) match = true;
+                }
+                foreach (var pmnn in p.ownMinions) // don't count minions that were returned to hand
+                {
+                    if (tcard.entity == pmnn.entityID) match = true;
+                }
+                if (!match) list.Add(tcard);
+            }
+            return list;
+        }
+
         //todo sepefeets - we probably shouldn't override, move to new function like HB
         public override int GetHashCode()
         {
@@ -7263,6 +7285,22 @@ namespace HREngine.Bots
 
             //Probabilitymaker.Instance.printGraveyards(runEx);
             data += Probabilitymaker.Instance.printGraveyards(false, true); //dont need \r\n
+
+            int tdc = 0;
+            string deck = "td: ";
+            foreach (KeyValuePair<CardDB.cardIDEnum, int> card in Hrtprozis.Instance.turnDeck)
+            {
+                deck += card.Key;
+                if (card.Value > 1) deck += "," + card.Value;
+                deck += ";";
+                tdc += card.Value;
+            }
+            deck += "\r\n";
+
+            deck += "tdc: " + tdc;
+            if (tdc != this.ownDeckSize) deck += " tdc mismatch " + this.ownDeckSize;
+
+            Helpfunctions.Instance.logg(deck);
 
             return data;
         }
