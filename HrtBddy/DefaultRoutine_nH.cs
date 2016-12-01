@@ -644,6 +644,23 @@ def Execute():
                     }
                 }
             }
+            else
+            {
+                for (var i = 0; i < mulliganData.Cards.Count; i++)
+                {
+                    if (mulliganData.Cards[i].Entity.Cost >= 4)
+                    {
+                        Helpfunctions.Instance.ErrorLog("Rejecting Mulligan Card " + mulliganData.Cards[i].Entity.Name + " because it cost is >= 4.");
+                        mulliganData.Mulligans[i] = true;
+                    }
+
+                    if (mulliganData.Cards[i].Entity.Id == "EX1_308" || mulliganData.Cards[i].Entity.Id == "EX1_622" || mulliganData.Cards[i].Entity.Id == "EX1_005")
+                    {
+                        Helpfunctions.Instance.ErrorLog("Rejecting Mulligan Card " + mulliganData.Cards[i].Entity.Name + " because it is soulfire or shadow word: death");
+                        mulliganData.Mulligans[i] = true;
+                    }
+                }
+            }
 
             /*if (Mulligan.Instance.mulliganRulesLoaded)
             {
@@ -910,7 +927,7 @@ def Execute():
 
             bool nodruidchoice = true; //to indicate, that the tracking-choice is not a druid-choice-card.
             if(dirtychoice >=1) nodruidchoice = false; //should not occour
-            bool templearn = Silverfish.Instance.updateEverything(behave, false,useExtern, passiveWaiting, nodruidchoice);
+            bool templearn = Silverfish.Instance.updateEverything(behave,useExtern, passiveWaiting, nodruidchoice);
             if (templearn == true) this.printlearnmode = true;
             
             if (this.learnmode)
