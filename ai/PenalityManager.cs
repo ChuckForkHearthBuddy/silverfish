@@ -2470,14 +2470,6 @@ namespace HREngine.Bots
             }
 
 
-            if ((name == CardDB.cardName.defenderofargus || name == CardDB.cardName.sunfuryprotector) && p.ownMinions.Count == 1)
-            {
-                return 40;
-            }
-            if ((name == CardDB.cardName.defenderofargus || name == CardDB.cardName.sunfuryprotector) && p.ownMinions.Count == 0)
-            {
-                return 50;
-            }
 
             if (name == CardDB.cardName.unleashthehounds)
             {
@@ -2859,6 +2851,18 @@ namespace HREngine.Bots
                     return -5;
                 case CardDB.cardName.netherspitehistorian:
                     return -8;
+                case CardDB.cardName.lunarvisions:
+                    return (p.owncards.Count > 7) ? 5 : 0;
+                case CardDB.cardName.grimestreetprotector:
+                case CardDB.cardName.defenderofargus:
+                case CardDB.cardName.sunfuryprotector:
+                    if (p.ownMinions.Count == 0) return 50;
+                    else if (p.ownMinions.Count == 1) return 40;
+                    return 0;
+                case CardDB.cardName.jadeidol:
+                    if (choice == 1 && !Hrtprozis.Instance.turnDeck.ContainsKey(CardDB.cardIDEnum.CFM_602)) return 50; //don't waste our last copy
+                    if (choice == 2 && Hrtprozis.Instance.turnDeck.ContainsKey(CardDB.cardIDEnum.CFM_602)) return 50; //don't shuffle more in if some still in deck
+                    return 0;
                 default:
                     return 0;
             }
@@ -3452,6 +3456,32 @@ namespace HREngine.Bots
             cardDrawBattleCryDatabase.Add(CardDB.cardName.thecurator, 1);
             
             cardDrawBattleCryDatabase.Add(CardDB.cardName.quickshot, 1);
+
+            cardDrawBattleCryDatabase.Add(CardDB.cardName.fightpromoter, 2);
+            cardDrawBattleCryDatabase.Add(CardDB.cardName.wrathion, 1);
+            cardDrawBattleCryDatabase.Add(CardDB.cardName.lunarvisions, 2);
+            cardDrawBattleCryDatabase.Add(CardDB.cardName.smalltimerecruits, 3);
+
+
+            
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.bloodmagethalnos, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.clockworkgnome, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.dancingswords, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.loothoarder, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.mechanicalyeti, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.mechbearcat, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.tombpillager, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.toshley, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.webspinner, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.acolyteofpain, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.pollutedhoarder, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.shiftingshade, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.undercityhuckster, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.xarilpoisonedmind, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.deadlyfork, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.runicegg, 1);
+            cardDrawDeathrattleDatabase.Add(CardDB.cardName.meanstreetmarshal, 1);
+
 
 
             //add discover minions

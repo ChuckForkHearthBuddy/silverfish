@@ -102,6 +102,8 @@
         public int anzOgOwnCThunHpBonus;
         public int anzOgOwnCThunAngrBonus;
         public int anzOgOwnCThunTaunt;
+        public int anzOwnJadeGolem;
+        public int anzEnemyJadeGolem;
 
         public int ownDragonConsort;
         public int enemyDragonConsort;
@@ -109,7 +111,7 @@
         public int enemyLoatheb;
         public int ownMillhouse;
         public int enemyMillhouse;
-        public int ownKirinTorEffect;
+        public int nextSecretThisTurnCost0;
         public int ownPreparation;
 
         Helpfunctions help = Helpfunctions.Instance;
@@ -211,6 +213,12 @@
         public int getOwnController()
         {
             return this.ownPlayerController;
+        }
+
+        public void updateJadeGolemsInfo(int anzOwnJG, int anzEmemyJG)
+        {
+            anzOwnJadeGolem = anzOwnJG;
+            anzEnemyJadeGolem = anzEmemyJG;
         }
 
         public string heroIDtoName(string s)
@@ -408,7 +416,7 @@
             
         }
 
-        public void setPlayereffects(int ownDragonConsorts, int enemyDragonConsorts, int ownLoathebs, int enemyLoathebs, int ownMillhouses, int enemyMillhouses, int ownKirin, int ownPrep, int ownSabo, int enemySabo, int ownFenciCoachess, int enemycurses)
+        public void setPlayereffects(int ownDragonConsorts, int enemyDragonConsorts, int ownLoathebs, int enemyLoathebs, int ownMillhouses, int enemyMillhouses, int nextSecretThisTurnCost0, int ownPrep, int ownSabo, int enemySabo, int ownFenciCoachess, int enemycurses)
         {
             this.ownDragonConsort = ownDragonConsorts;
             this.enemyDragonConsort = enemyDragonConsorts;
@@ -419,7 +427,7 @@
             this.ownMillhouse = ownMillhouses;
             this.enemyMillhouse = enemyMillhouses;
 
-            this.ownKirinTorEffect = ownKirin;
+            this.nextSecretThisTurnCost0 = nextSecretThisTurnCost0;
 
             this.ownPreparation = ownPrep;
 

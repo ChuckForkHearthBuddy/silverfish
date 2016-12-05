@@ -165,6 +165,16 @@
                     if (i == 1) c = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.GVG_030a);
                     if (i == 2) c = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.GVG_030b);
                 }
+                if (c.name == CardDB.cardName.kuntheforgottenking)
+                {
+                    if (i == 1) c = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_308a);
+                    if (i == 2) c = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_308b);
+                }
+                if (c.name == CardDB.cardName.jadeidol)
+                {
+                    if (i == 1) c = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_602a);
+                    if (i == 2) c = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_602b);
+                }
 
                 if (hcc.isChoiceTemp)
                 {
@@ -188,7 +198,7 @@
                 {
 
                     int bestplace = p.getBestPlace(c, lethalcheck);
-                    List<Minion> trgts = c.getTargetsForCard(p);
+                    List<Minion> trgts = c.getTargetsForCard(p, false, true);
                     int cardplayPenality = 0;
                     if (trgts.Count == 0)
                     {
@@ -297,7 +307,7 @@
                     int bestplace = p.getBestPlace(c, isLethalCheck);
                     if (hc.canplayCard(p))
                     {
-                        List<Minion> trgts = c.getTargetsForCard(p);
+                        List<Minion> trgts = c.getTargetsForCard(p, false, true);
 
                         if (isLethalCheck && trgts.Count >= 1 && (c.damagesTarget || c.damagesTargetWithSpecial))// only target enemy hero during Lethal check!
                         {
@@ -592,7 +602,7 @@
 
                 if (pen.TargetAbilitysDatabase.ContainsKey(p.ownHeroAblility.card.cardIDenum))
                 {
-                    List<Minion> trgts = p.ownHeroAblility.card.getTargetsForCard(p);
+                    List<Minion> trgts = p.ownHeroAblility.card.getTargetsForCard(p, false, true);
                     if (isLethalCheck && (p.ownHeroName == HeroEnum.mage || (p.ownHeroName == HeroEnum.priest && (p.ownHeroAblility.card.name != CardDB.cardName.lesserheal || (p.ownHeroAblility.card.name == CardDB.cardName.lesserheal && p.anzOwnAuchenaiSoulpriest >= 1)))))// only target enemy hero during Lethal check!
                     {
                         if (trgts.Count >= 1 && trgts[0].entityID == p.enemyHero.entityID)
@@ -688,7 +698,7 @@
                 // if we have mage or priest, we have to target something####################################################
                 if (pen.TargetAbilitysDatabase.ContainsKey(p.enemyHeroAblility.card.cardIDenum))
                 {
-                    List<Minion> trgts = p.enemyHeroAblility.card.getTargetsForCardEnemy(p);
+                    List<Minion> trgts = p.enemyHeroAblility.card.getTargetsForCard(p, false, false);
                     foreach (Minion trgt in trgts)
                     {
                         if (trgt.isHero) continue;//dont target hero

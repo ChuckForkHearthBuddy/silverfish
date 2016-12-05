@@ -98,7 +98,7 @@
                 if (penmanager.TargetAbilitysDatabase.ContainsKey(posmoves[0].enemyHeroAblility.card.cardIDenum))
                 {
 
-                    List<Minion> trgts = posmoves[0].enemyHeroAblility.card.getTargetsForCardEnemy(posmoves[0]);
+                    List<Minion> trgts = posmoves[0].enemyHeroAblility.card.getTargetsForCard(posmoves[0], false, false);
                     foreach (Minion trgt in trgts)
                     {
                         //if (trgt.isHero) continue;//do play his ability in basics

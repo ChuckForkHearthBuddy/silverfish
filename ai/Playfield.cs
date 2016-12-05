@@ -55,6 +55,7 @@ namespace HREngine.Bots
         public int nextEntity;
 
         public triggerCounter tempTrigger;
+        private Hrtprozis prozis = Hrtprozis.Instance;
 
         //Entity=PLAYER tag=HEROPOWER_ACTIVATIONS_THIS_TURN
         //Entity=PLAYER tag=NUM_TIMES_HERO_POWER_USED_THIS_GAME
@@ -108,6 +109,8 @@ namespace HREngine.Bots
         public int ownHeroPowerAllowedQuantity;
         public int enemyHeroPowerAllowedQuantity;
         public int anzUsedOwnHeroPower;
+        public int anzOwnExtraAngrHp;
+        public int anzEnemyExtraAngrHp;
 
         public int anzOwnGarrisonCommander;//also used for ColdarraDrake
         public int anzEnemyGarrisonCommander;//also used for ColdarraDrake
@@ -137,11 +140,12 @@ namespace HREngine.Bots
         public int anzOwnMechwarperStarted;
         public int anzEnemyMechwarper;
         public int anzEnemyMechwarperStarted;
-
-        public int anzOgOwnCThun;
+        
         public int anzOgOwnCThunHpBonus;
         public int anzOgOwnCThunAngrBonus;
         public int anzOgOwnCThunTaunt;
+        public int anzOwnJadeGolem;
+        public int anzEnemyJadeGolem;
 
         public int ownVioletIllusionist;
         public int enemyVioletIllusionist;
@@ -149,7 +153,6 @@ namespace HREngine.Bots
 
         public int anzBlackwaterPirate;
         public int blackwaterpirateStarted;
-        public int choGall;
         public int embracetheshadow;
 
         public int anzEnemyTaunt;
@@ -166,8 +169,8 @@ namespace HREngine.Bots
         public bool weHaveSteamwheedleSniper;
         public bool enemyHaveSteamwheedleSniper;
         
-        public bool ownSpiritclaws = false;
-        public bool enemySpiritclaws = false;
+        public bool ownSpiritclaws;
+        public bool enemySpiritclaws;
 
         public bool needGraveyard;
 
@@ -210,7 +213,7 @@ namespace HREngine.Bots
 
         public int hashcode;
         public float value;
-        //public int guessingHeroHP = 30;
+        public int guessingHeroHP = 30;
 
         public int mana;
         public int manaTurnEnd;
@@ -260,8 +263,11 @@ namespace HREngine.Bots
         public int enemyspellpower;
         public int wehaveCounterspell;
 
-        public bool playedKirinTorMage;
+        public bool nextSecretThisTurnCost0;
         public bool playedPreparation;
+        public bool nextSpellThisTurnCost0;
+        public bool nextMurlocThisTurnCostHealth;
+        public bool nextSpellThisTurnCostHealth;
 
         public int anzOwnLoatheb;
         public int anzEnemyLoatheb;
@@ -280,12 +286,16 @@ namespace HREngine.Bots
         public int ownMobsCountStarted;
         public int ownCardsCountStarted;
         public int enemyCardsCountStarted;
+        public int enemyMobsCountStarted;
         public int ownHeroHpStarted;
         public int enemyHeroHpStarted;
 
         public int mobsPlayedThisTurn;
+        public int startedWithMobsPlayedThisTurn;
+        public int spellsplayedSinceRecalc;
+        public int secretsplayedSinceRecalc;
 
-        
+
         public int optionsPlayedThisTurn;
         public int cardsPlayedThisTurn;
         public int owedRecall; //=overload
@@ -342,9 +352,9 @@ namespace HREngine.Bots
         private void addCardsReal(List<Handmanager.Handcard> source)
         {
 
-            foreach (Handmanager.Handcard m in source)
+            foreach (Handmanager.Handcard hc in source)
             {
-                this.owncards.Add(new Handmanager.Handcard(m));
+                this.owncards.Add(new Handmanager.Handcard(hc));
             }
 
         }
@@ -361,7 +371,6 @@ namespace HREngine.Bots
             ownHeroHpStarted = 30;
             enemyCardsCountStarted = 0;
             ownCardsCountStarted = 0;
-            ownMobsCountStarted = 0;
             ownWeaponAttackStarted = 0;
             startedWithDamagedMinions = false;
             allSpellCostLess = 0;
@@ -393,10 +402,8 @@ namespace HREngine.Bots
             anzOwnTaunt = 0;
             anzEnemyTaunt = 0;
             embracetheshadow = 0;
-            choGall = 0;
             blackwaterpirateStarted = 0;
             anzBlackwaterPirate = 0;
-            anzOgOwnCThun = 0;
             anzUsedOwnHeroPower = 0;
             enemyHeroPowerAllowedQuantity = 1;
             ownHeroPowerAllowedQuantity = 1;
@@ -416,36 +423,38 @@ namespace HREngine.Bots
             logging = false;
             this.nextEntity = 1000;
             //this.simulateEnemyTurn = Ai.Instance.simulateEnemyTurn;
-            this.ownController = Hrtprozis.Instance.getOwnController();
+            this.ownController = prozis.getOwnController();
 
             //this.ownHeroEntity = Hrtprozis.Instance.ownHeroEntity;
             //this.enemyHeroEntity = Hrtprozis.Instance.enemyHeroEntitiy;
 
-            this.mana = Hrtprozis.Instance.currentMana;
+            this.mana = prozis.currentMana;
             this.manaTurnEnd = this.mana;
             this.numEnemySecretsTurnEnd = 0;
-            this.ownMaxMana = Hrtprozis.Instance.ownMaxMana;
-            this.enemyMaxMana = Hrtprozis.Instance.enemyMaxMana;
+            this.ownMaxMana = prozis.ownMaxMana;
+            this.enemyMaxMana = prozis.enemyMaxMana;
             this.evaluatePenality = 0;
-            this.ownSecretsIDList.AddRange(Hrtprozis.Instance.ownSecretList);
-            this.enemySecretCount = Hrtprozis.Instance.enemySecretCount;
+            this.ownSecretsIDList.AddRange(prozis.ownSecretList);
+            this.enemySecretCount = prozis.enemySecretCount;
 
-            this.anzOgOwnCThunAngrBonus = Hrtprozis.Instance.anzOgOwnCThunAngrBonus;
-            this.anzOgOwnCThunHpBonus = Hrtprozis.Instance.anzOgOwnCThunHpBonus;
-            this.anzOgOwnCThunTaunt = Hrtprozis.Instance.anzOgOwnCThunTaunt;
+            this.anzOgOwnCThunAngrBonus = prozis.anzOgOwnCThunAngrBonus;
+            this.anzOgOwnCThunHpBonus = prozis.anzOgOwnCThunHpBonus;
+            this.anzOgOwnCThunTaunt = prozis.anzOgOwnCThunTaunt;
+            this.anzOwnJadeGolem = prozis.anzOwnJadeGolem;
+            this.anzEnemyJadeGolem = prozis.anzEnemyJadeGolem;
 
             this.ownVioletIllusionist = 0;
             this.enemyVioletIllusionist = 0;
             this.anzOwnCloakedHuntress = 0;
 
-            this.attackFaceHP = Hrtprozis.Instance.attackFaceHp;
+            this.attackFaceHP = prozis.attackFaceHp;
 
             this.complete = false;
 
-            addMinionsReal(Hrtprozis.Instance.ownMinions, ownMinions);
-            addMinionsReal(Hrtprozis.Instance.enemyMinions, enemyMinions);
-            this.ownHero = new Minion(Hrtprozis.Instance.ownHero);
-            this.enemyHero = new Minion(Hrtprozis.Instance.enemyHero);
+            addMinionsReal(prozis.ownMinions, ownMinions);
+            addMinionsReal(prozis.enemyMinions, enemyMinions);
+            this.ownHero = new Minion(prozis.ownHero);
+            this.enemyHero = new Minion(prozis.enemyHero);
             addCardsReal(Handmanager.Instance.handCards);
 
             this.enemySecretList.Clear();
@@ -457,12 +466,14 @@ namespace HREngine.Bots
                 }
             }
 
-            this.ownHeroName = Hrtprozis.Instance.heroname;
-            this.enemyHeroName = Hrtprozis.Instance.enemyHeroname;
+            this.ownHeroName = prozis.heroname;
+            this.enemyHeroName = prozis.enemyHeroname;
 
 
             //####buffs#############################
 
+            this.anzOwnExtraAngrHp = 0;
+            this.anzEnemyExtraAngrHp = 0;
             this.anzOwnRaidleader = 0;
             this.anzEnemyRaidleader = 0;
             this.anzOwnStormwindChamps = 0;
@@ -495,68 +506,74 @@ namespace HREngine.Bots
             this.doublepriest = 0;
             this.enemydoublepriest = 0;
 
-            this.anzOwnDragonConsort = Hrtprozis.Instance.ownDragonConsort;
-            this.anzEnemyDragonConsort = Hrtprozis.Instance.enemyDragonConsort;
+            this.anzOwnDragonConsort = prozis.ownDragonConsort;
+            this.anzEnemyDragonConsort = prozis.enemyDragonConsort;
 
             //tgt---new
-            this.anzOwnMillhouseManastorm = (Hrtprozis.Instance.ownMillhouse >= 1) ? true : false;//CHANGED!!!
-            this.anzEnemyMillhouseManastorm = (Hrtprozis.Instance.enemyMillhouse >= 1) ? true : false; //CHANGED!!!
-            this.anzOwnLoatheb = Hrtprozis.Instance.ownLoatheb;//CHANGED!!!
-            this.anzEnemyLoatheb = Hrtprozis.Instance.enemyLoatheb;//CHANGED!!!
-            this.anzOwnSaboteur = Hrtprozis.Instance.ownSaboteur;
-            this.anzEnemySaboteur = Hrtprozis.Instance.enemySaboteur;
-            this.anzOwnFencingCoach = Hrtprozis.Instance.ownFenciCoaches;
+            this.anzOwnMillhouseManastorm = (prozis.ownMillhouse >= 1) ? true : false;//CHANGED!!!
+            this.anzEnemyMillhouseManastorm = (prozis.enemyMillhouse >= 1) ? true : false; //CHANGED!!!
+            this.anzOwnLoatheb = prozis.ownLoatheb;//CHANGED!!!
+            this.anzEnemyLoatheb = prozis.enemyLoatheb;//CHANGED!!!
+            this.anzOwnSaboteur = prozis.ownSaboteur;
+            this.anzEnemySaboteur = prozis.enemySaboteur;
+            this.anzOwnFencingCoach = prozis.ownFenciCoaches;
             this.anzEnemyFencingCoach = 0; // dont needed yet. D:
-            //----
 
+            this.ownMobsCountStarted = this.ownMinions.Count;
+            this.enemyMobsCountStarted = this.enemyMinions.Count;
 
-            this.playedKirinTorMage = (Hrtprozis.Instance.ownKirinTorEffect>=1)? true:false;
-            this.playedPreparation = (Hrtprozis.Instance.ownPreparation >= 1) ? true : false;
+            this.nextSecretThisTurnCost0 = (prozis.nextSecretThisTurnCost0>=1)? true:false;
+            this.playedPreparation = (prozis.ownPreparation >= 1) ? true : false;
+            this.nextSpellThisTurnCost0 = false;
+            this.nextMurlocThisTurnCostHealth = false;
+            this.nextSpellThisTurnCostHealth = false;
 
             this.ownBaronRivendare = 0;
             this.enemyBaronRivendare = 0;
             //#########################################
 
-            this.ownWeaponDurability = Hrtprozis.Instance.heroWeaponDurability;
-            this.ownWeaponAttack = Hrtprozis.Instance.heroWeaponAttack;
-            this.ownWeaponName = Hrtprozis.Instance.ownHeroWeapon;
+            this.ownWeaponDurability = prozis.heroWeaponDurability;
+            this.ownWeaponAttack = prozis.heroWeaponAttack;
+            this.ownWeaponName = prozis.ownHeroWeapon;
             this.owncarddraw = 0;
 
 
-            this.enemyWeaponAttack = Hrtprozis.Instance.enemyWeaponAttack;//dont know jet
-            this.enemyWeaponName = Hrtprozis.Instance.enemyHeroWeapon;
-            this.enemyWeaponDurability = Hrtprozis.Instance.enemyWeaponDurability;
+            this.enemyWeaponAttack = prozis.enemyWeaponAttack;//dont know jet
+            this.enemyWeaponName = prozis.enemyHeroWeapon;
+            this.enemyWeaponDurability = prozis.enemyWeaponDurability;
             this.enemycarddraw = 0;
 
             this.enemyAnzCards = Handmanager.Instance.enemyAnzCards;
 
-            this.ownAbilityReady = Hrtprozis.Instance.ownAbilityisReady;
-            this.ownHeroAblility = new Handmanager.Handcard(Hrtprozis.Instance.heroAbility);
-            this.enemyHeroAblility = new Handmanager.Handcard(Hrtprozis.Instance.enemyAbility);
+            this.ownAbilityReady = prozis.ownAbilityisReady;
+            this.ownHeroAblility = new Handmanager.Handcard(prozis.heroAbility);
+            this.enemyHeroAblility = new Handmanager.Handcard(prozis.enemyAbility);
             this.enemyAbilityReady = false;
 
-            this.ownHeroPowerUses = Hrtprozis.Instance.ownHeroPowerUsesThisGame;
-            this.enemyHeroPowerUses = Hrtprozis.Instance.enemyHeroPowerUsesThisGame;
-            this.heroPowerActivationsThisTurn = Hrtprozis.Instance.heroPowerUsesThisTurn;
-            this.lockAndLoads = Hrtprozis.Instance.lockAndLoads;
+            this.ownHeroPowerUses = prozis.ownHeroPowerUsesThisGame;
+            this.enemyHeroPowerUses = prozis.enemyHeroPowerUsesThisGame;
+            this.heroPowerActivationsThisTurn = prozis.heroPowerUsesThisTurn;
+            this.lockAndLoads = prozis.lockAndLoads;
 
 
-            this.mobsPlayedThisTurn = Hrtprozis.Instance.numMinionsPlayedThisTurn;
-            this.cardsPlayedThisTurn = Hrtprozis.Instance.cardsPlayedThisTurn;
+            this.mobsPlayedThisTurn = prozis.numMinionsPlayedThisTurn;
+            this.cardsPlayedThisTurn = prozis.cardsPlayedThisTurn;
+            this.spellsplayedSinceRecalc = 0;
+            this.secretsplayedSinceRecalc = 0;
             //todo:
-            this.optionsPlayedThisTurn = Hrtprozis.Instance.numOptionsPlayedThisTurn;
+            this.optionsPlayedThisTurn = prozis.numOptionsPlayedThisTurn;
 
-            this.owedRecall = Hrtprozis.Instance.owedRecall;
-            this.currentRecall = Hrtprozis.Instance.ownCurrentRecall;
-            this.enemyRecall = Hrtprozis.Instance.enemyRecall;
+            this.owedRecall = prozis.owedRecall;
+            this.currentRecall = prozis.ownCurrentRecall;
+            this.enemyRecall = prozis.enemyRecall;
             this.enemyCurrentRecall = 0;
 
-            this.ownHeroFatigue = Hrtprozis.Instance.ownHeroFatigue;
-            this.enemyHeroFatigue = Hrtprozis.Instance.enemyHeroFatigue;
-            this.ownDeckSize = Hrtprozis.Instance.ownDeckSize;
-            this.enemyDeckSize = Hrtprozis.Instance.enemyDeckSize;
+            this.ownHeroFatigue = prozis.ownHeroFatigue;
+            this.enemyHeroFatigue = prozis.enemyHeroFatigue;
+            this.ownDeckSize = prozis.ownDeckSize;
+            this.enemyDeckSize = prozis.enemyDeckSize;
 
-            this.anzEnemyCursed = Hrtprozis.Instance.enemyCursedCardsinHand;
+            this.anzEnemyCursed = prozis.enemyCursedCardsinHand;
 
 
             this.selectedChoice = -1;
@@ -610,8 +627,18 @@ namespace HREngine.Bots
                 if (m.silenced) continue;
                 //spellpower += m.handcard.card.spellpowervalue; // its allready in m.spellpower! (if you are updating it in silverfish.getMinions() :P)
 
-                switch (m.name)
-                {
+                switch (m.name) //todo sepefeets - add all these
+                {/*
+                    case CardDB.cardName.blackwaterpirate:
+                        this.blackwaterpirate++;
+                        this.blackwaterpirateStarted++;
+                        continue;
+                    case CardDB.cardName.chogall:
+                        if (m.playedThisTurn && this.cardsPlayedThisTurn == this.mobsplayedThisTurn) this.nextSpellThisTurnCostHealth = true;
+                        continue;
+                    case CardDB.cardName.seadevilstinger:
+                        if (m.playedThisTurn && this.cardsPlayedThisTurn == this.mobsplayedThisTurn) this.nextMurlocThisTurnCostHealth = true;
+                        continue;*/
                     case CardDB.cardName.prophetvelen:
                         this.doublepriest++;
                         continue;
@@ -884,7 +911,7 @@ namespace HREngine.Bots
 
             if (this.enemySecretCount >= 1) this.needGraveyard = true;
             if (this.needGraveyard) this.diedMinions = new List<GraveYardItem>(Probabilitymaker.Instance.turngraveyard);
-            this.anzMinionsDiedThisTurn = Hrtprozis.Instance.numberMinionsDiedThisTurn;
+            this.anzMinionsDiedThisTurn = prozis.numberMinionsDiedThisTurn;
 
             this.tempanzOwnCards = this.owncards.Count;
             this.tempanzEnemyCards = this.enemyAnzCards;
@@ -943,6 +970,12 @@ namespace HREngine.Bots
 
             this.isOwnTurn = p.isOwnTurn;
             this.turnCounter = p.turnCounter;
+
+            this.anzOgOwnCThunAngrBonus = p.anzOgOwnCThunAngrBonus;
+            this.anzOgOwnCThunHpBonus = p.anzOgOwnCThunHpBonus;
+            this.anzOgOwnCThunTaunt = p.anzOgOwnCThunTaunt;
+            this.anzOwnJadeGolem = p.anzOwnJadeGolem;
+            this.anzEnemyJadeGolem = p.anzEnemyJadeGolem;
 
             this.attacked = p.attacked;
             this.sEnemTurn = p.sEnemTurn;
@@ -1017,6 +1050,9 @@ namespace HREngine.Bots
 
             this.spellpower = 0;
             this.mobsPlayedThisTurn = p.mobsPlayedThisTurn;
+            this.startedWithMobsPlayedThisTurn = p.startedWithMobsPlayedThisTurn;
+            this.spellsplayedSinceRecalc = p.spellsplayedSinceRecalc;
+            this.secretsplayedSinceRecalc = p.secretsplayedSinceRecalc;
             this.optionsPlayedThisTurn = p.optionsPlayedThisTurn;
             this.cardsPlayedThisTurn = p.cardsPlayedThisTurn;
             this.owedRecall = p.owedRecall;
@@ -1031,7 +1067,16 @@ namespace HREngine.Bots
 
             //need the following for manacost-calculation
 
-            this.playedKirinTorMage = p.playedKirinTorMage;
+            this.ownHeroHpStarted = p.ownHeroHpStarted;
+            this.ownWeaponAttackStarted = p.ownWeaponAttackStarted;
+            this.ownCardsCountStarted = p.ownCardsCountStarted;
+            this.enemyCardsCountStarted = p.enemyCardsCountStarted;
+            this.ownMobsCountStarted = p.ownMobsCountStarted;
+            this.enemyMobsCountStarted = p.enemyMobsCountStarted;
+            this.nextSecretThisTurnCost0 = p.nextSecretThisTurnCost0;
+            this.nextSpellThisTurnCost0 = p.nextSpellThisTurnCost0;
+            this.nextMurlocThisTurnCostHealth = p.nextMurlocThisTurnCostHealth;
+            this.nextSpellThisTurnCostHealth = p.nextSpellThisTurnCostHealth;
 
 
             this.anzNerubarWeblord = p.anzNerubarWeblord;
@@ -1075,6 +1120,8 @@ namespace HREngine.Bots
             this.anzEnemyMechwarperStarted = p.anzEnemyMechwarperStarted;
             this.anzOwnWarsongCommanders = p.anzOwnWarsongCommanders;
             this.anzEnemyWarsongCommanders = p.anzEnemyWarsongCommanders;
+            this.anzOwnExtraAngrHp = p.anzOwnExtraAngrHp;
+            this.anzEnemyExtraAngrHp = p.anzEnemyExtraAngrHp;
 
             this.feugenDead = p.feugenDead;
             this.stalaggDead = p.stalaggDead;
@@ -1233,7 +1280,7 @@ namespace HREngine.Bots
             playactions.Clear();
             enemyAnzCards = owncards.Count;
 
-            playedKirinTorMage = false;
+            nextSecretThisTurnCost0 = false;
             playedPreparation = false;
             anzPintSizedSummoner = 0;
 
@@ -1629,6 +1676,52 @@ namespace HREngine.Bots
             retval += 10000 * this.ownMinions.Count + 100 * this.enemyMinions.Count + 1000 * this.mana + 100000 * (this.ownHero.Hp + this.enemyHero.Hp);
             retval += this.owncards.Count + this.enemycarddraw + this.cardsPlayedThisTurn + this.mobsPlayedThisTurn + this.ownHero.Angr + this.ownHero.armor;
             retval += this.ownWeaponAttack + this.enemyWeaponDurability + this.anzOgOwnCThunAngrBonus;
+            return retval;
+        }
+        public Int64 GetPHash()
+        {
+            Int64 retval = 0;
+            if (this.playactions.Count > 0)
+            {
+                foreach (Action a in this.playactions)
+                {
+                    switch (a.actionType)
+                    {
+                        case actionEnum.playcard:
+                            retval += a.card.entity;
+                            if (a.target != null)
+                            {
+                                retval += a.target.entityID;
+                            }
+                            continue;
+                        case actionEnum.attackWithMinion:
+                            retval += a.own.entityID + a.target.entityID;
+                            continue;
+                        case actionEnum.attackWithHero:
+                            retval += a.target.entityID;
+                            continue;
+                        case actionEnum.useHeroPower:
+                            retval += 100;
+                            if (a.target != null)
+                            {
+                                retval += a.target.entityID;
+                            }
+                            continue;
+                    }
+                }
+                if (this.playactions[this.playactions.Count - 1].card != null && this.playactions[this.playactions.Count - 1].card.card.type == CardDB.cardtype.MOB) retval++;
+                retval += this.manaTurnEnd;
+            }
+            retval += this.anzOgOwnCThunAngrBonus + this.anzOwnJadeGolem;
+            retval *= 1000;
+
+            foreach (Minion m in this.ownMinions)
+            {
+                retval += m.entityID + m.Angr + m.Hp + (m.taunt ? 1 : 0) + (m.divineshild ? 1 : 0) + (m.wounded ? 0 : 1);
+            }
+            retval *= 10000000;
+
+            retval += 10000 * this.ownMinions.Count + 100 * this.enemyMinions.Count + 1000 * this.mana + 100000 * (this.ownHero.Hp + this.enemyHero.Hp) + this.owncards.Count + this.enemycarddraw + this.cardsPlayedThisTurn + this.mobsPlayedThisTurn + this.ownHero.Angr + this.ownHero.armor + this.ownWeaponAttack + this.enemyWeaponDurability + this.spellpower + this.enemyspellpower;
             return retval;
         }
 
@@ -2049,6 +2142,7 @@ namespace HREngine.Bots
                 bool givesBuff = false;
                 switch (card.name)
                 {
+                    case CardDB.cardName.grimestreetprotector: givesBuff = true; break;
                     case CardDB.cardName.defenderofargus: givesBuff = true; break;
                     case CardDB.cardName.flametonguetotem: givesBuff = true; break;
                     case CardDB.cardName.direwolfalpha: givesBuff = true; break;
@@ -2500,7 +2594,7 @@ namespace HREngine.Bots
 
             int guessingHeroDamage = Math.Max(0, ghd);
             if (targetHero.immune) guessingHeroDamage = 0;
-            //this.guessingHeroHP = this.ownHero.Hp + this.ownHero.armor - guessingHeroDamage;
+            this.guessingHeroHP = this.ownHero.Hp + this.ownHero.armor - guessingHeroDamage;
             //todo sepefeets - rebase secret code from HB
 
             return guessingHeroDamage;
@@ -2884,7 +2978,7 @@ namespace HREngine.Bots
                 this.ownAbilityReady = true;
                 this.ownHero.updateReadyness();
                 this.playedPreparation = false;
-                this.playedKirinTorMage = false;
+                this.nextSecretThisTurnCost0 = false;
 
                 this.anzOwnMillhouseManastorm = false;
                 loathebLastTurn = this.anzOwnLoatheb;
@@ -2933,7 +3027,7 @@ namespace HREngine.Bots
                 this.anzEnemySaboteur = 0;
                 
                 this.playedPreparation = false;
-                this.playedKirinTorMage = false;
+                this.nextSecretThisTurnCost0 = false;
 
                 this.sEnemTurn = false;
                 
@@ -3365,19 +3459,75 @@ namespace HREngine.Bots
                 minionGetDestroyed(attacker);
             }
 
-            if (!dontcount) //foe reaper reaps!
+
+            switch (attacker.name)
             {
-                if ((attacker.name == CardDB.cardName.foereaper4000 || attacker.name == CardDB.cardName.magnatauralpha) && !attacker.silenced)
-                {
-                    List<Minion> temp = (attacker.own) ? this.enemyMinions : this.ownMinions;
-                    foreach (Minion mnn in temp)
+                case CardDB.cardName.theboogeymonster:
+                    if (!defender.isHero && defender.Hp < 1 && attacker.Hp > 0) this.minionGetBuffed(attacker, 2, 2);
+                    break;
+                case CardDB.cardName.windupburglebot:
+                    if (!defender.isHero && attacker.Hp > 0) this.drawACard(CardDB.cardName.unknown, attacker.own);
+                    break;
+                case CardDB.cardName.lotusassassin:
+                    if (!defender.isHero && defender.Hp < 1 && attacker.Hp > 0) attacker.stealth = true;
+                    break;
+                case CardDB.cardName.lotusillusionist:
+                    if (defender.isHero) this.minionTransform(attacker, this.getRandomCardForManaMinion(6));
+                    break;
+                case CardDB.cardName.knuckles:
+                    if (!defender.isHero && attacker.Hp > 0) this.minionAttacksMinion(attacker, attacker.own ? this.enemyHero : this.ownHero, true);
+                    break;
+                case CardDB.cardName.finjatheflyingstar:
+                    if (!defender.isHero && defender.Hp < 1)
                     {
-                        if (mnn.zonepos + 1 == defender.zonepos || mnn.zonepos - 1 == defender.zonepos)
+                        if (attacker.own)
                         {
-                            this.minionAttacksMinion(attacker, mnn, true);
+                            CardDB.Card c;
+                            int count = 0;
+                            foreach (KeyValuePair<CardDB.cardIDEnum, int> cid in this.prozis.turnDeck)
+                            {
+                                c = CardDB.Instance.getCardDataFromID(cid.Key);
+                                if ((TAG_RACE)c.race == TAG_RACE.MURLOC)
+                                {
+                                    for (int i = 0; i < cid.Value; i++)
+                                    {
+                                        this.callKid(c, this.ownMinions.Count, true);
+                                        count++;
+                                        if (count > 2) break;
+                                    }
+                                    if (count > 2) break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            this.callKid(CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CS2_168), this.enemyMinions.Count, false);
+                            this.callKid(CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CS2_168), this.enemyMinions.Count, false);
                         }
                     }
-                }
+                    break;
+                case CardDB.cardName.giantsandworm:
+                    if (!defender.isHero && defender.Hp < 1 && attacker.Hp > 0)
+                    {
+                        attacker.numAttacksThisTurn = 0;
+                        attacker.Ready = true;
+                    }
+                    break;
+                case CardDB.cardName.drakonidslayer: goto case CardDB.cardName.foereaper4000;
+                case CardDB.cardName.magnatauralpha: goto case CardDB.cardName.foereaper4000;
+                case CardDB.cardName.foereaper4000:
+                    if (!attacker.silenced && !dontcount)
+                    {
+                        List<Minion> temp = (attacker.own) ? this.enemyMinions : this.ownMinions;
+                        foreach (Minion mnn in temp)
+                        {
+                            if (mnn.zonepos + 1 == defender.zonepos || mnn.zonepos - 1 == defender.zonepos)
+                            {
+                                this.minionAttacksMinion(attacker, mnn, true);
+                            }
+                        }
+                    }
+                    break;
             }
 
             this.doDmgTriggers();
@@ -3399,7 +3549,6 @@ namespace HREngine.Bots
             hero.updateReadyness();
             if (weapon.name == CardDB.cardName.foolsbane && !hero.frozen) hero.Ready = true;
 
-            //heal whether truesilverchampion equipped
             switch (weapon.name)
             {
                 case CardDB.cardName.truesilverchampion:
@@ -3407,8 +3556,28 @@ namespace HREngine.Bots
                     this.minionGetDamageOrHeal(hero, -heal);
                     doDmgTriggers();
                     break;
+                case CardDB.cardName.piranhalauncher:
+                    int pos = (own) ? this.ownMinions.Count : this.enemyMinions.Count;
+                    this.callKid(CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_337t), pos, own);
+                    break;
                 case CardDB.cardName.foolsbane:
                     if (!hero.frozen) hero.Ready = true;
+                    break;
+                case CardDB.cardName.brassknuckles:
+                    if (own)
+                    {
+                        Handmanager.Handcard hc = this.searchRandomMinionInHand(this.owncards, searchmode.searchLowestCost, cardsProperty.Mob);
+                        if (hc != null)
+                        {
+                            hc.addattack++;
+                            hc.addHp++;
+                            this.anzOwnExtraAngrHp += 2;
+                        }
+                    }
+                    else
+                    {
+                        if (this.enemyAnzCards > 0) this.anzEnemyExtraAngrHp += this.enemyAnzCards * 2 - 1;
+                    }
                     break;
             }
 
@@ -3490,7 +3659,19 @@ namespace HREngine.Bots
 
             CardDB.Card c = hc.card;
             this.evaluatePenality += penality;
-            this.mana = this.mana - hc.getManaCost(this);
+            if (this.nextSpellThisTurnCostHealth && hc.card.type == CardDB.cardtype.SPELL)
+            {
+                this.minionGetDamageOrHeal(this.ownHero, hc.card.getManaCost(this, hc.manacost));
+                doDmgTriggers();
+                this.nextSpellThisTurnCostHealth = false;
+            }
+            else if (this.nextMurlocThisTurnCostHealth && (TAG_RACE)hc.card.race == TAG_RACE.MURLOC)
+            {
+                this.minionGetDamageOrHeal(this.ownHero, hc.card.getManaCost(this, hc.manacost));
+                doDmgTriggers();
+                this.nextMurlocThisTurnCostHealth = false;
+            }
+            else this.mana = this.mana - hc.getManaCost(this);
             removeCard(hc);// remove card from hand
             
 
@@ -3508,7 +3689,8 @@ namespace HREngine.Bots
             if (c.Secret)
             {
                 this.ownSecretsIDList.Add(c.cardIDenum);
-                this.playedKirinTorMage = false;
+                this.nextSecretThisTurnCost0 = false;
+                this.secretsplayedSinceRecalc++;
             }
 
 
@@ -3545,29 +3727,36 @@ namespace HREngine.Bots
 
                 if (c.type == CardDB.cardtype.MOB)
                 {
-                    this.placeAmobSomewhere(hc, target, choice, position);
-                    this.mobsPlayedThisTurn++;
+                    if (this.ownMinions.Count < 7)
+                    {
+                        this.placeAmobSomewhere(hc, target, choice, position);
+                        this.mobsPlayedThisTurn++;
+                    }
 
                 }
                 else
                 {
-
+                    if (this.lockandload > 0 && c.type == CardDB.cardtype.SPELL)
+                    {
+                        for (int i = 1; i <= lockandload; i++)
+                        {
+                            this.drawACard(CardDB.cardName.unknown, true, true);
+                        }
+                    }
                     c.sim_card.onCardPlay(this, true, target, choice);
+                    if (c.type == CardDB.cardtype.WEAPON)
+                    {
+                        this.ownWeaponAttack += hc.addattack;
+                        this.ownWeaponDurability += hc.addHp;
+                        this.ownHero.Angr += hc.addattack;
+                    }
                     this.doDmgTriggers();
-                    //secret trigger? do here
 
 
-                }
-
-                //atm only 2 cards trigger this
-                if (c.type == CardDB.cardtype.SPELL)
-                {
-                    this.triggerACardWasPlayed(c, true);
-                    this.doDmgTriggers();
                 }
             }
 
-            //this.ueberladung += c.recallValue;
+
             this.cardsPlayedThisTurn++;
 
         }
@@ -3766,13 +3955,21 @@ namespace HREngine.Bots
                     this.ownWeaponAttack = 0;
                     this.ownWeaponName = CardDB.cardName.unknown;
                     this.ownHero.windfury = false;
-
+                    
                     foreach (Minion m in this.ownMinions)
                     {
-                        if (m.playedThisTurn && m.name == CardDB.cardName.southseadeckhand)
+                        switch (m.name)
                         {
-                            m.charge--;
-                            m.updateReadyness(this);
+                            case CardDB.cardName.southseadeckhand:
+                                if (m.playedThisTurn)
+                                {
+                                    m.charge--;
+                                    m.updateReadyness();
+                                }
+                                break;
+                            case CardDB.cardName.smalltimebuccaneer:
+                                this.minionGetBuffed(m, -2, 0);
+                                break;
                         }
                     }
                     this.ownHero.updateReadyness();
@@ -3839,6 +4036,17 @@ namespace HREngine.Bots
                     this.enemyWeaponAttack = 0;
                     this.enemyWeaponName = CardDB.cardName.unknown;
                     this.enemyHero.windfury = false;
+
+                    foreach (Minion m in this.enemyMinions)
+                    {
+                        switch (m.name)
+                        {
+                            case CardDB.cardName.smalltimebuccaneer:
+                                this.minionGetBuffed(m, -2, 0);
+                                break;
+                        }
+                    }
+
                     this.enemyHero.updateReadyness();
                 }
             }
@@ -3895,6 +4103,7 @@ namespace HREngine.Bots
             }
         }
 
+        //todo sepefeets - update char heal triggers to be simpler and support mana geode
         public void triggerACharGotHealed()
         {
             foreach (Minion mnn in this.ownMinions)
@@ -3906,7 +4115,7 @@ namespace HREngine.Bots
                     {
                         for (int i = 0; i < this.tempTrigger.charsGotHealed; i++)
                         {
-                            mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn, true);
+                            mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn);
                         }
                     }
                     else
@@ -3914,7 +4123,7 @@ namespace HREngine.Bots
                         //we are doing this, because we dont do a "real" search on enemys turn
                         for (int i = 0; i < this.tempTrigger.owncharsGotHealed; i++)
                         {
-                            mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn, true);
+                            mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn);
                         }
                     }
 
@@ -3924,7 +4133,7 @@ namespace HREngine.Bots
                 {
                     for (int i = 0; i < this.tempTrigger.charsGotHealed; i++)
                     {
-                        mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn, true);
+                        mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn);
                     }
                 }
             }
@@ -3935,7 +4144,7 @@ namespace HREngine.Bots
                 {
                     for (int i = 0; i < this.tempTrigger.charsGotHealed; i++)
                     {
-                        mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn, true);
+                        mnn.handcard.card.sim_card.onAHeroGotHealedTrigger(this, mnn);
                     }
 
                 }
@@ -4444,6 +4653,27 @@ namespace HREngine.Bots
         public void triggerAMinionIsGoingToAttack(Minion attacker, Minion defender)
         {
             //todo trigger secret her too
+
+            switch (attacker.name)
+            {
+                case CardDB.cardName.cutpurse:
+                    if (defender.isHero) this.drawACard(CardDB.cardName.thecoin, !defender.own, true);
+                    break;
+                case CardDB.cardName.shakuthecollector:
+                    this.drawACard(CardDB.cardName.unknown, attacker.own, true);
+                    break;
+                case CardDB.cardName.genzotheshark:
+                    while (this.owncards.Count < 3 && this.ownDeckSize > 0)
+                    {
+                        this.drawACard(CardDB.cardName.unknown, true, true);
+                    }
+                    while (this.enemyAnzCards < 3 && this.enemyDeckSize > 0)
+                    {
+                        this.drawACard(CardDB.cardName.unknown, false, true);
+                    }
+                    break;
+            }
+
             //blessing of wisdom (truesilver is located in attackWithWeapon(...))
             if (attacker.ownBlessingOfWisdom >= 1)
             {
@@ -4487,33 +4717,30 @@ namespace HREngine.Bots
 
         public void triggerAMinionDealedDmg(Minion m, int dmgDone, int attackvalue)
         {
-            //only GVG_018 has such an trigger!
-            if (m.name == CardDB.cardName.mistressofpain && dmgDone >= 1)
+            //only 3 cards have this trigger
+            switch (m.name)
             {
-                if (m.own)
-                {
-                    if (this.anzOwnAuchenaiSoulpriest >= 1) // you have a soulpriest? lol you die!!!
+                case CardDB.cardName.alleyarmorsmith:
+                    this.minionGetArmor(m.own ? this.ownHero : this.enemyHero, m.Angr);
+                    break;
+                case CardDB.cardName.mistressofpain:
+                case CardDB.cardName.wickerflameburnbristle:
+                    if (dmgDone > 0)
                     {
-                        this.ownHero.Hp = 0;
+                        if (m.own)
+                        {
+                            if (this.anzOwnAuchenaiSoulpriest > 0 || this.embracetheshadow > 0) dmgDone *= -1;
+                            this.minionGetDamageOrHeal(this.ownHero, -dmgDone);
+                        }
+                        else
+                        {
+                            if (this.anzEnemyAuchenaiSoulpriest > 1) dmgDone *= -1;
+                            this.minionGetDamageOrHeal(this.enemyHero, -dmgDone);
+                        }
                     }
-                    else
-                    {
-                        this.minionGetDamageOrHeal(this.ownHero, -attackvalue);
-                    }
-                }
-                else
-                {
-                    if (this.anzEnemyAuchenaiSoulpriest >= 1) // you have a soulpriest? lol you die!!!
-                    {
-                        this.enemyHero.Hp = 0;
-                    }
-                    else
-                    {
-                        this.minionGetDamageOrHeal(this.enemyHero, -attackvalue);
-                    }
-                }
+                    break;
             }
- 
+
         }
 
         public void triggerACardWillBePlayed(Handmanager.Handcard hc, bool own, Minion target, int choice)
@@ -4618,8 +4845,17 @@ namespace HREngine.Bots
                     int pos = this.enemyMinions.Count;
                     this.callKid(CardDB.Instance.burlyrockjaw, pos, !own);
                 }
-                
-                
+
+                foreach (Handmanager.Handcard hc2 in this.owncards)
+                {
+                    if (hc2.card.name == CardDB.cardName.blubberbaron)
+                    {
+                        hc2.addattack += this.tempTrigger.ownMinionsDied;
+                        hc2.addHp += this.tempTrigger.ownMinionsDied;
+                    }
+                }
+
+
             }
             else
             {
@@ -4858,6 +5094,7 @@ namespace HREngine.Bots
 
         public void triggerEndTurn(bool ownturn)
         {
+            //todo sepefeets - add all the missing turn end trigger minions
             //todo sort them
             //List<Minion> temp = (ownturn)? this.ownMinions : this.enemyMinions;
 
@@ -4899,8 +5136,13 @@ namespace HREngine.Bots
 
             this.doDmgTriggers();
 
-            this.playedKirinTorMage = false;
-
+            this.nextSecretThisTurnCost0 = false;
+            this.nextSpellThisTurnCost0 = false;
+            this.nextMurlocThisTurnCostHealth = false;
+            this.nextSpellThisTurnCostHealth = false;
+            this.lockandload = 0;
+            this.embracetheshadow = 0;
+            this.playedPreparation = false;
 
 
             foreach (Minion m in this.ownMinions)
@@ -4921,6 +5163,15 @@ namespace HREngine.Bots
         public void triggerStartTurn(bool ownturn)
         {
             this.numPlayerMinionsAtTurnStart = this.ownMinions.Count;
+            this.cardsPlayedThisTurn = 0;
+            this.mobsPlayedThisTurn = 0;
+            this.nextSecretThisTurnCost0 = false;
+            this.nextSpellThisTurnCost0 = false;
+            this.nextMurlocThisTurnCostHealth = false;
+            this.nextSpellThisTurnCostHealth = false;
+            this.optionsPlayedThisTurn = 0;
+            this.enemyOptionsDoneThisTurn = 0;
+
             if (ownturn)
             {
                 int at073 = 0;
@@ -6105,9 +6356,18 @@ namespace HREngine.Bots
             List<Minion> temp = (own) ? this.ownMinions : this.enemyMinions;
             foreach (Minion m in temp)
             {
-                if (m.playedThisTurn && m.name == CardDB.cardName.southseadeckhand)
+                switch (m.name)
                 {
-                    minionGetCharge(m);
+                    case CardDB.cardName.southseadeckhand:
+                        if (m.playedThisTurn) minionGetCharge(m);
+                        break;
+                    case CardDB.cardName.buccaneer:
+                        if (own) this.ownWeaponAttack++;
+                        else this.enemyWeaponAttack++;
+                        break;
+                    case CardDB.cardName.smalltimebuccaneer:
+                        this.minionGetBuffed(m, 2, 0);
+                        break;
                 }
             }
 
@@ -6429,35 +6689,7 @@ namespace HREngine.Bots
             }
 
         }
-
-        private void drawFirstCardFromDeck(bool own, bool reducemana=false)
-        {
-            List<Handmanager.Handcard> tempdeck = this.enemyDeck;
-            List<Handmanager.Handcard> temphand = this.EnemyCards;
-            //List<Handmanager.Handcard> tempgrave = this.Enemygrave;
-            if (own)
-            {
-                tempdeck = this.myDeck;
-                temphand = this.owncards;
-            }
-
-            if (tempdeck.Count >= 1) 
-            {
-                Handmanager.Handcard hc = tempdeck[0];
-                int manac =  Math.Max(0, hc.card.cost - ((own)?this.anzOwnShadowfiends:this.anzEnemyShadowfiends));
-                if (reducemana) manac = 0;
-                tempdeck.RemoveAt(0);
-                if (temphand.Count <= 9)
-                {
-                    hc.position = temphand.Count + 1;
-                    hc.manacost = manac;
-                    temphand.Add(hc);
-                }
-
-            }
-
-
-        }
+        
 
         public void removeCard(Handmanager.Handcard hcc)
         {
@@ -6602,6 +6834,25 @@ namespace HREngine.Bots
                 case 10: kid = CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.AT_120); break; 
             }
             return kid;
+        }
+
+        public Minion getEnemyCharTargetForRandomSingleDamage(int damage)
+        {
+            Minion target = new Minion();
+            int tmp = this.guessingHeroHP;
+            this.guessHeroDamage();
+            if (this.guessingHeroHP < 0)
+            {
+                target = this.searchRandomMinionByMaxHP(this.enemyMinions, searchmode.searchHighestAttack, damage); //the last chance (optimistic)
+                if (target == null || this.enemyHero.Hp <= damage) target = this.enemyHero;
+            }
+            else
+            {
+                target = this.searchRandomMinion(this.enemyMinions, damage > 3 ? searchmode.searchLowestHP : searchmode.searchHighestHP); //damage the lowest (pessimistic)
+                if (target == null) target = this.enemyHero;
+            }
+            this.guessingHeroHP = tmp;
+            return target;
         }
 
         public void minionGetControlled(Minion m, bool newOwner, bool canAttack)
@@ -6770,7 +7021,6 @@ namespace HREngine.Bots
 
         public void minionSwapAngrAndHP(Minion m)
         {
-            this.minionGetOrEraseAllAreaBuffs(m, false);
             bool woundedbef = m.wounded;
             int temp = m.Angr;
             m.Angr = m.Hp;
@@ -6918,78 +7168,374 @@ namespace HREngine.Bots
             searchHighestHP,
             searchLowestAttack,
             searchHighestAttack,
-            searchHighAttackLowHP,
-            searchHighHPLowAttack,
+            searchHighAttackLowHP, //get max attack/hp ratio
+            searchHighHPLowAttack, //get max hp/attack ratio
+            searchLowestCost,
+            searchHighesCost,
+        }
+
+        public enum cardsProperty
+        {
+            None,
+            Spell,
+            Secret,
+            Mob,
+            Race,
+            Taunt,
+            Combo,
+            Shield,
+            Enrage,
+            Overload,
+            ClassCard,
+            Weapon
+        }
+
+
+        private void getHandcardsByType(List<Handmanager.Handcard> cards, cardsProperty prop, TAG_RACE race = TAG_RACE.INVALID)
+        {
+            switch (prop)
+            {
+                case cardsProperty.None:
+                    foreach (Handmanager.Handcard hc in cards) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Spell:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.type == CardDB.cardtype.SPELL) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Secret:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.Secret) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Mob:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.type == CardDB.cardtype.MOB) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Race:
+                    foreach (Handmanager.Handcard hc in cards)
+                    {
+                        if (hc.card.type == CardDB.cardtype.MOB)
+                        {
+                            if (race == TAG_RACE.INVALID) hc.extraParam3 = true;
+                            else if (hc.card.race == race) hc.extraParam3 = true;
+                        }
+                    }
+                    break;
+                case cardsProperty.Taunt:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.tank) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Combo:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.Combo) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Shield:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.Shield) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Enrage:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.Enrage) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Overload:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.overload > 0) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.ClassCard:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.Class == (int)ownHeroStartClass) hc.extraParam3 = true;
+                    break;
+                case cardsProperty.Weapon:
+                    foreach (Handmanager.Handcard hc in cards) if (hc.card.type == CardDB.cardtype.WEAPON) hc.extraParam3 = true;
+                    break;
+            }
+        }
+
+        public Handmanager.Handcard searchRandomMinionInHand(List<Handmanager.Handcard> cards, searchmode mode, cardsProperty cardsProp = cardsProperty.None, TAG_RACE race = TAG_RACE.INVALID)
+        {
+            Handmanager.Handcard ret = null;
+            double value = 0;
+            switch (mode)
+            {
+                case searchmode.searchLowestHP: value = 1000; break;
+                case searchmode.searchHighestHP: value = -1; break;
+                case searchmode.searchLowestAttack: value = 1000; break;
+                case searchmode.searchHighestAttack: value = -1; break;
+                case searchmode.searchHighAttackLowHP: value = -1; break;
+                case searchmode.searchHighHPLowAttack: value = -1; break;
+                case searchmode.searchLowestCost: value = 1000; break;
+                case searchmode.searchHighesCost: value = -1; break;
+            }
+
+            getHandcardsByType(cards, cardsProp, race);
+            foreach (Handmanager.Handcard hc in cards)
+            {
+                if (!hc.extraParam3) continue;
+
+                switch (mode)
+                {
+                    case searchmode.searchLowestHP:
+                        if ((hc.card.Health + hc.addHp) < value)
+                        {
+                            ret = hc;
+                            value = (hc.card.Health + hc.addHp);
+                        }
+                        break;
+                    case searchmode.searchHighestHP:
+                        if ((hc.card.Health + hc.addHp) > value)
+                        {
+                            ret = hc;
+                            value = (hc.card.Health + hc.addHp);
+                        }
+                        break;
+                    case searchmode.searchLowestAttack:
+                        if ((hc.card.Attack + hc.addattack) < value)
+                        {
+                            ret = hc;
+                            value = (hc.card.Attack + hc.addattack);
+                        }
+                        break;
+                    case searchmode.searchHighestAttack:
+                        if ((hc.card.Attack + hc.addattack) > value)
+                        {
+                            ret = hc;
+                            value = (hc.card.Attack + hc.addattack);
+                        }
+                        break;
+                    case searchmode.searchHighAttackLowHP:
+                        if ((hc.card.Attack + hc.addattack) / (hc.card.Health + hc.addHp) > value)
+                        {
+                            ret = hc;
+                            value = (hc.card.Attack + hc.addattack) / (hc.card.Health + hc.addHp);
+                        }
+                        break;
+                    case searchmode.searchHighHPLowAttack:
+                        if ((hc.card.Health + hc.addHp) / (hc.card.Attack + hc.addattack) > value)
+                        {
+                            ret = hc;
+                            value = (hc.card.Health + hc.addHp) / (hc.card.Attack + hc.addattack);
+                        }
+                        break;
+                    case searchmode.searchLowestCost:
+                        if (hc.manacost < value)
+                        {
+                            ret = hc;
+                            value = hc.manacost;
+                        }
+                        break;
+                    case searchmode.searchHighesCost:
+                        if (hc.manacost > value)
+                        {
+                            ret = hc;
+                            value = hc.manacost;
+                        }
+                        break;
+                }
+            }
+            return ret;
         }
 
         public Minion searchRandomMinion(List<Minion> minions, searchmode mode)
         {
-            //get = 0 -> get lowest hp
-            //get = 1 -> get highest hp
-            //get = 2 -> get lowest attack
-            //get = 3 -> get highest attack
-            int get = (int)mode;
-
             if (minions.Count == 0) return null;
-            Minion ret = minions[0];
-            int value = 0;
-            switch (get)
+            Minion ret = null;
+            double value = 0;
+            switch (mode)
             {
-                case 1:
-                        value = 0;
-                    break;
-                case 2:
-                        value = 2048;
-                    break;
-                case 3:
-                        value = 0;
-                    break;
-                default:
-                        value = 2048;
-                    break;
+                case searchmode.searchLowestHP: value = 1000; break;
+                case searchmode.searchHighestHP: value = -1; break;
+                case searchmode.searchLowestAttack: value = 1000; break;
+                case searchmode.searchHighestAttack: value = -1; break;
+                case searchmode.searchHighAttackLowHP: value = -1; break;
+                case searchmode.searchHighHPLowAttack: value = -1; break;
+                case searchmode.searchLowestCost: value = 1000; break;
+                case searchmode.searchHighesCost: value = -1; break;
             }
 
             foreach (Minion m in minions)
             {
                 if (m.Hp <= 0) continue;
 
-                switch (get)
+                switch (mode)
                 {
-                    case 1: 
-                        if (m.Hp > value)
-                        {
-                            ret = m;
-                            value = m.Hp;
-                        }
-                        break;
-                    case 2:
-                        if (m.Angr < value)
-                        {
-                            ret = m;
-                            value = m.Angr;
-                        }
-                        break;
-                    case 3:
-                        if (m.Angr > value)
-                        {
-                            ret = m;
-                            value = m.Angr;
-                        }
-                        break;
-                    default: 
+                    case searchmode.searchLowestHP:
                         if (m.Hp < value)
                         {
                             ret = m;
                             value = m.Hp;
                         }
                         break;
+                    case searchmode.searchHighestHP:
+                        if (m.Hp > value)
+                        {
+                            ret = m;
+                            value = m.Hp;
+                        }
+                        break;
+                    case searchmode.searchLowestAttack:
+                        if (m.Angr < value)
+                        {
+                            ret = m;
+                            value = m.Angr;
+                        }
+                        break;
+                    case searchmode.searchHighestAttack:
+                        if (m.Angr > value)
+                        {
+                            ret = m;
+                            value = m.Angr;
+                        }
+                        break;
+                    case searchmode.searchHighAttackLowHP:
+                        if (m.Angr / m.Hp > value)
+                        {
+                            ret = m;
+                            value = m.Angr / m.Hp;
+                        }
+                        break;
+                    case searchmode.searchHighHPLowAttack:
+                        if (m.Hp / m.Angr > value)
+                        {
+                            ret = m;
+                            value = m.Hp / m.Angr;
+                        }
+                        break;
+                    case searchmode.searchLowestCost:
+                        if (m.handcard.card.cost < value)
+                        {
+                            ret = m;
+                            value = m.handcard.card.cost;
+                        }
+                        break;
+                    case searchmode.searchHighesCost:
+                        if (m.handcard.card.cost > value)
+                        {
+                            ret = m;
+                            value = m.handcard.card.cost;
+                        }
+                        break;
                 }
             }
-            //if (ret.Hp <= 0) return null;
             return ret;
         }
 
-        
+        public Minion searchRandomMinionByMaxHP(List<Minion> minions, searchmode mode, int maxHP)
+        {
+            //optimistic search
+
+            if (maxHP < 1) return null;
+            if (minions.Count == 0) return null;
+
+            Minion ret = null;
+
+            double value = 0;
+            int retVal = 0;
+            foreach (Minion m in minions)
+            {
+                if (m.Hp > maxHP) continue;
+
+                switch (mode)
+                {
+                    case searchmode.searchHighestHP:
+                        if (m.Hp > value)
+                        {
+                            ret = m;
+                            value = m.Hp;
+                            retVal = m.Angr;
+                        }
+                        else if (m.Hp == value && retVal < m.Angr) ret = m;
+                        break;
+                    case searchmode.searchLowestAttack:
+                        if (m.Angr < value)
+                        {
+                            ret = m;
+                            value = m.Angr;
+                            retVal = m.Hp;
+                        }
+                        else if (m.Angr == value && retVal < m.Hp) ret = m;
+                        break;
+                    case searchmode.searchHighestAttack:
+                        if (m.Angr > value)
+                        {
+                            ret = m;
+                            value = m.Angr;
+                            retVal = m.Hp;
+                        }
+                        else if (m.Angr == value && retVal < m.Hp) ret = m;
+                        break;
+                    case searchmode.searchHighAttackLowHP:
+                        if (m.Angr / m.Hp > value)
+                        {
+                            ret = m;
+                            value = m.Angr / m.Hp;
+                            retVal = m.Hp;
+                        }
+                        else if (m.Angr / m.Hp == value && retVal < m.Hp) ret = m;
+                        break;
+                    case searchmode.searchHighHPLowAttack:
+                        if (m.Hp / m.Angr > value)
+                        {
+                            ret = m;
+                            value = m.Hp / m.Angr;
+                            retVal = m.Hp;
+                        }
+                        else if (m.Angr / m.Hp == value && retVal < m.Hp) ret = m;
+                        break;
+                    default: //==searchHighestHP
+                        if (m.Hp > value)
+                        {
+                            ret = m;
+                            value = m.Hp;
+                            retVal = m.Angr;
+                        }
+                        else if (m.Hp == value && retVal < m.Angr) ret = m;
+                        break;
+                }
+            }
+            if (ret != null && ret.Hp <= 0) return null;
+            return ret;
+        }
+
+        public CardDB.Card getNextJadeGolem(bool own)
+        {
+            int tmp = 0;
+            if (own)
+            {
+                tmp = 1 + anzOwnJadeGolem;
+                anzOwnJadeGolem++;
+            }
+            else
+            {
+                tmp = 1 + anzEnemyJadeGolem;
+                anzEnemyJadeGolem++;
+            }
+            switch (tmp)
+            {
+                case 1: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t01);
+                case 2: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t02);
+                case 3: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t03);
+                case 4: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t04);
+                case 5: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t05);
+                case 6: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t06);
+                case 7: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t07);
+                case 8: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t08);
+                case 9: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t09);
+                case 10: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t10);
+                case 11: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t11);
+                case 12: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t12);
+                case 13: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t13);
+                case 14: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t14);
+                case 15: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t15);
+                case 16: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t16);
+                case 17: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t17);
+                case 18: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t18);
+                case 19: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t19);
+                case 20: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t20);
+                case 21: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t21);
+                case 22: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t22);
+                case 23: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t23);
+                case 24: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t24);
+                case 25: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t25);
+                case 26: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t26);
+                case 27: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t27);
+                case 28: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t28);
+                case 29: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t29);
+                case 30: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t30);
+            }
+            return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t01);
+        }
+
+
         public void debugMinions()
         {
             Helpfunctions.Instance.logg("OWN MINIONS################");
@@ -7229,7 +7775,7 @@ namespace HREngine.Bots
 
             int ownmillhouse = (this.anzOwnMillhouseManastorm)? 1:0;
             int enemymillhouse = (this.anzEnemyMillhouseManastorm)? 1:0;
-            int ownKirinTorEffect = (this.playedKirinTorMage) ? 1:0;
+            int ownKirinTorEffect = (this.nextSecretThisTurnCost0) ? 1:0;
             int ownPreparation = (this.playedPreparation) ? 1:0;
 
             data += this.mobsPlayedThisTurn + " " + this.cardsPlayedThisTurn + " " + this.owedRecall + " " + ownPlayerController + " " + this.anzMinionsDiedThisTurn + " " + this.currentRecall + " " + this.enemyRecall + " " + this.heroPowerActivationsThisTurn +  " " +  this.lockAndLoads +"\r\n";
@@ -7245,6 +7791,7 @@ namespace HREngine.Bots
             }
             data += "osecrets: " + secs + "\r\n";
             data += "cthunbonus: " + this.anzOgOwnCThunAngrBonus + " " + this.anzOgOwnCThunHpBonus + " " + this.anzOgOwnCThunTaunt + "\r\n";
+            data += "jadegolems: " + this.anzOwnJadeGolem + " " + this.anzEnemyJadeGolem;
             data += "enemyhero:"+ "\r\n";
             data += Hrtprozis.heroEnumtoName(this.enemyHeroName) + " " + this.enemyHero.Hp + " " + this.enemyHero.maxHp + " " + this.enemyHero.armor + " " + this.enemyHero.frozen + " " + this.enemyHero.immune + " " + this.enemyHero.entityID+ "\r\n";
             data += "weapon: " + this.enemyWeaponAttack + " " + this.enemyWeaponDurability + " " + this.enemyWeaponName + "\r\n";
@@ -7330,7 +7877,7 @@ namespace HREngine.Bots
             if (m.charge >= 1) mini += " chrg(" + m.charge + ")";
             if (m.AdjacentAngr >= 1) mini += " adjaattk(" + m.AdjacentAngr + ")";
             if (m.tempAttack != 0) mini += " tmpattck(" + m.tempAttack + ")";
-            if (m.spellpower >= 1) mini += " spllpwr(" + m.spellpower + ")";
+            if (m.spellpower != 0) mini += " spllpwr(" + m.spellpower + ")";
 
             if (m.ancestralspirit >= 1) mini += " ancstrl(" + m.ancestralspirit + ")";
             if (m.ownBlessingOfWisdom >= 1) mini += " ownBlssng(" + m.ownBlessingOfWisdom + ")";

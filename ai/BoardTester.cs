@@ -62,6 +62,8 @@
         int anzOgOwnCThunHpBonus;
         int anzOgOwnCThunAngrBonus;
         int anzOgOwnCThunTaunt;
+        int anzOwnJadeGolem;
+        int anzEnemyJadeGolem;
 
         int ownDecksize = 30;
         int enemyDecksize = 30;
@@ -375,6 +377,13 @@
                     anzOgOwnCThunTaunt = Convert.ToInt32(ss[3]);
                 }
 
+                if (s.StartsWith("jadegolems: "))
+                {
+                    String[] ss = s.Split(' ');
+                    anzOwnJadeGolem = Convert.ToInt32(ss[1]);
+                    anzEnemyJadeGolem = Convert.ToInt32(ss[2]);
+                }
+
                 if (s.StartsWith("ownDiedMinions: "))
                 {
                     omd = s;
@@ -466,6 +475,15 @@
                 if (s.StartsWith("eg:"))
                 {
                     eg = s;
+                    continue;
+                }
+                if (s.StartsWith("td:"))
+                {
+                    //todo sepefeets - read the turn deck
+                    continue;
+                }
+                if (s.StartsWith("tdc:")) //ignore it, will eventually be removed
+                {
                     continue;
                 }
 
@@ -960,6 +978,7 @@
             Hrtprozis.Instance.updatePlayer(this.maxmana, this.mana, this.cardsPlayedThisTurn, this.numMinionsPlayedThisTurn, this.numOptionPlayedThisTurn, this.overdrive, ownHEntity, enemyHEntity, this.numberMinionsDiedThisturn, this.owncurrentRecall, this.enemyRecall, this.heropowerUsesThisTurn, this.locknload);
             Hrtprozis.Instance.setPlayereffects(this.ownDragonConsort, this.enemyDragonConsort, this.ownLoathebs, this.enemyLoathebs, this.ownMillhouse, this.enemyMillhouse, this.ownKirintor, this.ownPrep, this.ownSab, this.enemySab, this.ownFenci, this.enemyCursedCards);
             Hrtprozis.Instance.updateCThunInfo(this.anzOgOwnCThunAngrBonus, this.anzOgOwnCThunHpBonus, this.anzOgOwnCThunTaunt);
+            Hrtprozis.Instance.updateJadeGolemsInfo(this.anzOwnJadeGolem, this.anzEnemyJadeGolem);
 
 
             Hrtprozis.Instance.updateSecretStuff(this.ownsecretlist, enemySecretAmount);

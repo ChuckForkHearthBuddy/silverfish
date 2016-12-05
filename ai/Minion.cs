@@ -33,6 +33,7 @@
         public int anzGotDmg;
         public int gotDmgRaw;
         public int GotDmgValue;
+        public int anzGotHealed;
         public bool gotInspire;
         public bool isHero;
         public bool own;
@@ -348,6 +349,7 @@
                     if (copy < this.Hp)
                     {
                         p.tempTrigger.charsGotHealed++;
+                        this.anzGotHealed++;
                     }
                     if (copy - this.Hp >= 1)
                     {
@@ -449,6 +451,7 @@
                 //minionWasHealed
                 p.tempTrigger.minionsGotHealed++;
                 p.tempTrigger.charsGotHealed++;
+                this.anzGotHealed++;
             }
             else if (this.Hp < hpcopy)
             {
@@ -841,6 +844,7 @@
                     case CardDB.cardIDEnum.OG_047e: this.tempAttack += 4; continue;
                     case CardDB.cardIDEnum.NAX12_04e: this.tempAttack += 6; continue;
                     case CardDB.cardIDEnum.GVG_011a: this.tempAttack += -2; continue;
+                    case CardDB.cardIDEnum.CFM_661e: this.tempAttack += -3; continue;
                     case CardDB.cardIDEnum.BRM_001e: this.tempAttack += -1000; continue;
                     case CardDB.cardIDEnum.TU4c_008e: this.tempAttack += 8; continue;
                     case CardDB.cardIDEnum.CS2_045e: this.tempAttack += 3; continue;

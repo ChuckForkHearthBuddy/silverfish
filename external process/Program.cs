@@ -353,6 +353,11 @@ namespace HREngine.Bots
             }
         }
 
+        public bool isCardCreated(Handmanager.Handcard handcard)
+        {
+            return false;
+        }
+
         public void readActionFile(bool passiveWaiting = false)
         {
             Ai.Instance.nextMoveGuess = new Playfield();

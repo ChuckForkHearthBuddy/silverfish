@@ -14,6 +14,9 @@
             public int addHp;
             public bool isChoiceTemp;
             public CardDB.Card card;
+            public int extraParam = 0;
+            public int extraParam2 = 0;
+            public bool extraParam3 = false;
 
             public Handcard()
             {

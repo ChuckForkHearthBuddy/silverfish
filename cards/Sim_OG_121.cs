@@ -12,7 +12,7 @@ namespace HREngine.Bots
         {
             if (ownplay)
             {
-                p.choGall++;
+                p.nextSpellThisTurnCostHealth = true;
             }
         }
     }
