@@ -35,11 +35,7 @@ namespace HREngine.Bots
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new Discovery();
-                }
-                return instance;
+                return instance ?? (instance = new Discovery());
             }
         }
 

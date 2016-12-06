@@ -359,14 +359,7 @@
         }
 
         private Probabilitymaker() { }
-
-
-        public void clearAll()
-        {
-            ownGraveyard.Clear();
-            enemyGraveyard.Clear();
-            enemyDeckGuessed.Clear();
-        }
+        
 
         public void setOwnCards(List<CardDB.cardIDEnum> newGraveyardCards)
         {
@@ -499,7 +492,6 @@
                     if (CardDB.Instance.getCardDataFromID(en.cardid).type == CardDB.cardtype.MOB)
                     {
                         this.turngraveyard.Add(en);
-                        Helpfunctions.Instance.logg("setGraveYard og: " + en.cardid);
                     }
                 }
             }

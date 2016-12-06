@@ -7530,9 +7530,8 @@ namespace HREngine.Bots
                 case 27: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t27);
                 case 28: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t28);
                 case 29: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t29);
-                case 30: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t30);
+                default: return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t30);
             }
-            return CardDB.Instance.getCardDataFromID(CardDB.cardIDEnum.CFM_712_t01);
         }
 
 
@@ -7791,7 +7790,7 @@ namespace HREngine.Bots
             }
             data += "osecrets: " + secs + "\r\n";
             data += "cthunbonus: " + this.anzOgOwnCThunAngrBonus + " " + this.anzOgOwnCThunHpBonus + " " + this.anzOgOwnCThunTaunt + "\r\n";
-            data += "jadegolems: " + this.anzOwnJadeGolem + " " + this.anzEnemyJadeGolem;
+            data += "jadegolems: " + this.anzOwnJadeGolem + " " + this.anzEnemyJadeGolem + "\r\n";
             data += "enemyhero:"+ "\r\n";
             data += Hrtprozis.heroEnumtoName(this.enemyHeroName) + " " + this.enemyHero.Hp + " " + this.enemyHero.maxHp + " " + this.enemyHero.armor + " " + this.enemyHero.frozen + " " + this.enemyHero.immune + " " + this.enemyHero.entityID+ "\r\n";
             data += "weapon: " + this.enemyWeaponAttack + " " + this.enemyWeaponDurability + " " + this.enemyWeaponName + "\r\n";
@@ -7834,21 +7833,19 @@ namespace HREngine.Bots
             data += Probabilitymaker.Instance.printGraveyards(false, true); //dont need \r\n
 
             int tdc = 0;
-            string deck = "td: ";
+            data += "td: ";
             foreach (KeyValuePair<CardDB.cardIDEnum, int> card in Hrtprozis.Instance.turnDeck)
             {
-                deck += card.Key;
-                if (card.Value > 1) deck += "," + card.Value;
-                deck += ";";
+                data += card.Key;
+                if (card.Value > 1) data += "," + card.Value;
+                data += ";";
                 tdc += card.Value;
             }
-            deck += "\r\n";
+            data += "\r\n";
 
-            deck += "tdc: " + tdc;
-            if (tdc != this.ownDeckSize) deck += " tdc mismatch " + this.ownDeckSize;
-
-            Helpfunctions.Instance.logg(deck);
-
+            data += "tdc: " + tdc;
+            if (tdc != this.ownDeckSize) data += " tdc mismatch " + this.ownDeckSize;
+            
             return data;
         }
 

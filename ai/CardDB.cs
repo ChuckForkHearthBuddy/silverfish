@@ -7522,18 +7522,6 @@ namespace HREngine.Bots
                         }
                     }
                 }
-
-
-                if (s.Contains("<Tag name="))
-                {
-                    string temp = s.Split(new string[] { "<Tag name=\"" }, StringSplitOptions.RemoveEmptyEntries)[1];
-                    temp = temp.Split('\"')[0];
-                    /*
-                    if (temp != "DevState" && temp != "FlavorText" && temp != "ArtistName" && temp != "Cost" && temp != "EnchantmentIdleVisual" && temp != "EnchantmentBirthVisual" && temp != "Collectible" && temp != "CardSet" && temp != "AttackVisualType" && temp != "CardName" && temp != "Class" && temp != "CardTextInHand" && temp != "Rarity" && temp != "TriggerVisual" && temp != "Faction" && temp != "HowToGetThisGoldCard" && temp != "HowToGetThisCard" && temp != "CardTextInPlay")
-                        Helpfunctions.Instance.logg(s);*/
-                }
-
-
             }
 
             this.teacherminion = this.getCardDataFromID(CardDB.cardIDEnum.NEW1_026t);

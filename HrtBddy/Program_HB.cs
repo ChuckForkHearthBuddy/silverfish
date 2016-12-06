@@ -233,7 +233,6 @@ namespace HREngine.Bots
             Mulligan.Instance.loggCleanPath();
             Discovery.Instance.loggCleanPath();
             ComboBreaker.Instance.loggCleanPath();
-            Probabilitymaker.Instance.clearAll();
             Hrtprozis.Instance.clearDecks();
 
             startDeck.Clear();
@@ -336,6 +335,7 @@ namespace HREngine.Bots
             Handmanager.Instance.setHandcards(this.handCards, this.anzcards, this.enemyAnzCards, this.choiceCards);
 
             Hrtprozis.Instance.updateFatigueStats(this.ownDecksize, this.ownHeroFatigue, this.enemyDecksize, this.enemyHeroFatigue);
+            Hrtprozis.Instance.updateJadeGolemsInfo(GameState.Get().GetFriendlySidePlayer().GetTag(GAME_TAG.JADE_GOLEM), GameState.Get().GetOpposingSidePlayer().GetTag(GAME_TAG.JADE_GOLEM));
 
             Probabilitymaker.Instance.getEnemySecretGuesses(this.enemySecretList, Hrtprozis.Instance.heroNametoEnum(this.enemyHeroname));
 
@@ -1030,43 +1030,34 @@ namespace HREngine.Bots
             {
                 if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.SECRET && ent.ControllerId == enemycontroler) continue; // cant know enemy secrets :D
                 if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.DECK) continue;
-
-                if (ent.IsMinion || ent.IsWeapon || ent.IsSpell)
+                
+                CardDB.cardIDEnum cardid = CardDB.Instance.cardIdstringToEnum(ent.Id);
+                if (cardid != CardDB.cardIDEnum.None)
                 {
+                    if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.GRAVEYARD)
+                    {
+                        GraveYardItem gyi = new GraveYardItem(cardid, ent.EntityId, ent.ControllerId == owncontroler);
+                        graveYard.Add(gyi);
+                    }
 
-                    CardDB.cardIDEnum cardid = CardDB.Instance.cardIdstringToEnum(ent.Id);
-                    //string owner = "own";
-                    //if (ent.GetControllerId() == enemycontroler) owner = "enemy";
-                    //if (ent.GetControllerId() == enemycontroler && ent.GetZone() == HRCardZone.HAND) Helpfunctions.Instance.logg("enemy card in hand: " + "cardindeck: " + cardid + " " + ent.GetName());
-                    //if (cardid != CardDB.cardIDEnum.None) Helpfunctions.Instance.logg("cardindeck: " + cardid + " " + ent.GetName() + " " + ent.GetZone() + " " + owner + " " + ent.GetCardType());
-                    if (cardid != CardDB.cardIDEnum.None)
+                    int creator = ent.CreatorId;
+                    if (creator != 0 && creator != owncontroler && creator != enemycontroler) continue; //if creator is someone else, it was not played
+
+                    if (ent.ControllerId == owncontroler) //or controler?
                     {
                         if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.GRAVEYARD)
                         {
-                            GraveYardItem gyi = new GraveYardItem(cardid, ent.EntityId, ent.ControllerId == owncontroler);
-                            graveYard.Add(gyi);
+                            ownCards.Add(cardid);
                         }
-
-                        int creator = ent.CreatorId;
-                        if (creator != 0 && creator != owncontroler && creator != enemycontroler) continue; //if creator is someone else, it was not played
-
-                        if (ent.ControllerId == owncontroler) //or controler?
+                    }
+                    else
+                    {
+                        if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.GRAVEYARD)
                         {
-                            if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.GRAVEYARD)
-                            {
-                                ownCards.Add(cardid);
-                            }
-                        }
-                        else
-                        {
-                            if (ent.GetZone() == Triton.Game.Mapping.TAG_ZONE.GRAVEYARD)
-                            {
-                                enemyCards.Add(cardid);
-                            }
+                            enemyCards.Add(cardid);
                         }
                     }
                 }
-
             }
 
             Probabilitymaker.Instance.setOwnCards(ownCards);

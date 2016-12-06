@@ -341,7 +341,6 @@ namespace HREngine.Bots
                 deckChanged = false;
             }
             
-            Probabilitymaker.Instance.clearAll();
             Hrtprozis.Instance.clearDecks();
             foreach (var card in e.deck_list)
             {
@@ -512,7 +511,7 @@ namespace HREngine.Bots
              }
 
 
-             //string path = SiverFishBotPath.AssemblyDirectory + System.IO.Path.DirectorySeparatorChar + "HRERRORLogs" + System.IO.Path.DirectorySeparatorChar;
+             //string path = SilverFishBotPath.AssemblyDirectory + System.IO.Path.DirectorySeparatorChar + "HRERRORLogs" + System.IO.Path.DirectorySeparatorChar;
              //System.IO.Directory.CreateDirectory(path);
              //this.gameState.SaveToXMLFile(path + "HRErrorLog" + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss") + ".xml");
 
@@ -963,20 +962,6 @@ namespace HREngine.Bots
             }
             return null;
         }
-
-        private List<Entity> getallEntitys()
-        {
-
-            List<Entity> result = gameState.GameEntityList;
-
-            return result;
-        }
-
-        private List<Entity> getallHandCards()
-        {            
-            return base.FriendHand;
-        }
-
     }
 
     public sealed class Silverfish
@@ -1139,8 +1124,8 @@ namespace HREngine.Bots
 
             this.updateBehaveString(botbase);
 
-            Entity ownPlayer = rangerbot.FriendHero;
-            Entity enemyPlayer = rangerbot.EnemyHero;
+            Entity ownPlayer = rangerbot.FriendPlayer;
+            Entity enemyPlayer = rangerbot.EnemyPlayer;
             ownPlayerController = ownPlayer.ControllerId;//ownPlayer.GetHero().GetControllerId()
 
             Hrtprozis.Instance.clearAll();
@@ -1175,6 +1160,7 @@ namespace HREngine.Bots
             Handmanager.Instance.setHandcards(this.handCards, this.anzcards, this.enemyAnzCards, this.choiceCards);
 
             Hrtprozis.Instance.updateFatigueStats(this.ownDecksize, this.ownHeroFatigue, this.enemyDecksize, this.enemyHeroFatigue);
+            Hrtprozis.Instance.updateJadeGolemsInfo(ownPlayer.GetTagValue((int)GAME_TAG.JADE_GOLEM), enemyPlayer.GetTagValue((int)GAME_TAG.JADE_GOLEM));
 
             Probabilitymaker.Instance.getEnemySecretGuesses(this.enemySecretList, Hrtprozis.Instance.heroNametoEnum(this.enemyHeroname));
 
@@ -1328,33 +1314,11 @@ namespace HREngine.Bots
             {
                 allEntitys.Add(item.EntityId, item);
             }
-
-            Entity ownPlayer = rangerbot.FriendHero;
-            Entity enemyPlayer = rangerbot.EnemyHero;
-
+            
             Entity ownhero = rangerbot.FriendHero;
             Entity enemyhero = rangerbot.EnemyHero;
             Entity ownHeroAbility = rangerbot.FriendHeroPower;
-
-
-            //TEST
-            List<Entity> heroplayers = new List<Entity>();
-            //heroplayers.Add(ownPlayer);
-            //heroplayers.Add(enemyPlayer);
-            heroplayers.Add(ownhero);
-            heroplayers.Add(enemyhero);
-            /*
-            Helpfunctions.Instance.ErrorLog("# players/heros");
-            foreach (var item in heroplayers)
-            {
-                Helpfunctions.Instance.ErrorLog(item.CardId + " e " + item.EntityId + " a " + item.Attached + " controler " + item.ControllerId + " creator " + item.CreatorId + " zone " + item.Zone + " zp " + item.ZonePosition);
-                List<Entity> ents = item.Attachments;
-                foreach (var item1 in ents)
-                {
-                    Helpfunctions.Instance.ErrorLog("#" + item1.CardId + " e " + item1.EntityId + " a " + item1.Attached + " controler " + item1.ControllerId + " creator " + item1.CreatorId + " zone " + item1.Zone);
-                }
-            }*/
-            //TEST end
+            
 
             //player stuff#########################
             //this.currentMana =ownPlayer.GetTag(HRGameTag.RESOURCES) - ownPlayer.GetTag(HRGameTag.RESOURCES_USED) + ownPlayer.GetTag(HRGameTag.TEMP_RESOURCES);
@@ -1937,8 +1901,11 @@ namespace HREngine.Bots
         {
             Dictionary<int, Entity> allEntitys = new Dictionary<int, Entity>();
 
+            // add json.net nuget package to use this debug code
+            //string path = SilverFishBotPath.AssemblyDirectory + System.IO.Path.DirectorySeparatorChar + "HRERRORLogs" + System.IO.Path.DirectorySeparatorChar;
+            //System.IO.Directory.CreateDirectory(path);
             //string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(rangerbot.gameState.GameEntityList, Newtonsoft.Json.Formatting.Indented);
-            //System.IO.File.WriteAllText(Settings.Instance.path + "boarddump.txt", jsonData);
+            //System.IO.File.WriteAllText(path + "HRErrorLog" + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss") + ".txt", jsonData);
 
             foreach (Entity item in rangerbot.gameState.GameEntityList)
             {
@@ -1955,43 +1922,38 @@ namespace HREngine.Bots
             {
                 if (ent.Zone == HSRangerLib.TAG_ZONE.SECRET && ent.ControllerId == enemycontroler) continue; // cant know enemy secrets :D
                 if (ent.Zone == HSRangerLib.TAG_ZONE.DECK) continue;
-                if (ent.CardType == HSRangerLib.TAG_CARDTYPE.MINION || ent.CardType == HSRangerLib.TAG_CARDTYPE.WEAPON || ent.CardType == HSRangerLib.TAG_CARDTYPE.SPELL)
+                CardDB.cardIDEnum cardid = CardDB.Instance.cardIdstringToEnum(ent.CardId);
+
+                //string owner = "own";
+                //if (ent.GetControllerId() == enemycontroler) owner = "enemy";
+                //if (ent.GetControllerId() == enemycontroler && ent.GetZone() == HRCardZone.HAND) Helpfunctions.Instance.logg("enemy card in hand: " + "cardindeck: " + cardid + " " + ent.GetName());
+                //if (cardid != CardDB.cardIDEnum.None) Helpfunctions.Instance.logg("cardindeck: " + cardid + " " + ent.GetName() + " " + ent.GetZone() + " " + owner + " " + ent.GetCardType());
+                if (cardid != CardDB.cardIDEnum.None)
                 {
+                    if (ent.Zone == HSRangerLib.TAG_ZONE.GRAVEYARD)
+                    {
+                        GraveYardItem gyi = new GraveYardItem(cardid, ent.EntityId, ent.ControllerId == owncontroler);
+                        graveYard.Add(gyi);
+                    }
 
-                    CardDB.cardIDEnum cardid = CardDB.Instance.cardIdstringToEnum(ent.CardId);
+                    int creator = ent.CreatorId;
+                    if (creator != 0 && creator != owncontroler && creator != enemycontroler) continue; //if creator is someone else, it was not played
 
-                    //string owner = "own";
-                    //if (ent.GetControllerId() == enemycontroler) owner = "enemy";
-                    //if (ent.GetControllerId() == enemycontroler && ent.GetZone() == HRCardZone.HAND) Helpfunctions.Instance.logg("enemy card in hand: " + "cardindeck: " + cardid + " " + ent.GetName());
-                    //if (cardid != CardDB.cardIDEnum.None) Helpfunctions.Instance.logg("cardindeck: " + cardid + " " + ent.GetName() + " " + ent.GetZone() + " " + owner + " " + ent.GetCardType());
-                    if (cardid != CardDB.cardIDEnum.None)
+                    if (ent.ControllerId == owncontroler) //or controler?
                     {
                         if (ent.Zone == HSRangerLib.TAG_ZONE.GRAVEYARD)
                         {
-                            GraveYardItem gyi = new GraveYardItem(cardid, ent.EntityId, ent.ControllerId == owncontroler);
-                            graveYard.Add(gyi);
+                            ownCards.Add(cardid);
                         }
-
-                        int creator = ent.CreatorId;
-                        if (creator != 0 && creator != owncontroler && creator != enemycontroler) continue; //if creator is someone else, it was not played
-
-                        if (ent.ControllerId == owncontroler) //or controler?
+                    }
+                    else
+                    {
+                        if (ent.Zone == HSRangerLib.TAG_ZONE.GRAVEYARD)
                         {
-                            if (ent.Zone == HSRangerLib.TAG_ZONE.GRAVEYARD)
-                            {
-                                ownCards.Add(cardid);
-                            }
-                        }
-                        else
-                        {
-                            if (ent.Zone == HSRangerLib.TAG_ZONE.GRAVEYARD)
-                            {
-                                enemyCards.Add(cardid);
-                            }
+                            enemyCards.Add(cardid);
                         }
                     }
                 }
-
             }
 
             Probabilitymaker.Instance.setOwnCards(ownCards);
