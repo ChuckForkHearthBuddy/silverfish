@@ -19,7 +19,7 @@ namespace HREngine.Bots
                     if (m.entityID == own.entityID) continue;
                     pos = (own.own) ? p.ownMinions.Count : p.enemyMinions.Count;
                     if (pos > 6) break;
-                    p.callKid(m.handcard.card, pos, own.own);
+                    p.callKid(m.handcard.card, pos, own.own, true);
                     temp = (own.own) ? p.ownMinions : p.enemyMinions;
                     temp[pos].Hp = 1;
                     temp[pos].Angr = 1;
