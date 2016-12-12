@@ -1,0 +1,135 @@
+// This File: _mulligan.txt
+// Author: scottbreak
+// Version: 0.2 (11-Dec-16)
+// Deck Name: Jade Aggro Shaman
+// Hero: Shaman
+// Deck Type: Aggro
+
+// - D E C K ------------------------------------
+// [1] Lightning Bolt x2 (EX1_238)
+// [1] Patches the Pirate x1 (CFM_637)
+// [1] Sir Finley Mrrgglton x1 (LOE_076)
+// [1] Small-Time Buccaneer x2 (CFM_325)
+// [1] Southsea Deckhand x2 (CS2_146)
+// [1] Spirit Claws x2 (KAR_063)
+// [1] Tunnel Trogg x2 (LOE_018)
+// [2] Bloodmage Thalnos x1 (EX1_012)
+// [2] Flametongue Totem x2 (EX1_565)
+// [2] Jade Claws x2 (CFM_717)
+// [2] Maelstrom Portal x2 (KAR_073)
+// [2] Totem Golem x2 (AT_052)
+// [3] Feral Spirit x2 (EX1_248)
+// [3] Lava Burst x2 (EX1_241)
+// [4] Flamewreathed Faceless x2 (OG_024)
+// [4] Jade Lightning x2 (CFM_707)
+// [5] Aya Blackpaw x1 (CFM_902)
+
+// - B U D G E T --------------------------------
+// [1] Argent Squire (EX1_008)
+// [2] Kobold Geomancer (CS2_142)
+// [3] Lightning Storm (EX1_259)
+// [5] Azure Drake (EX1_284)
+
+
+// - A L L --------------------------------------
+// Tunnel Trog
+hold;shaman;all;LOE_018
+// 1x Argent Squire
+hold;shaman;all;EX1_008
+// 1x Totem Golem
+hold;shaman;all;AT_052:1
+// 2x Totem Golem + Tunnel Trog + coin
+hold;shaman;all;AT_052:2:LOE_018;coin
+// 1x Flametongue Totem + 2x Tunnel Trogg + coin
+hold;shaman;all;EX1_565:1:LOE_018,2,2;coin
+// 1x Flametongue Totem + 2x Small-Time Buccaneer + coin
+hold;shaman;all;EX1_565:1:CFM_325,2,2;coin
+// 1x Feral Spirit + Tunnel Trog + coin
+hold;shaman;all;EX1_248:1:LOE_018;coin
+// Discard Feral spirit when you have Totem Golem and no coin
+discard;shaman;all;EX1_248:2:AT_052;nocoin
+
+
+// - D R U I D ----------------------------------
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// 1x Feral Spirit
+hold;shaman;all;EX1_248:1
+// 1x Flamewreathed Faceless
+hold;shaman;all;OG_024:1
+
+
+// - H U N T E R --------------------------------
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// 1x Spirit Claws
+hold;shaman;all;KAR_063:1
+// 1x Bloodmage Thalnos + Spirit Claws
+hold;shaman;all;EX1_012:1:KAR_063
+
+
+// - M A G E ------------------------------------
+// 1x Lightning Bolt + Tunnel Trog
+hold;shaman;mage;EX1_238:1:LOE_018
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+
+
+// - P A L A D I N ------------------------------
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// 1x Spirit Claws
+hold;shaman;all;KAR_063:1
+// 1x Bloodmage Thalnos + Spirit Claws
+hold;shaman;all;EX1_012:1:KAR_063
+// 1x Feral Spirit
+hold;shaman;pala;EX1_248:1
+
+
+// - P R I E S T --------------------------------
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// 1x Flamewreathed Faceless
+hold;shaman;all;OG_024:1
+
+
+// - R O G U E ----------------------------------
+// Sir Finley Mrrgglton
+hold;shaman;all;LOE_076
+// 1x Feral Spirit
+hold;shaman;thief;EX1_248:1
+
+
+// - S H A M A N --------------------------------
+// 1x Lightning Bolt + Tunnel Trog
+hold;shaman;shaman;EX1_238:1:LOE_018
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// 1x Spirit Claws
+hold;shaman;all;KAR_063:1
+// 1x Bloodmage Thalnos + Spirit Claws
+hold;shaman;all;EX1_012:1:KAR_063
+// 1x Lightning storm
+hold;shaman;warlock;EX1_259:1
+
+// - W A R L O C K ------------------------------
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// 1x Feral Spirit
+hold;shaman;warlock;EX1_248:1
+// 1x Flamewreathed Faceless
+hold;shaman;all;OG_024:1
+// 1x Lightning storm
+hold;shaman;warlock;EX1_259:1
+
+// - W A R R I O R ------------------------------
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+// Sir Finley Mrrgglton
+hold;shaman;all;LOE_076
+// 1x Spirit Claws
+hold;shaman;all;KAR_063:1
+// 1x Bloodmage Thalnos + Spirit Claws
+hold;shaman;all;EX1_012:1:KAR_063
+// 1x Maelstrom Portal
+hold;shaman;all;KAR_073:1
