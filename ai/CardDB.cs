@@ -5366,7 +5366,7 @@ namespace HREngine.Bots
                 if (this.Secret && ((own && (p.ownSecretsIDList.Contains(this.cardIDenum) || p.ownSecretsIDList.Count >= 5)) || (!own && p.enemySecretCount >= 5))) return retval;
                 //if (p.mana < this.getManaCost(p, 1)) return retval;
 
-                if (this.playrequires.Count == 0) { retval.Add(null); return retval; }
+                if (this.playrequires.Count == 0) { /*retval.Add(null);*/ return retval; }
 
                 List<Minion> targets = new List<Minion>();
                 bool targetAll = false;
@@ -5717,7 +5717,7 @@ namespace HREngine.Bots
                     }
                 }
 
-                if (retval.Count == 0 && (!wereTargets || REQ_TARGET_IF_AVAILABLE)) retval.Add(null);
+                //if (retval.Count == 0 && (!wereTargets || REQ_TARGET_IF_AVAILABLE)) retval.Add(null);
 
                 return retval;
             }
