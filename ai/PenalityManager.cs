@@ -1206,7 +1206,7 @@ namespace HREngine.Bots
             bool hasFlamewaker = false;
             bool hasMech = false;
             bool hasCouncilman = false;
-
+            bool hasThunderbluffV = false;
 
 
             foreach (Minion mnn in p.ownMinions)
@@ -1215,31 +1215,12 @@ namespace HREngine.Bots
 
                 if (mnn.silenced) continue;
 
-
-                if (mnn.name == CardDB.cardName.gadgetzanauctioneer)
-                {
-                    hasAuctioneer = true;
-                }
-
-                if (mnn.name == CardDB.cardName.starvingbuzzard)
-                {
-                    hasBuzzard = true;
-                }
-
-                if (mnn.name == CardDB.cardName.knifejuggler)
-                {
-                    hasJuggler = true;
-                }
-
-                if (mnn.name == CardDB.cardName.flamewaker)
-                {
-                    hasFlamewaker = true;
-                }
-
-                if (mnn.name == CardDB.cardName.darkshirecouncilman) //not actually random but needs to be played early as if it were
-                {
-                    hasCouncilman = true;
-                }
+                if (mnn.name == CardDB.cardName.gadgetzanauctioneer) hasAuctioneer = true;
+                if (mnn.name == CardDB.cardName.starvingbuzzard) hasBuzzard = true;
+                if (mnn.name == CardDB.cardName.knifejuggler) hasJuggler = true;
+                if (mnn.name == CardDB.cardName.flamewaker) hasFlamewaker = true;
+                if (mnn.name == CardDB.cardName.darkshirecouncilman) hasCouncilman = true; //not actually random but needs to be played early as if it were
+                if (mnn.name == CardDB.cardName.thunderbluffvaliant) hasThunderbluffV = true; //not actually random but totemic call/slam are
             }
 
             foreach (Action a in p.playactions) // penalty for "killing" combos (like had knifejuggler, traded him in last enemy-minion and then played a minion)
@@ -1306,6 +1287,7 @@ namespace HREngine.Bots
                 && !(hasCouncilman && (card.type == CardDB.cardtype.MOB || this.summonMinionSpellsDatabase.ContainsKey(card.name)))
                 && !(hasAuctioneer && card.type == CardDB.cardtype.SPELL)
                 && !(hasFlamewaker && card.type == CardDB.cardtype.SPELL && p.enemyMinions.Count > 0)
+                && !(hasThunderbluffV && (TAG_RACE)card.race == TAG_RACE.TOTEM)
                 && !(hasBuzzard && (TAG_RACE)card.race == TAG_RACE.PET))
              {
                  return pen;
@@ -1356,14 +1338,12 @@ namespace HREngine.Bots
                  return pen;
              }
 
-            int cards = 0;
-            cards = this.randomEffects.ContainsKey(card.name) ? this.randomEffects[card.name] : (this.cardDrawBattleCryDatabase.ContainsKey(card.name) ? this.cardDrawBattleCryDatabase[card.name] : 0);
-
+            int cards = this.randomEffects.ContainsKey(card.name) ? this.randomEffects[card.name] : (this.cardDrawBattleCryDatabase.ContainsKey(card.name) ? this.cardDrawBattleCryDatabase[card.name] : 0);
             int mobsAfterKnife = 0;
             int mobsAfterCouncilman = 0;
+
             foreach (Action a in p.playactions) // penalize for any non-random actions taken before playing this random one
             {
-                if (first == false) break;
                 if (a.actionType == actionEnum.attackWithHero)
                 {
                     first = false;
@@ -1386,28 +1366,12 @@ namespace HREngine.Bots
 
                 if (a.actionType == actionEnum.playcard)
                 {
-
-
-                    if (this.cardDrawBattleCryDatabase.ContainsKey(a.card.card.name))
-                    {
-                        continue;
-                    }
-
-                    if (this.lethalHelpers.ContainsKey(a.card.card.name))
-                    {
-                        continue;
-                    }
-
-                    if (this.randomEffects.ContainsKey(a.card.card.name))
-                    {
-                        continue;
-                    }
-
-                    //no penalty for using coin first
-                    if (a.card.card.name == CardDB.cardName.thecoin)
-                    {
-                        continue;
-                    }
+                    if (this.cardDrawBattleCryDatabase.ContainsKey(a.card.card.name)) continue;
+                    if (this.lethalHelpers.ContainsKey(a.card.card.name)) continue;
+                    if (this.randomEffects.ContainsKey(a.card.card.name)) continue;
+                    if (a.card.card.name == CardDB.cardName.thecoin) continue; //no penalty for using coin first
+                    if (hasBuzzard && a.card.card.race == TAG_RACE.PET) continue;
+                    if (hasThunderbluffV && a.card.card.race == TAG_RACE.TOTEM) continue;
 
                     // no penalty for spells or other cards that obtain bonuses from playing spells
                     if ((hasAuctioneer || hasFlamewaker) && (a.card.card.type == CardDB.cardtype.SPELL
@@ -1415,15 +1379,10 @@ namespace HREngine.Bots
                         || a.card.card.name == CardDB.cardName.manawyrm || a.card.card.name == CardDB.cardName.manaaddict
                         || a.card.card.name == CardDB.cardName.questingadventurer || a.card.card.name == CardDB.cardName.wildpyromancer
                         || a.card.card.name == CardDB.cardName.violetteacher || a.card.card.name == CardDB.cardName.archmageantonidas))
-                     {
-                         continue;
-                     }
-
-                    if (hasBuzzard && a.card.card.race == TAG_RACE.PET)
                     {
                         continue;
                     }
-                    
+
                     //todo sepefeets - does this even do anything?
                     if (hasJuggler && (card.type == CardDB.cardtype.MOB || this.summonMinionSpellsDatabase.ContainsKey(card.name))) //and others
                      {
@@ -1450,14 +1409,13 @@ namespace HREngine.Bots
                             continue;
                         }
                     }
-
-                    first = false;
                 }
+                cards+=2;
             }
 
             if (first == false)
             {
-                pen += cards + p.playactions.Count + 5;
+                pen += cards;
             }
 
             return pen;
@@ -1730,10 +1688,12 @@ namespace HREngine.Bots
             {
                 pen += p.playactions.Count;
             }
-
-            //to counteract randomness penalty for playing hero power 2nd after inspire minion (maybe move to getRandomPenalty)
+            /*
+            //to counteract randomness penalty for playing hero power 2nd after inspire minion (maybe move to getRandomPenalty) - moved
             if ((name == CardDB.cardName.totemiccall || name == CardDB.cardName.totemicslam || name == CardDB.cardName.lifetap || name == CardDB.cardName.soultap)
                 && p.playactions.Find(a => a.actionType == actionEnum.playcard && this.strongInspireEffectMinions.ContainsKey(a.card.card.name)) != null) pen += -7;
+            */
+
 
             return pen;
         }
@@ -1757,6 +1717,12 @@ namespace HREngine.Bots
             {
                 // penalize playing minions after mukla's +1/+1 buff
                 retval += 5;
+            }
+
+            if (p.ownMinions.Find(m => m.name == CardDB.cardName.thunderbluffvaliant && !m.silenced) != null && p.playactions.Find(a => a.actionType == actionEnum.useHeroPower) != null && card.card.race == TAG_RACE.TOTEM)
+            {
+                // penalize playing totems after tbluff +2 ap buff
+                retval += 20;
             }
 
             int buffs = 0;
