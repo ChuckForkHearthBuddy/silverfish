@@ -7551,9 +7551,8 @@ namespace HREngine.Bots
             }
         }
 
-        public void printBoard(int boardnumber = -1)
+        public void printBoard(bool justactions = false, int boardnumber = -1)
         {
-            float copy = value;
             if (boardnumber >= 0)
             {
                 Helpfunctions.Instance.logg("index: "+boardnumber + " board: " + value + " ++++++++++++++++++++++");
@@ -7562,38 +7561,44 @@ namespace HREngine.Bots
             {
                 Helpfunctions.Instance.logg("board: " + value + " ++++++++++++++++++++++");
             }
-            Helpfunctions.Instance.logg("pen " + this.evaluatePenality);
-            if (this.selectedChoice >= 1) Helpfunctions.Instance.logg("tracking " + this.selectedChoice);
-            Helpfunctions.Instance.logg("mana " + this.mana + "/" + this.ownMaxMana + " turnEndMana " + this.manaTurnEnd);
-            Helpfunctions.Instance.logg("cardsplayed: " + this.cardsPlayedThisTurn + " handsize: " + this.owncards.Count + " eh " + this.enemyAnzCards + " " + this.enemycarddraw);
 
-            Helpfunctions.Instance.logg("ownhero: ");
-            Helpfunctions.Instance.logg("ownherohp: " + this.ownHero.Hp + " + " + this.ownHero.armor);
-            Helpfunctions.Instance.logg("ownheroattack: " + this.ownHero.Angr);
-            Helpfunctions.Instance.logg("ownheroweapon: " + this.ownWeaponAttack + " " + this.ownWeaponDurability + " " + this.ownWeaponName);
-            Helpfunctions.Instance.logg("ownherostatus: frozen" + this.ownHero.frozen + " ");
-            Helpfunctions.Instance.logg("enemyherohp: " + this.enemyHero.Hp + " + " + this.enemyHero.armor + ((this.enemyHero.immune) ? " immune" : ""));
-
-            if (this.enemySecretCount >= 1) Helpfunctions.Instance.logg("enemySecrets: " + this.enemySecretCount + " " + Probabilitymaker.Instance.getEnemySecretData(this.enemySecretList));
-            /*foreach (Action a in this.playactions)
+            if (justactions)
             {
-                a.print();
-            }*/
-            Helpfunctions.Instance.logg("OWN MINIONS################");
-
-            foreach (Minion m in this.ownMinions)
-            {
-                String attrib = this.getMinionString(m);
-                Helpfunctions.Instance.logg(attrib);
+                foreach (Action a in this.playactions)
+                {
+                    a.print();
+                }
             }
-
-            Helpfunctions.Instance.logg("ENEMY MINIONS############");
-            foreach (Minion m in this.enemyMinions)
+            else
             {
-                String attrib = this.getMinionString(m);
-                Helpfunctions.Instance.logg(attrib);
-            }
+                Helpfunctions.Instance.logg("pen " + this.evaluatePenality);
+                if (this.selectedChoice >= 1) Helpfunctions.Instance.logg("tracking " + this.selectedChoice);
+                Helpfunctions.Instance.logg("mana " + this.mana + "/" + this.ownMaxMana + " turnEndMana " + this.manaTurnEnd);
+                Helpfunctions.Instance.logg("cardsplayed: " + this.cardsPlayedThisTurn + " handsize: " + this.owncards.Count + " eh " + this.enemyAnzCards + " " + this.enemycarddraw);
 
+                Helpfunctions.Instance.logg("ownhero: ");
+                Helpfunctions.Instance.logg("ownherohp: " + this.ownHero.Hp + " + " + this.ownHero.armor);
+                Helpfunctions.Instance.logg("ownheroattack: " + this.ownHero.Angr);
+                Helpfunctions.Instance.logg("ownheroweapon: " + this.ownWeaponAttack + " " + this.ownWeaponDurability + " " + this.ownWeaponName);
+                Helpfunctions.Instance.logg("ownherostatus: frozen" + this.ownHero.frozen + " ");
+                Helpfunctions.Instance.logg("enemyherohp: " + this.enemyHero.Hp + " + " + this.enemyHero.armor + ((this.enemyHero.immune) ? " immune" : ""));
+
+                if (this.enemySecretCount >= 1) Helpfunctions.Instance.logg("enemySecrets: " + this.enemySecretCount + " " + Probabilitymaker.Instance.getEnemySecretData(this.enemySecretList));
+                Helpfunctions.Instance.logg("OWN MINIONS################");
+
+                foreach (Minion m in this.ownMinions)
+                {
+                    String attrib = this.getMinionString(m);
+                    Helpfunctions.Instance.logg(attrib);
+                }
+
+                Helpfunctions.Instance.logg("ENEMY MINIONS############");
+                foreach (Minion m in this.enemyMinions)
+                {
+                    String attrib = this.getMinionString(m);
+                    Helpfunctions.Instance.logg(attrib);
+                }
+            }
 
             Helpfunctions.Instance.logg("");
         }

@@ -571,7 +571,7 @@
             int i = 0;
             foreach (Playfield p in this.posmoves)
             {
-                p.printBoard(i);
+                p.printBoard(true, i);
                 i++;
                 if (i >= 200) break;
             }
