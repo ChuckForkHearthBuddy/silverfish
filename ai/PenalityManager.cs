@@ -1539,7 +1539,7 @@ namespace HREngine.Bots
                 // dont destroy owns ;_; (except mins with deathrattle effects)
 
                 Minion m = target;
-                if (m.handcard.card.deathrattle) return 20;
+                if (m.handcard.card.deathrattle) return 30;
                 if (lethal && name == CardDB.cardName.sacrificialpact)
                 {
                     int demons = 0;
@@ -1566,15 +1566,7 @@ namespace HREngine.Bots
             if (target == null) return 0;
             if (name == CardDB.cardName.shatter && !target.frozen) return 500; //todo sepefeets - remove after CardDB.getTargetsForCard() updated/merged?
 
-            if (target.own && !target.isHero)
-            {
-                // dont destroy owns ;_; (except mins with deathrattle effects)
-                Minion m = target;
-                if (!m.handcard.card.deathrattle)
-                {
-                    pen = 500;
-                }
-            }
+            //if (target.own && !target.isHero){} //handled in getDestroyOwnPenality()
 
             if (!target.own && !target.isHero)
             {
