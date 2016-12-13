@@ -1,4 +1,3 @@
-
 // This File: _discovery.txt
 // Author: scottbreak
 // Version: 0.2 (10-Dec-16)

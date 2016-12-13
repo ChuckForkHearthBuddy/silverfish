@@ -1,6 +1,6 @@
 // This File: _combo.txt
 // Author: scottbreak
-// Version: 0.6 (12-Dec-16)
+// Version: 0.7 (13-Dec-16)
 // Deck Name: Pirate Warrior
 // Hero: Warrior
 // Deck Type: Aggro
@@ -23,10 +23,10 @@ GAME_005,0;OG_312,0;CS2_146,0;mana:1;bonus:50;hero:warrior
 // [Nudge] The Coin (GAME_005) + N'Zoth's First Mate (OG_312) + Sir Finley Mrrgglton (LOE_076)
 GAME_005,0;OG_312,0;LOE_076,0;mana:1;bonus:40;hero:warrior
 
-// [Nudge] Firey War Axe (CS2_106) + Bloodsail Raider (NEW1_018)
+// [Nudge] Fiery War Axe (CS2_106) + Bloodsail Raider (NEW1_018)
 CS2_106,0;NEW1_018,5;bonus:30;hero:warrior
 
-// [Nudge] Firey War Axe (CS2_106) > Bloodsail Raider (NEW1_018)
+// [Nudge] Fiery War Axe (CS2_106) > Bloodsail Raider (NEW1_018)
 CS2_106,0;nxttrn;NEW1_018,0;mana:2;bonusfirst:10;bonussecond:10;hero:warrior
 
 // [Nudge] Death's Bite (FP1_021) + Bloodsail Raider (NEW1_018)
@@ -41,11 +41,23 @@ CS2_112,0;NEW1_018,5;bonus:30;hero:warrior
 // [Nudge] Arcanite Reaper (CS2_112) > Bloodsail Raider (NEW1_018)
 CS2_112,0;nxttrn;NEW1_018,0;mana:2;bonusfirst:10;bonussecond:10;hero:warrior
 
-// [Nudge] Firey War Axe (CS2_106) + Upgrade! (EX1_409)
-CS2_106,0;EX1_409,10;bonus:30;hero:warrior
+// [Nudge] Fiery War Axe (CS2_106) + Upgrade! (EX1_409)
+CS2_106,0;EX1_409,10;bonus:100;hero:warrior
+
+// [Nudge] Fiery War Axe (CS2_106) > Upgrade! (EX1_409)
+CS2_106,0;nxttrn;EX1_409,0;mana:2;bonusfirst:0;bonussecond:50;hero:warrior
 
 // [Nudge] Death's Bite (FP1_021) + Upgrade! (EX1_409)
-FP1_021,0;EX1_409,10;bonus:30;hero:warrior
+FP1_021,0;EX1_409,10;bonus:100;hero:warrior
+
+// [Nudge] Death's Bite (FP1_021) > Upgrade! (EX1_409)
+FP1_021,0;nxttrn;EX1_409,0;mana:2;bonusfirst:0;bonussecond:50;hero:warrior
 
 // [Nudge] Arcanite Reaper (CS2_112) + Upgrade! (EX1_409)
-CS2_112,0;EX1_409,10;bonus:30;hero:warrior
+CS2_112,0;EX1_409,10;bonus:100;hero:warrior
+
+// [Nudge] Arcanite Reaper (CS2_112) > Upgrade! (EX1_409)
+CS2_112,0;nxttrn;EX1_409,0;mana:2;bonusfirst:0;bonussecond:50;hero:warrior
+
+// Cardvalue Upgrade! (EX1_409)
+cardvalue:EX1_409,10
