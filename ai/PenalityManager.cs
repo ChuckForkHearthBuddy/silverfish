@@ -45,8 +45,6 @@ namespace HREngine.Bots
 
         Dictionary<CardDB.cardName, int> silenceTargets = new Dictionary<CardDB.cardName, int>();
 
-        Dictionary<CardDB.cardName, int> returnHandDatabase = new Dictionary<CardDB.cardName, int>(); //not used
-
         public Dictionary<CardDB.cardName, int> priorityDatabase = new Dictionary<CardDB.cardName, int>(); //minions we want to keep around
 
         public Dictionary<CardDB.cardName, int> DamageTargetDatabase = new Dictionary<CardDB.cardName, int>();
@@ -1541,7 +1539,7 @@ namespace HREngine.Bots
                 // dont destroy owns ;_; (except mins with deathrattle effects)
 
                 Minion m = target;
-                if (m.handcard.card.deathrattle) return 10;
+                if (m.handcard.card.deathrattle) return 20;
                 if (lethal && name == CardDB.cardName.sacrificialpact)
                 {
                     int demons = 0;
@@ -2996,6 +2994,10 @@ namespace HREngine.Bots
             HealTargetDatabase.Add(CardDB.cardName.darkshirealchemist, 5);
             HealTargetDatabase.Add(CardDB.cardName.forbiddenhealing, 2);//heal = 2x mana spent
             HealTargetDatabase.Add(CardDB.cardName.moongladeportal, 5);
+            HealTargetDatabase.Add(CardDB.cardName.greaterhealingpotion, 12); //to friendly char
+            HealTargetDatabase.Add(CardDB.cardName.jinyuwaterspeaker, 6);
+            HealTargetDatabase.Add(CardDB.cardName.gadgetzansocialite, 2);
+            HealTargetDatabase.Add(CardDB.cardName.hozenhealer, 30); //minion to full hp
 
             //HealTargetDatabase.Add(CardDB.cardName.divinespirit, 2);
         }
@@ -3023,6 +3025,12 @@ namespace HREngine.Bots
             DamageAllDatabase.Add(CardDB.cardName.anomalus, 8);
             DamageAllDatabase.Add(CardDB.cardName.ravagingghoul, 1);
             DamageAllDatabase.Add(CardDB.cardName.tentacleofnzoth, 1);
+            DamageAllDatabase.Add(CardDB.cardName.volcanicpotion, 2);
+            DamageAllDatabase.Add(CardDB.cardName.dragonfirepotion, 5);
+            DamageAllDatabase.Add(CardDB.cardName.felfirepotion, 5);
+            DamageAllDatabase.Add(CardDB.cardName.abyssalenforcer, 3);
+            DamageAllDatabase.Add(CardDB.cardName.sleepwiththefishes, 3);
+
 
             DamageAllEnemysDatabase.Add(CardDB.cardName.arcaneexplosion, 1);
             DamageAllEnemysDatabase.Add(CardDB.cardName.bladeflurry, 1);
@@ -3044,6 +3052,8 @@ namespace HREngine.Bots
             DamageAllEnemysDatabase.Add(CardDB.cardName.cthun, 1);
             DamageAllEnemysDatabase.Add(CardDB.cardName.twilightflamecaller, 1);
             DamageAllEnemysDatabase.Add(CardDB.cardName.maelstromportal, 1);
+            DamageAllEnemysDatabase.Add(CardDB.cardName.sergeantsally, 1);// dmg = ap
+
 
             DamageHeroDatabase.Add(CardDB.cardName.curseofrafaam, 2);
             DamageHeroDatabase.Add(CardDB.cardName.headcrack, 2);
@@ -3055,7 +3065,9 @@ namespace HREngine.Bots
             DamageHeroDatabase.Add(CardDB.cardName.sinisterstrike, 3);
             DamageHeroDatabase.Add(CardDB.cardName.frostblast, 3);
             DamageHeroDatabase.Add(CardDB.cardName.necroticaura, 3);
-            
+            DamageHeroDatabase.Add(CardDB.cardName.backstreetleper, 2);
+
+
             DamageRandomDatabase.Add(CardDB.cardName.arcanemissiles, 1);
             DamageRandomDatabase.Add(CardDB.cardName.avengingwrath, 1);
             DamageRandomDatabase.Add(CardDB.cardName.bomblobber, 4);
@@ -3083,7 +3095,9 @@ namespace HREngine.Bots
             DamageRandomDatabase.Add(CardDB.cardName.throwrocks, 3);
             DamageRandomDatabase.Add(CardDB.cardName.fierybat, 1);
             DamageRandomDatabase.Add(CardDB.cardName.spreadingmadness, 1);
-            
+            DamageRandomDatabase.Add(CardDB.cardName.greaterarcanemissiles, 9);
+
+
             DamageTargetDatabase.Add(CardDB.cardName.keeperofthegrove, 2); // or silence
             DamageTargetDatabase.Add(CardDB.cardName.arcaneblast, 2);
             DamageTargetDatabase.Add(CardDB.cardName.arcaneshot, 2);
@@ -3156,6 +3170,11 @@ namespace HREngine.Bots
             DamageTargetDatabase.Add(CardDB.cardName.shadowstrike, 5);
             DamageTargetDatabase.Add(CardDB.cardName.stormcrack, 4);
             DamageTargetDatabase.Add(CardDB.cardName.firelandsportal, 5);
+            DamageTargetDatabase.Add(CardDB.cardName.dispatchkodo, 2); //dmg = ap
+            DamageTargetDatabase.Add(CardDB.cardName.jadeshuriken, 2);
+            DamageTargetDatabase.Add(CardDB.cardName.jadelightning, 4);
+            DamageTargetDatabase.Add(CardDB.cardName.blowgillsniper, 1);
+            DamageTargetDatabase.Add(CardDB.cardName.bombsquad, 5);
 
 
             DamageTargetSpecialDatabase.Add(CardDB.cardName.bash, 3); //+3 armor
@@ -3183,12 +3202,16 @@ namespace HREngine.Bots
         {
             silenceDatabase.Add(CardDB.cardName.dispel, 1);
             silenceDatabase.Add(CardDB.cardName.earthshock, 1);
-            silenceDatabase.Add(CardDB.cardName.massdispel, 1);
+            silenceDatabase.Add(CardDB.cardName.massdispel, 1); //enemy minions
             silenceDatabase.Add(CardDB.cardName.silence, 1);
             silenceDatabase.Add(CardDB.cardName.keeperofthegrove, 1);
             silenceDatabase.Add(CardDB.cardName.ironbeakowl, 1);
             silenceDatabase.Add(CardDB.cardName.spellbreaker, 1);
-            silenceDatabase.Add(CardDB.cardName.lightschampion, 1);
+            silenceDatabase.Add(CardDB.cardName.lightschampion, 1); //a demon
+            silenceDatabase.Add(CardDB.cardName.purify, 1); //a friendly minion
+            silenceDatabase.Add(CardDB.cardName.kabalsongstealer, 1);
+            silenceDatabase.Add(CardDB.cardName.defiascleaner, 1); //a deathrattle minion
+            silenceDatabase.Add(CardDB.cardName.wailingsoul, 1); //your minions
         }
 
         private void setupPriorityList()
@@ -3291,6 +3314,17 @@ namespace HREngine.Bots
             priorityDatabase.Add(CardDB.cardName.wickedwitchdoctor, 3);
             priorityDatabase.Add(CardDB.cardName.wilfredfizzlebang, 5);
             priorityDatabase.Add(CardDB.cardName.ysera, 10);
+            
+            priorityDatabase.Add(CardDB.cardName.grimestreetenforcer, 10);
+            priorityDatabase.Add(CardDB.cardName.shakuthecollector, 5);
+            priorityDatabase.Add(CardDB.cardName.kabaltrafficker, 5);
+            priorityDatabase.Add(CardDB.cardName.grimygadgeteer, 5);
+            priorityDatabase.Add(CardDB.cardName.friendlybartender, 1);
+            priorityDatabase.Add(CardDB.cardName.auctionmasterbeardo, 5);
+            priorityDatabase.Add(CardDB.cardName.backroombouncer, 5);
+            priorityDatabase.Add(CardDB.cardName.daringreporter, 1);
+            priorityDatabase.Add(CardDB.cardName.burglybully, 3);
+            priorityDatabase.Add(CardDB.cardName.redmanawyrm, 5);
         }
 
         private void setupAttackBuff()
@@ -3311,16 +3345,16 @@ namespace HREngine.Bots
             attackBuffDatabase.Add(CardDB.cardName.coldblood, 2);
             attackBuffDatabase.Add(CardDB.cardName.crueltaskmaster, 2);
             attackBuffDatabase.Add(CardDB.cardName.darkirondwarf, 2);
-            attackBuffDatabase.Add(CardDB.cardName.darkwispers, 5);//choice 2
+            attackBuffDatabase.Add(CardDB.cardName.darkwispers, 5); //choice 2
             attackBuffDatabase.Add(CardDB.cardName.demonfuse, 3);
             attackBuffDatabase.Add(CardDB.cardName.explorershat, 1);
             attackBuffDatabase.Add(CardDB.cardName.innerrage, 2);
             attackBuffDatabase.Add(CardDB.cardName.lancecarrier, 2);
-            attackBuffDatabase.Add(CardDB.cardName.markofnature, 4);//choice1 
+            attackBuffDatabase.Add(CardDB.cardName.markofnature, 4); //choice 1 
             attackBuffDatabase.Add(CardDB.cardName.markofthewild, 2);
             attackBuffDatabase.Add(CardDB.cardName.metaltoothleaper, 2);
             attackBuffDatabase.Add(CardDB.cardName.nightmare, 5); //destroy minion on next turn
-            attackBuffDatabase.Add(CardDB.cardName.rampage, 3);//only damaged minion 
+            attackBuffDatabase.Add(CardDB.cardName.rampage, 3); //only damaged minion 
             attackBuffDatabase.Add(CardDB.cardName.rockbiterweapon, 3);
             attackBuffDatabase.Add(CardDB.cardName.screwjankclunker, 2);
             attackBuffDatabase.Add(CardDB.cardName.sealofchampions, 3);
@@ -3337,6 +3371,12 @@ namespace HREngine.Bots
             attackBuffDatabase.Add(CardDB.cardName.silvermoonportal, 2);
             attackBuffDatabase.Add(CardDB.cardName.zoobot, 1);
             attackBuffDatabase.Add(CardDB.cardName.menageriemagician, 2);
+            attackBuffDatabase.Add(CardDB.cardName.powerofthewild, 1); //choice 1
+            attackBuffDatabase.Add(CardDB.cardName.markofthelotus, 1);
+            attackBuffDatabase.Add(CardDB.cardName.virmensensei, 2); //to a beast
+            attackBuffDatabase.Add(CardDB.cardName.shadowsensei, 2); //to a stealth
+            attackBuffDatabase.Add(CardDB.cardName.bloodfurypotion, 3);
+            attackBuffDatabase.Add(CardDB.cardName.crystalweaver, 1); //to demons
         }
 
         private void setupHealthBuff()
@@ -3370,6 +3410,13 @@ namespace HREngine.Bots
             healthBuffDatabase.Add(CardDB.cardName.silvermoonportal, 2);
             healthBuffDatabase.Add(CardDB.cardName.zoobot, 1);
             healthBuffDatabase.Add(CardDB.cardName.menageriemagician, 2);
+            healthBuffDatabase.Add(CardDB.cardName.powerofthewild, 1); //choice 1
+            healthBuffDatabase.Add(CardDB.cardName.markofthelotus, 1);
+            healthBuffDatabase.Add(CardDB.cardName.virmensensei, 2); //to a beast
+            healthBuffDatabase.Add(CardDB.cardName.shadowsensei, 2); //to a stealth
+            healthBuffDatabase.Add(CardDB.cardName.bloodfurypotion, 3); //if demon
+            healthBuffDatabase.Add(CardDB.cardName.crystalweaver, 1); //to demons
+            healthBuffDatabase.Add(CardDB.cardName.kabaltalonpriest, 3);
 
             tauntBuffDatabase.Add(CardDB.cardName.markofnature, 1);
             tauntBuffDatabase.Add(CardDB.cardName.markofthewild, 1);
@@ -3507,33 +3554,60 @@ namespace HREngine.Bots
             this.destroyOwnDatabase.Add(CardDB.cardName.twistingnether, 0);
             this.destroyOwnDatabase.Add(CardDB.cardName.doom, 0);
             this.destroyOwnDatabase.Add(CardDB.cardName.doomsayer, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.poisonseeds, 0); //replace all minions with 2/2 treants
+            this.destroyOwnDatabase.Add(CardDB.cardName.shadowwordhorror, 0); //all minions with 2 or less ap
+            this.destroyOwnDatabase.Add(CardDB.cardName.shadowflame, 0); //destroy own minion, deal its ap to all enemies
+            this.destroyOwnDatabase.Add(CardDB.cardName.enterthecoliseum, 0);//all but each player's highest ap
 
-            this.destroyOwnDatabase.Add(CardDB.cardName.naturalize, 0);//not own mins
-            this.destroyOwnDatabase.Add(CardDB.cardName.shadowworddeath, 0);//not own mins
-            this.destroyOwnDatabase.Add(CardDB.cardName.shadowwordpain, 0);//not own mins
-            this.destroyOwnDatabase.Add(CardDB.cardName.siphonsoul, 0);//not own mins
-            this.destroyOwnDatabase.Add(CardDB.cardName.biggamehunter, 0);//not own mins
-            this.destroyOwnDatabase.Add(CardDB.cardName.hungrycrab, 0);//not own mins
-            this.destroyOwnDatabase.Add(CardDB.cardName.sacrificialpact, 0);//not own mins
+            this.destroyOwnDatabase.Add(CardDB.cardName.naturalize, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.shadowworddeath, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.shadowwordpain, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.siphonsoul, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.biggamehunter, 0); //a minion ap>=7
+            this.destroyOwnDatabase.Add(CardDB.cardName.hungrycrab, 0); //a murloc
+            this.destroyOwnDatabase.Add(CardDB.cardName.sacrificialpact, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.mulch, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.bladeofcthun, 0); //add stats to c'thun
+            this.destroyOwnDatabase.Add(CardDB.cardName.reincarnate, 0); //and resummon
+            this.destroyOwnDatabase.Add(CardDB.cardName.voidterror, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.blastcrystalpotion, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.crush, 0);
+            this.destroyOwnDatabase.Add(CardDB.cardName.hemetnesingwary, 0); //a beast
+            this.destroyOwnDatabase.Add(CardDB.cardName.moatlurker, 0); //resummon deathrattle
+            this.destroyOwnDatabase.Add(CardDB.cardName.rendblackhand, 0); //a legendary if holding dragon
+            this.destroyOwnDatabase.Add(CardDB.cardName.shatter, 0); //frozen
+            this.destroyOwnDatabase.Add(CardDB.cardName.execute, 0); //hurt
 
-            this.destroyDatabase.Add(CardDB.cardName.assassinate, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.corruption, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.execute, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.naturalize, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.siphonsoul, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.mindcontrol, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.theblackknight, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.sabotage, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.crush, 0);//not own mins
-            this.destroyDatabase.Add(CardDB.cardName.hemetnesingwary, 0);//not own mins
 
+            this.destroyDatabase.Add(CardDB.cardName.brawl, 0);
+            this.destroyDatabase.Add(CardDB.cardName.deathwing, 0);
+            this.destroyDatabase.Add(CardDB.cardName.twistingnether, 0);
+            this.destroyDatabase.Add(CardDB.cardName.doom, 0);
+            this.destroyDatabase.Add(CardDB.cardName.doomsayer, 0);
+            this.destroyDatabase.Add(CardDB.cardName.poisonseeds, 0); //replace all minions with 2/2 treants
+            this.destroyDatabase.Add(CardDB.cardName.shadowwordhorror, 0); //all minions with 2 or less ap
+            this.destroyDatabase.Add(CardDB.cardName.shadowflame, 0); //destroy own minion, deal its ap to all enemies
+            this.destroyDatabase.Add(CardDB.cardName.enterthecoliseum, 0);//all but each player's highest ap
+
+            this.destroyDatabase.Add(CardDB.cardName.assassinate, 0); //not own mins
+            this.destroyDatabase.Add(CardDB.cardName.corruption, 0); //not own mins
+            this.destroyDatabase.Add(CardDB.cardName.execute, 0); //hurt
+            this.destroyDatabase.Add(CardDB.cardName.naturalize, 0);
+            this.destroyDatabase.Add(CardDB.cardName.siphonsoul, 0);
+            this.destroyDatabase.Add(CardDB.cardName.mindcontrol, 0); //not own mins
+            this.destroyDatabase.Add(CardDB.cardName.theblackknight, 0); //not own mins
+            this.destroyDatabase.Add(CardDB.cardName.sabotage, 0); //not own mins
+            this.destroyDatabase.Add(CardDB.cardName.crush, 0);
+            this.destroyDatabase.Add(CardDB.cardName.hemetnesingwary, 0); //a beast
             this.destroyDatabase.Add(CardDB.cardName.mulch, 0);
-            this.destroyDatabase.Add(CardDB.cardName.bladeofcthun, 0);
-            this.destroyDatabase.Add(CardDB.cardName.shadowwordhorror, 0);
-            this.destroyDatabase.Add(CardDB.cardName.shatter, 0);
-            
-            this.destroyDatabase.Add(CardDB.cardName.moatlurker, 0);
-            this.destroyDatabase.Add(CardDB.cardName.bookwyrm, 0);
+            this.destroyDatabase.Add(CardDB.cardName.bladeofcthun, 0); //add stats to c'thun
+            this.destroyDatabase.Add(CardDB.cardName.shatter, 0); //frozen
+            this.destroyDatabase.Add(CardDB.cardName.moatlurker, 0); //resummon deathrattle
+            this.destroyDatabase.Add(CardDB.cardName.bookwyrm, 0); //enemy ap<=3
+            this.destroyDatabase.Add(CardDB.cardName.deadlyshot, 0); //random enemy
+            this.destroyDatabase.Add(CardDB.cardName.darkbargain, 0);
+            this.destroyDatabase.Add(CardDB.cardName.rendblackhand, 0); //a legendary if holding dragon
+            this.destroyDatabase.Add(CardDB.cardName.blastcrystalpotion, 0);
 
 
             this.backToHandDatabase.Add(CardDB.cardName.sap, 0);
@@ -3545,20 +3619,9 @@ namespace HREngine.Bots
             this.backToHandDatabase.Add(CardDB.cardName.kidnapper, 0);
             this.backToHandDatabase.Add(CardDB.cardName.recycle, 0);
             this.backToHandDatabase.Add(CardDB.cardName.vanish, 0);
+            this.backToHandDatabase.Add(CardDB.cardName.bloodthistletoxin, 0);
+            this.backToHandDatabase.Add(CardDB.cardName.gadgetzanferryman, 0); //combo
 
-        }
-
-        private void setupReturnBackToHandCards()
-        {
-            returnHandDatabase.Add(CardDB.cardName.ancientbrewmaster, 0);
-            returnHandDatabase.Add(CardDB.cardName.dream, 0);
-            returnHandDatabase.Add(CardDB.cardName.kidnapper, 0);//if combo
-            returnHandDatabase.Add(CardDB.cardName.shadowstep, 0);
-            returnHandDatabase.Add(CardDB.cardName.vanish, 0);
-            returnHandDatabase.Add(CardDB.cardName.youthfulbrewmaster, 0);
-            returnHandDatabase.Add(CardDB.cardName.timerewinder, 0);
-            returnHandDatabase.Add(CardDB.cardName.recycle, 0);
-            returnHandDatabase.Add(CardDB.cardName.bloodthistletoxin, 0);
         }
 
         private void setupSpecialMins()
@@ -3766,6 +3829,7 @@ namespace HREngine.Bots
             this.specialMinions.Add(CardDB.cardName.tunneltrogg, 0);
             this.specialMinions.Add(CardDB.cardName.brannbronzebeard, 0);
 
+            //OG
             specialMinions.Add(CardDB.cardName.aberrantberserker, 0);
             specialMinions.Add(CardDB.cardName.addledgrizzly, 0);
             specialMinions.Add(CardDB.cardName.ancientharbinger, 0);
@@ -3799,6 +3863,7 @@ namespace HREngine.Bots
             specialMinions.Add(CardDB.cardName.ysera, 0);
             specialMinions.Add(CardDB.cardName.yshaarjrageunbound, 0);
             
+            //Kara
             specialMinions.Add(CardDB.cardName.arcaneanomaly, 0);
             specialMinions.Add(CardDB.cardName.cloakedhuntress, 0);
             specialMinions.Add(CardDB.cardName.deadlyfork, 0);
@@ -3807,6 +3872,42 @@ namespace HREngine.Bots
             specialMinions.Add(CardDB.cardName.kindlygrandmother, 0);
             specialMinions.Add(CardDB.cardName.wickedwitchdoctor, 0);
             specialMinions.Add(CardDB.cardName.moatlurker, 0);
+
+            //MSG
+            specialMinions.Add(CardDB.cardName.ratpack, 0);
+            specialMinions.Add(CardDB.cardName.shakyzipgunner, 0);
+            specialMinions.Add(CardDB.cardName.knuckles, 0);
+            specialMinions.Add(CardDB.cardName.meanstreetmarshal, 0);
+            specialMinions.Add(CardDB.cardName.wickerflameburnbristle, 0);
+            specialMinions.Add(CardDB.cardName.grimestreetenforcer, 0);
+            specialMinions.Add(CardDB.cardName.manageode, 0);
+            specialMinions.Add(CardDB.cardName.jadeswarmer, 0);
+            specialMinions.Add(CardDB.cardName.shakuthecollector, 0);
+            specialMinions.Add(CardDB.cardName.lotusassassin, 0);
+            specialMinions.Add(CardDB.cardName.lotusillusionist, 0);
+            specialMinions.Add(CardDB.cardName.whiteeyes, 0);
+            specialMinions.Add(CardDB.cardName.unlicensedapothecary, 0);
+            specialMinions.Add(CardDB.cardName.kabaltrafficker, 0);
+            specialMinions.Add(CardDB.cardName.grimygadgeteer, 0);
+            specialMinions.Add(CardDB.cardName.alleyarmorsmith, 0);
+            specialMinions.Add(CardDB.cardName.mistressofmixtures, 0);
+            specialMinions.Add(CardDB.cardName.smalltimebuccaneer, 0);
+            specialMinions.Add(CardDB.cardName.weaseltunneler, 0);
+            specialMinions.Add(CardDB.cardName.friendlybartender, 0);
+            specialMinions.Add(CardDB.cardName.auctionmasterbeardo, 0);
+            specialMinions.Add(CardDB.cardName.backstreetleper, 0);
+            specialMinions.Add(CardDB.cardName.felorcsoulfiend, 0);
+            specialMinions.Add(CardDB.cardName.sergeantsally, 0);
+            specialMinions.Add(CardDB.cardName.backroombouncer, 0);
+            specialMinions.Add(CardDB.cardName.daringreporter, 0);
+            specialMinions.Add(CardDB.cardName.genzotheshark, 0);
+            specialMinions.Add(CardDB.cardName.bombsquad, 0);
+            specialMinions.Add(CardDB.cardName.burglybully, 0);
+            specialMinions.Add(CardDB.cardName.finjatheflyingstar, 0);
+            specialMinions.Add(CardDB.cardName.redmanawyrm, 0);
+            specialMinions.Add(CardDB.cardName.windupburglebot, 0);
+            specialMinions.Add(CardDB.cardName.mayornoggenfogger, 0);
+
         }
 
         private void setupBuffingMinions()
@@ -3844,6 +3945,15 @@ namespace HREngine.Bots
             buffingMinionsDatabase.Add(CardDB.cardName.warhorsetrainer, 0);
             buffingMinionsDatabase.Add(CardDB.cardName.thunderbluffvaliant, 0);
             buffingMinionsDatabase.Add(CardDB.cardName.bloodsailcultist, 5);
+
+            buffingMinionsDatabase.Add(CardDB.cardName.virmensensei, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.grimestreetprotector, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.kabaltalonpriest, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.shadowsensei, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.crystalweaver, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.hobartgrapplehammer, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.grimestreetpawnbroker, 0);
+            buffingMinionsDatabase.Add(CardDB.cardName.nagacorsair, 0);
 
 
 
@@ -4000,6 +4110,18 @@ namespace HREngine.Bots
             priorityTargets.Add(CardDB.cardName.moroes, 5);
             priorityTargets.Add(CardDB.cardName.priestofthefeast, 10);
             priorityTargets.Add(CardDB.cardName.wickedwitchdoctor, 5);
+
+            //MSG
+            priorityTargets.Add(CardDB.cardName.grimestreetenforcer, 10);
+            priorityTargets.Add(CardDB.cardName.shakuthecollector, 5);
+            priorityTargets.Add(CardDB.cardName.kabaltrafficker, 5);
+            priorityTargets.Add(CardDB.cardName.grimygadgeteer, 5);
+            priorityTargets.Add(CardDB.cardName.friendlybartender, 1);
+            priorityTargets.Add(CardDB.cardName.auctionmasterbeardo, 5);
+            priorityTargets.Add(CardDB.cardName.backroombouncer, 5);
+            priorityTargets.Add(CardDB.cardName.daringreporter, 1);
+            priorityTargets.Add(CardDB.cardName.burglybully, 3);
+            priorityTargets.Add(CardDB.cardName.redmanawyrm, 5);
         }
 
         private void setupLethalHelpMinions()
@@ -4147,7 +4269,6 @@ namespace HREngine.Bots
             this.silenceTargets.Add(CardDB.cardName.quartermaster, 0);
 
             //TGT
-
             this.silenceTargets.Add(CardDB.cardName.silverhandregent, 0);
             this.silenceTargets.Add(CardDB.cardName.muklaschampion, 0);
             this.silenceTargets.Add(CardDB.cardName.maidenofthelake, 0);
@@ -4158,34 +4279,23 @@ namespace HREngine.Bots
             this.silenceTargets.Add(CardDB.cardName.nexuschampionsaraad, 0);
             this.silenceTargets.Add(CardDB.cardName.theskeletonknight, 0);
             this.silenceTargets.Add(CardDB.cardName.chillmaw, 0);
-
             this.silenceTargets.Add(CardDB.cardName.savagecombatant, 0);
             this.silenceTargets.Add(CardDB.cardName.aviana, 0);
             this.silenceTargets.Add(CardDB.cardName.dreadscale, 0);
             this.silenceTargets.Add(CardDB.cardName.acidmaw, 0);
-
             this.silenceTargets.Add(CardDB.cardName.coldarradrake, 0);
             this.silenceTargets.Add(CardDB.cardName.rhonin, 0);
-
             this.silenceTargets.Add(CardDB.cardName.warhorsetrainer, 0);
             this.silenceTargets.Add(CardDB.cardName.murlocknight, 0);
-
             this.silenceTargets.Add(CardDB.cardName.holychampion, 0);
             this.silenceTargets.Add(CardDB.cardName.confessorpaletress, 0);
-
             this.silenceTargets.Add(CardDB.cardName.thunderbluffvaliant, 0);
-
             this.silenceTargets.Add(CardDB.cardName.voidcrusher, 0);
-
             this.silenceTargets.Add(CardDB.cardName.wilfredfizzlebang, 0);
-
             this.silenceTargets.Add(CardDB.cardName.magnatauralpha, 0);
-
             this.silenceTargets.Add(CardDB.cardName.anubarak, 0);
 
             //LOE
-
-
             silenceTargets.Add(CardDB.cardName.addledgrizzly, 0);
             silenceTargets.Add(CardDB.cardName.ancientharbinger, 0);
             silenceTargets.Add(CardDB.cardName.anomalus, 0);
@@ -4384,6 +4494,12 @@ namespace HREngine.Bots
             discoverCards.Add(CardDB.cardName.journeybelow, 1);
             discoverCards.Add(CardDB.cardName.ivoryknight, 1);
             discoverCards.Add(CardDB.cardName.netherspitehistorian, 1);
+            discoverCards.Add(CardDB.cardName.drakonidoperative, 1);
+            discoverCards.Add(CardDB.cardName.finderskeepers, 1);
+            discoverCards.Add(CardDB.cardName.iknowaguy, 1);
+            discoverCards.Add(CardDB.cardName.grimestreetinformant, 1);
+            discoverCards.Add(CardDB.cardName.kabalcourier, 1);
+            discoverCards.Add(CardDB.cardName.lotusagents, 1);
         }
 
 
@@ -4441,6 +4557,11 @@ namespace HREngine.Bots
             summonMinionSpellsDatabase.Add(CardDB.cardName.karakazham, 1);
             summonMinionSpellsDatabase.Add(CardDB.cardName.moongladeportal, 1);
             summonMinionSpellsDatabase.Add(CardDB.cardName.ironforgeportal, 1);
+            summonMinionSpellsDatabase.Add(CardDB.cardName.jadeidol, 1);
+            summonMinionSpellsDatabase.Add(CardDB.cardName.jadeblossom, 1);
+            summonMinionSpellsDatabase.Add(CardDB.cardName.jadeshuriken, 1);
+            summonMinionSpellsDatabase.Add(CardDB.cardName.callinthefinishers, 1);
+            summonMinionSpellsDatabase.Add(CardDB.cardName.jadelightning, 1);
         }
 
         private void setupAlsoEquipsWeaponDB()
