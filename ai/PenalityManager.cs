@@ -267,7 +267,7 @@ namespace HREngine.Bots
         // penalize overwriting current weapon for worse ones
         public int getEquipWeaponPenalty(CardDB.Card card, Playfield p, bool lethal)
         {
-            if (p.ownWeaponDurability < 1)
+            if (p.ownWeaponDurability == 0)
             {
                 if (card.name == CardDB.cardName.spiritclaws) return -3;
                 return 0;
@@ -278,9 +278,9 @@ namespace HREngine.Bots
             {
                 return 25 * ((p.ownWeaponAttack * p.ownWeaponDurability) - (2 * card.Attack)); //I think this case is already handled elsewhere
             }*/
-            if (alsoEquipsWeaponDB.ContainsKey(card.name) && alsoEquipsWeaponDB[card.name] < p.ownWeaponAttack)
+            if (p.ownWeaponDurability != 0 && alsoEquipsWeaponDB.ContainsKey(card.name) && alsoEquipsWeaponDB[card.name] < p.ownWeaponAttack)
             {
-                return 25 * ((p.ownWeaponAttack * p.ownWeaponDurability) - (2 * alsoEquipsWeaponDB[card.name]));
+                if (card.name != CardDB.cardName.upgrade) return 25 * ((p.ownWeaponAttack * p.ownWeaponDurability) - (2 * alsoEquipsWeaponDB[card.name]));
             }
             if (card.name == CardDB.cardName.spiritclaws && p.ownWeaponName == CardDB.cardName.spiritclaws) return 500;
 
@@ -1914,7 +1914,7 @@ namespace HREngine.Bots
             {
                 if (p.ownWeaponDurability == 0)
                 {
-                    return 16;
+                    return 10;
                 }
             }
 
