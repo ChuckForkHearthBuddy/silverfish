@@ -16,9 +16,6 @@
             int aggroboarder = 13;
             retval -= p.evaluatePenality;
             retval += p.owncards.Count * 5;
-
-            retval += p.ownMaxMana;
-            retval -= p.enemyMaxMana;
             
             retval += p.ownMaxMana * 20 - p.enemyMaxMana * 20;
 
@@ -94,6 +91,19 @@
             //
             bool canPingMinions = (p.ownHeroAblility.card.name == CardDB.cardName.fireblast);
 
+            if (enemyDoomsayer)
+            {
+                foreach (Minion m in p.enemyMinions)
+                {
+                    if (m.name == CardDB.cardName.doomsayer && m.Hp != m.maxHp) retval += -500;
+                    //todo sepefeets - why does this affect all playfields and make it flip flop between attacking doomsayer or another minion?
+                    /*foreach (Action a in p.playactions)
+                    {
+                        if (a.target != null && a.target.entityID == m.entityID) retval += -500;
+                    }*/
+                }
+                //retval += -p.mobsPlayedThisTurn * 500;
+            }
             if (!enemyDoomsayer && !ownDoomsayer)
             {
                 foreach (Minion m in p.enemyMinions)
@@ -151,6 +161,32 @@
                     if (m.Ready) readycount++;
                     if (m.maxHp >= 4 && (m.Angr > 2 || m.Hp > 3)) ownMinionsCount++;
                 }
+
+                int mobsInHand = 0;
+                int bigMobsInHand = 0;
+                foreach (Handmanager.Handcard hc in p.owncards)
+                {
+                    if (hc.card.type == CardDB.cardtype.MOB)
+                    {
+                        mobsInHand++;
+                        if (hc.card.Attack >= 3 && hc.card.Health >= 3) bigMobsInHand++;
+                    }
+                }
+
+                //stuff for not flooding board
+                int mobsturnbegin = Hrtprozis.Instance.ownMinions.Count;
+                if (ownMinionsCount > mobsturnbegin)
+                {
+                    if (ownMinionsCount - p.enemyMinions.Count >= 3)
+                    {
+                        retval += bigMobsInHand * 50 + mobsInHand * 10;
+                    }
+
+                    if (p.turnCounter <= 1 && p.ownMinions.Count - p.enemyMinions.Count >= 4)
+                    {
+                        retval -= (p.ownMinions.Count - p.enemyMinions.Count - 3) * 10;
+                    }
+                }
             }
            
 
@@ -201,31 +237,6 @@
             if (useAbili && usecoin == 2) retval -= 5;
             //if (usecoin && p.manaTurnEnd >= 1 && p.owncards.Count <= 8) retval -= 100;
 
-            int mobsInHand = 0;
-            int bigMobsInHand = 0;
-            foreach (Handmanager.Handcard hc in p.owncards)
-            {
-                if (hc.card.type == CardDB.cardtype.MOB)
-                {
-                    mobsInHand++;
-                    if (hc.card.Attack >= 3 && hc.card.Health >= 3) bigMobsInHand++;
-                }
-            }
-
-            //stuff for not flooding board
-            int mobsturnbegin = Hrtprozis.Instance.ownMinions.Count;
-            if (ownMinionsCount > mobsturnbegin)
-            {
-                if (ownMinionsCount - p.enemyMinions.Count >= 3)
-                {
-                    retval += bigMobsInHand * 50 + mobsInHand * 10;
-                }
-
-                if (p.turnCounter <= 1 && p.ownMinions.Count - p.enemyMinions.Count >= 4)
-                {
-                    retval -= (p.ownMinions.Count - p.enemyMinions.Count - 3) * 10;
-                }
-            }
 
 
             //bool hasTank = false;
