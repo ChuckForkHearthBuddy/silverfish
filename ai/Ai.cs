@@ -576,14 +576,13 @@
             //this.bestboard.printActions();
 
             Playfield tempbestboard = new Playfield();
+            tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
             tempbestboard.printBoard();
 
             foreach (Action bestmovee in board.playactions)
             {
-
                 help.logg("stepp");
-
-
+                
                 if (bestmovee != null && bestmovee.actionType != actionEnum.endturn)  // save the guessed move, so we doesnt need to recalc!
                 {
                     bestmovee.print();
@@ -596,6 +595,7 @@
                     tempbestboard.mana = -100;
                 }
                 help.logg("-------------");
+                tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
                 tempbestboard.printBoard();
             }
 
@@ -603,7 +603,7 @@
             tempbestboard.sEnemTurn = true;
             tempbestboard.endTurn(false, this.playaround, false, Settings.Instance.playaroundprob, Settings.Instance.playaroundprob2);
             help.logg("ENEMY TURN:-----------------------------");
-            tempbestboard.value = int.MinValue;
+            tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
             tempbestboard.prepareNextTurn(tempbestboard.isOwnTurn);
             Ai.Instance.enemyTurnSim[0].simulateEnemysTurn(tempbestboard, true, playaround, true, Settings.Instance.playaroundprob, Settings.Instance.playaroundprob2);
         }
@@ -616,6 +616,7 @@
             //this.bestboard.printActions();
 
             Playfield tempbestboard = new Playfield();
+            tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
             tempbestboard.printBoard();
 
             if (bestmove != null && bestmove.actionType != actionEnum.endturn)  // save the guessed move, so we doesnt need to recalc!
@@ -630,6 +631,7 @@
                 tempbestboard.mana = -100;
             }
             help.logg("-------------");
+            tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
             tempbestboard.printBoard();
 
             foreach (Action bestmovee in this.bestActions)
@@ -650,6 +652,7 @@
                     tempbestboard.mana = -100;
                 }
                 help.logg("-------------");
+                tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
                 tempbestboard.printBoard();
             }
 
@@ -657,7 +660,7 @@
             tempbestboard.sEnemTurn = true;
             tempbestboard.endTurn(false, this.playaround, false, Settings.Instance.playaroundprob, Settings.Instance.playaroundprob2);
             help.logg("ENEMY TURN:-----------------------------");
-            tempbestboard.value = int.MinValue;
+            tempbestboard.value = botBase.getPlayfieldValue(tempbestboard);
             tempbestboard.prepareNextTurn(tempbestboard.isOwnTurn);
             Ai.Instance.enemyTurnSim[0].simulateEnemysTurn(tempbestboard, true, playaround, true, Settings.Instance.playaroundprob, Settings.Instance.playaroundprob2);
         }

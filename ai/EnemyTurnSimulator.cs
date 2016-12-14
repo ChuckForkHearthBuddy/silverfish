@@ -39,6 +39,7 @@
             if (print)
             {
                 Helpfunctions.Instance.ErrorLog("board at enemyturn start-----------------------------");
+                rootfield.value = botBase.getPlayfieldValue(rootfield);
                 rootfield.printBoard();
             }
             posmoves.Add(new Playfield(rootfield));
