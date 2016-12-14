@@ -12,7 +12,7 @@
 // [1] Small-Time Buccaneer x2 (CFM_325)
 // [1] Southsea Deckhand x2 (CS2_146)
 // [1] Upgrade! x2 (EX1_409)
-// [2] Acid Swamp Ooze x1 (EX1_066)
+// [2] Acidic Swamp Ooze x1 (EX1_066)
 // [2] Bloodsail Raider x2 (NEW1_018)
 // [2] Fiery War Axe x2 (CS2_106)
 // [2] Heroic Strike x2 (CS2_105)
