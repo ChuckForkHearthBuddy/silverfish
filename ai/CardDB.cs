@@ -5668,10 +5668,9 @@ namespace HREngine.Bots
                                     if(m.stealth && !m.own) m.extraParam = true;
                                 }
                             }
-                            if (own) targetEnemyHero = true;
-                            else targetOwnHero = true;
                         }
-                        else wereTargets = false;
+                        if (own) targetEnemyHero = true;
+                        else targetOwnHero = true;
                     }
                     if (REQ_FROZEN_TARGET)
                     {
@@ -5694,27 +5693,19 @@ namespace HREngine.Bots
                         targetEnemyHero = false;
                     }
                 }
-                
-                if (isLethalCheck)
-                {
-                    if (targetEnemyHero && own) retval.Add(p.enemyHero);
-                    else if (targetOwnHero && !own) retval.Add(p.ownHero);
-                }
-                else
-                {
-                    if (targetEnemyHero) retval.Add(p.enemyHero);
-                    if (targetOwnHero) retval.Add(p.ownHero);
 
-                    foreach (Minion m in targets)
+                if (targetEnemyHero) retval.Add(p.enemyHero);
+                if (targetOwnHero) retval.Add(p.ownHero);
+
+                foreach (Minion m in targets)
+                {
+                    if (m.extraParam != true)
                     {
-                        if (m.extraParam != true)
-                        {
-                            if (m.stealth && !m.own) continue;
-                            if (m.cantBeTargetedBySpellsOrHeroPowers && (this.type == cardtype.SPELL || this.type == cardtype.HEROPWR)) continue;
-                            retval.Add(m);
-                        }
-                        m.extraParam = false;
+                        if (m.stealth && !m.own) continue;
+                        if (m.cantBeTargetedBySpellsOrHeroPowers && (this.type == cardtype.SPELL || this.type == cardtype.HEROPWR)) continue;
+                        retval.Add(m);
                     }
+                    m.extraParam = false;
                 }
 
                 //if (retval.Count == 0 && (!wereTargets || REQ_TARGET_IF_AVAILABLE)) retval.Add(null);
