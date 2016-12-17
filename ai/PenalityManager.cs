@@ -903,6 +903,7 @@ namespace HREngine.Bots
 
         private int getHealPenality(CardDB.cardName name, Minion target, Playfield p, int choice, bool lethal)
         {
+            if (!HealTargetDatabase.ContainsKey(name) && !HealHeroDatabase.ContainsKey(name) && !HealAllDatabase.ContainsKey(name)) return 0; 
             //Todo healpenality for aoe heal
             //todo auchenai soulpriest
             if (p.anzOwnAuchenaiSoulpriest >= 1) return 0;
