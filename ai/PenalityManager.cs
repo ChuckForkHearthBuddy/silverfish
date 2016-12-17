@@ -2812,12 +2812,14 @@ namespace HREngine.Bots
                 case CardDB.cardName.defenderofargus:
                 case CardDB.cardName.sunfuryprotector:
                     if (p.ownMinions.Count == 0) return 50;
-                    else if (p.ownMinions.Count == 1) return 40;
+                    if (p.ownMinions.Count == 1) return 40;
                     return 0;
                 case CardDB.cardName.jadeidol:
                     if (choice == 1 && !Hrtprozis.Instance.turnDeck.ContainsKey(CardDB.cardIDEnum.CFM_602)) return 50; //don't waste our last copy
                     if (choice == 2 && Hrtprozis.Instance.turnDeck.ContainsKey(CardDB.cardIDEnum.CFM_602)) return 50; //don't shuffle more in if some still in deck
                     return 0;
+                case CardDB.cardName.twilightguardian: //penalty if no dragon in hand
+                    return p.owncards.Find(c => c.card.race == TAG_RACE.DRAGON) != null ? 10 : 0;
                 default:
                     return 0;
             }
