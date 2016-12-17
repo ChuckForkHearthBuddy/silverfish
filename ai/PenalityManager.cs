@@ -229,7 +229,7 @@ namespace HREngine.Bots
             {
                 if (p.ownWeaponAttack == 1)
                 {
-                    if (target.isHero && !target.own) return 500;
+                    if (target.isHero && !target.own && !lethal) return 500;
                     if (target.Hp > p.ownHero.Angr && target.divineshild == false) return 10;
                 }
             }
