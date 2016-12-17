@@ -10,7 +10,7 @@ namespace HREngine.Bots
 
         public override void onCardPlay(Playfield p, bool ownplay, Minion target, int choice)
         {
-            p.drawACard(CardDB.cardName.lightningbolt, ownplay);
+            p.drawACard(CardDB.cardName.unknown, ownplay);
             p.changeRecall(ownplay, 1);
         }
     }
