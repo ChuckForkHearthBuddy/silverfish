@@ -261,20 +261,20 @@
 
     public enum TAG_CLASS
     {
-        INVALID,
-        ALL,
-        DEATHKNIGHT,
-        DRUID,
-        HUNTER,
-        MAGE,
-        PALADIN,
-        PRIEST,
-        ROGUE,
-        SHAMAN,
-        WARLOCK,
-        WARRIOR,
-        DREAM
-
+        INVALID = 0,
+        DEATHKNIGHT = 1,
+        DRUID = 2,
+        HUNTER = 3,
+        MAGE = 4,
+        PALADIN = 5,
+        PRIEST = 6,
+        ROGUE = 7,
+        SHAMAN = 8,
+        WARLOCK = 9,
+        WARRIOR = 10,
+        DREAM = 11,
+        NEUTRAL = 12,
+        ALL = 13
     }
 
     public enum TAG_RACE
@@ -305,7 +305,7 @@
         PIRATE = 23,
         DRAGON = 24
     }
-    
+
     public enum TAG_CARDTYPE
     {
         INVALID = 0,
@@ -346,6 +346,10 @@
         LOE = 20,
         OG = 21,
         OG_RESERVE = 22,
+        KARA = 23,
+        KARA_RESERVE = 24,
+        GANGS = 25,
+        GANGS_RESERVE = 26,
     }
 
     public enum TAG_RARITY
@@ -358,5 +362,5 @@
         LEGENDARY = 5,
     }
 
-   
+
 }
