@@ -1,4 +1,4 @@
-//- D E C K (WILD) -------------------------------------
+//- D E C K (WILD) ------------------------------
 // [1] N'Zoth's First Mate x2 (OG_312)
 // [1] Patches the Pirate x1 (CFM_637)
 // [1] Sir Finley Mrrgglton x1 (LOE_076)
@@ -16,3 +16,5 @@
 // [4] Mortal Strike x2 (EX1_408)
 // [5] Arcanite Reaper x1 (CS2_112)
 // [5] Leeroy Jenkins x1 (EX1_116)
+// - S U B S ------------------------------------
+// [2] Acidic Swamp Ooze x1 (EX1_066)

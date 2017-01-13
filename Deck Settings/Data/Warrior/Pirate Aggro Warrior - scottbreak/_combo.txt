@@ -1,18 +1,18 @@
 // This File: _combo.txt
 // Author: scottbreak
-// Version: 0.7 (13-Dec-16)
-// Deck Name: Pirate Warrior
+// Version: 1.0 (8-Jan-17)
+// Deck Name: Wild Pirate Warrior
 // Hero: Warrior
 // Deck Type: Aggro
 
 // [Nudge] The Coin (GAME_005) + Ship's Cannon (GVG_075) + N'Zoth's First Mate (OG_312)
-GAME_005,0;GVG_075,0;OG_312,0;mana:2;bonus:60;hero:warrior
+GAME_005,0;GVG_075,0;OG_312,10;mana:2;bonus:100;hero:warrior
 
 // [Nudge] The Coin (GAME_005) + Ship's Cannon (GVG_075) + Small-Time Buccaneer (CFM_325)
-GAME_005,0;GVG_075,0;CFM_325,0;mana:2;bonus:50;hero:warrior
+GAME_005,0;GVG_075,0;CFM_325,10;mana:2;bonus:90;hero:warrior
 
 // [Nudge] The Coin (GAME_005) + Ship's Cannon (GVG_075) + Southsea Deckhand (CS2_146)
-GAME_005,0;GVG_075,0;CS2_146,0;mana:2;bonus:40;hero:warrior
+GAME_005,0;GVG_075,0;CS2_146,10;mana:2;bonus:80;hero:warrior
 
 // [Nudge] The Coin (GAME_005) + N'Zoth's First Mate (OG_312) + Small-Time Buccaneer (CFM_325)
 GAME_005,0;OG_312,0;CFM_325,0;mana:1;bonus:50;hero:warrior
@@ -23,41 +23,62 @@ GAME_005,0;OG_312,0;CS2_146,0;mana:1;bonus:50;hero:warrior
 // [Nudge] The Coin (GAME_005) + N'Zoth's First Mate (OG_312) + Sir Finley Mrrgglton (LOE_076)
 GAME_005,0;OG_312,0;LOE_076,0;mana:1;bonus:40;hero:warrior
 
+// [Nudge] Ship's Cannon (GVG_075) + N'Zoth's First Mate (OG_312)
+GVG_075,0;OG_312,0;bonus:30;hero:warrior
+
+// [Nudge] Ship's Cannon (GVG_075) + Small-Time Buccaneer (CFM_325)
+GVG_075,0;CFM_325,0;bonus:30;hero:warrior
+
+// [Nudge] Ship's Cannon (GVG_075) + Southsea Deckhand (CS2_146)
+GVG_075,0;CS2_146,0;bonus:30;hero:warrior
+
+// [Nudge] Ship's Cannon (GVG_075) + Bloodsail Raider (NEW1_018)
+GVG_075,0;NEW1_018,0;bonus:30;hero:warrior
+
+// [Nudge] Ship's Cannon (GVG_075) + Bloodsail Cultist (OG_315)
+GVG_075,0;OG_315,0;bonus:30;hero:warrior
+
+// [Nudge] Ship's Cannon (GVG_075) + Dread Corsair (NEW1_022)
+GVG_075,0;NEW1_022,0;bonus:20;hero:warrior
+
 // [Nudge] Fiery War Axe (CS2_106) + Bloodsail Raider (NEW1_018)
 CS2_106,0;NEW1_018,5;bonus:30;hero:warrior
 
 // [Nudge] Fiery War Axe (CS2_106) > Bloodsail Raider (NEW1_018)
-CS2_106,0;nxttrn;NEW1_018,0;mana:2;bonusfirst:10;bonussecond:10;hero:warrior
+CS2_106,0;nxttrn;NEW1_018,0;mana:2;bonusfirst:10;bonussecond:5;hero:warrior
+
+// [Nudge] The Coin + Fiery War Axe (CS2_106) > Bloodsail Raider (NEW1_018)
+GAME_005,0;CS2_106,0;nxttrn;NEW1_018,0;mana:1;bonusfirst:10;bonussecond:10;hero:warrior
 
 // [Nudge] Death's Bite (FP1_021) + Bloodsail Raider (NEW1_018)
 FP1_021,0;NEW1_018,5;bonus:30;hero:warrior
 
 // [Nudge] Death's Bite (FP1_021) > Bloodsail Raider (NEW1_018)
-FP1_021,0;nxttrn;NEW1_018,0;mana:2;bonusfirst:10;bonussecond:10;hero:warrior
+FP1_021,0;nxttrn;NEW1_018,0;mana:4;bonusfirst:10;bonussecond:10;hero:warrior
 
 // [Nudge] Arcanite Reaper (CS2_112) + Bloodsail Raider (NEW1_018)
 CS2_112,0;NEW1_018,5;bonus:30;hero:warrior
 
 // [Nudge] Arcanite Reaper (CS2_112) > Bloodsail Raider (NEW1_018)
-CS2_112,0;nxttrn;NEW1_018,0;mana:2;bonusfirst:10;bonussecond:10;hero:warrior
+CS2_112,0;nxttrn;NEW1_018,0;mana:5;bonusfirst:10;bonussecond:10;hero:warrior
 
 // [Nudge] Fiery War Axe (CS2_106) + Upgrade! (EX1_409)
-CS2_106,0;EX1_409,10;bonus:100;hero:warrior
+CS2_106,0;EX1_409,0;bonus:100;hero:warrior
 
 // [Nudge] Fiery War Axe (CS2_106) > Upgrade! (EX1_409)
 CS2_106,0;nxttrn;EX1_409,0;mana:2;bonusfirst:0;bonussecond:50;hero:warrior
 
 // [Nudge] Death's Bite (FP1_021) + Upgrade! (EX1_409)
-FP1_021,0;EX1_409,10;bonus:100;hero:warrior
+FP1_021,0;EX1_409,0;bonus:100;hero:warrior
 
 // [Nudge] Death's Bite (FP1_021) > Upgrade! (EX1_409)
-FP1_021,0;nxttrn;EX1_409,0;mana:2;bonusfirst:0;bonussecond:50;hero:warrior
+FP1_021,0;nxttrn;EX1_409,0;bonusfirst:0;bonussecond:50;hero:warrior
 
 // [Nudge] Arcanite Reaper (CS2_112) + Upgrade! (EX1_409)
-CS2_112,0;EX1_409,10;bonus:100;hero:warrior
+CS2_112,0;EX1_409,20;bonus:100;hero:warrior
 
 // [Nudge] Arcanite Reaper (CS2_112) > Upgrade! (EX1_409)
-CS2_112,0;nxttrn;EX1_409,0;mana:2;bonusfirst:0;bonussecond:50;hero:warrior
+CS2_112,0;nxttrn;EX1_409,0;bonusfirst:0;bonussecond:50;hero:warrior
 
 // Cardvalue Upgrade! (EX1_409)
 cardvalue:EX1_409,10

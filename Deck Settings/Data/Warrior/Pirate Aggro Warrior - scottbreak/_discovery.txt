@@ -1,7 +1,7 @@
 // This File: _discovery.txt
 // Author: scottbreak
-// Version: 0.2 (10-Dec-16)
-// Deck Name: Pirate Warrior
+// Version: 1.0 (8-Jan-17)
+// Deck Name: Wild Pirate Warrior
 // Hero: Warrior
 // Deck Type: Aggro
 
@@ -17,9 +17,9 @@ CS2_017,6;all;all
 CS1h_001,5;all;all
 //Reinforce
 CS2_101,4;all;all
-//Dagger Mastery
-CS2_083b,3;all;all
 //Totemic Call
 CS2_049,2;all;all
+//Dagger Mastery
+CS2_083b,3;all;all
 //Armor Up!
 CS2_102,1;all;all
