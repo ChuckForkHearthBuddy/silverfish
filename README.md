@@ -11,6 +11,7 @@ build instructions:
 Hearthranger:
 - copy the "ai" + "cards" + "Penalties" folders to the "HR" folder, then create a project out of everything in the "HR" folder
 - add a reference to HSRangerLib.dll from HR
+- go to Project -> Properties -> Application and set target framework to .NET Framework 4.5
 - go to Project -> Properties -> Build -> Advanced and set language version to C# 5.0 for HB compatibility
 - build it as Release x86, and copy the _cardDB.txt file to the bin\Release folder
 - build Silver.exe too
@@ -18,6 +19,7 @@ Hearthranger:
 Hearthbuddy:
 - copy the "ai" + "cards" + "Penalties" folders to the "HrtBddy" folder, then create a project out of everything in the "HrtBddy" folder
 - add references for Hearthbuddy.exe and all the DLL's that come with it
+- go to Project -> Properties -> Application and set target framework to .NET Framework 4.5
 - go to Project -> Properties -> Build -> Advanced and set language version to C# 5.0 for HB compatibility
 - build it however you want just to test that it does build but HB uses the source files not a binary
 - there might be some errors I can't fix (I don't own HB), if you know how to fix it then let me know or submit a PR
@@ -25,6 +27,7 @@ Hearthbuddy:
 
 Silver.exe:
 - copy the "ai" + "cards" + "Penalties" folders to the "external process" folder, then create a project out of everything in the "external process"
+- go to Project -> Properties -> Application and set target framework to .NET Framework 4.5
 - go to Project -> Properties -> Build -> Advanced and set language version to C# 5.0 for HB compatibility
 - build it as Release x86 for performance or Debug x86 for debugging, and copy the _cardDB.txt file to the bin\Release and bin\Debug folders
 
