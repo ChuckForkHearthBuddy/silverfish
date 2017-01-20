@@ -40,6 +40,8 @@ hold;shaman;all;LOE_018
 // 2-DROP
 // 1x Bloodmage Thalnos + Spirit Claws
 hold;shaman;all;EX1_012:1:KAR_063
+// 1x Kobold Geomancer + Spirit Claws
+hold;shaman;all;CS2_142:1:KAR_063
 
 // 1x Totem Golem
 hold;shaman;all;AT_052:1

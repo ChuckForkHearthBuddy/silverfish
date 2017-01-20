@@ -1,6 +1,6 @@
 // This File: settings.txt
 // Author: scottbreak
-// Version: 1.0 (8-Jan-17)
+// Version: 1.1 (19-Jan-17)
 // Deck Name: Wild Pirate Warrior
 // Hero: Warrior
 // Deck Type: Aggro
