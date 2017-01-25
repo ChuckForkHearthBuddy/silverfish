@@ -7328,8 +7328,8 @@ namespace HREngine.Bots
         public Minion searchRandomMinion(List<Minion> minions, searchmode mode)
         {
             if (minions.Count == 0) return null;
-            Minion ret = null;
-            double value = 0;
+            Minion ret = minions[0];
+            int value = 0;
             switch (mode)
             {
                 case searchmode.searchLowestHP: value = 1000; break;
@@ -7416,7 +7416,7 @@ namespace HREngine.Bots
             if (maxHP < 1) return null;
             if (minions.Count == 0) return null;
 
-            Minion ret = null;
+            Minion ret = minions[0];
 
             double value = 0;
             int retVal = 0;
