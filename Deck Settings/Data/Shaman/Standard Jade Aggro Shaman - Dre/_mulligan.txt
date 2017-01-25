@@ -1,6 +1,6 @@
 // This File: _mulligan.txt
 // Author: Dre
-// Version: 1.0 (16-jan-2017)
+// Version: 1.1 (24-jan-2017)
 // Deck Name: Jade Aggro Shaman
 // Hero: Shaman
 // Deck Type: Aggro (Rush)
