@@ -1913,10 +1913,8 @@ namespace HREngine.Bots
 
             if (card.name == CardDB.cardName.upgrade)
             {
-                if (p.ownWeaponDurability == 0)
-                {
-                    return 10;
-                }
+                if (p.playactions.Find(a => a.actionType == actionEnum.attackWithHero) != null) return 20;
+                if (p.ownWeaponDurability == 0) return 10;
             }
 
             if (card.name == CardDB.cardName.baronrivendare)
@@ -2821,6 +2819,10 @@ namespace HREngine.Bots
                     return 0;
                 case CardDB.cardName.twilightguardian: //penalty if no dragon in hand
                     return p.owncards.Find(c => c.card.race == TAG_RACE.DRAGON) != null ? 10 : 0;
+                case CardDB.cardName.bloodsailcultist:
+                    if (p.playactions.Find(a => a.actionType == actionEnum.attackWithHero) != null && p.ownWeaponDurability > 0) return 20;
+                    if (p.ownWeaponDurability == 0 || p.ownMinions.Find(m => m.handcard.card.race == TAG_RACE.PIRATE) == null) return 20;
+                    return 0;
                 default:
                     return 0;
             }
