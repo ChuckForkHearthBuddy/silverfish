@@ -4767,7 +4767,7 @@ namespace HREngine.Bots
                 int summonstones = 0;
                 Minion summoningStone = null;
 
-                foreach (Minion m in this.ownMinions)
+                foreach (Minion m in this.ownMinions.ToArray())
                 {
                     if (m.silenced) continue;
 
