@@ -205,9 +205,13 @@
             foreach (Action a in p.playactions)
             {
                 //lastCoin = false;
-                if (a.actionType == actionEnum.attackWithHero && p.enemyHero.Hp <= p.attackFaceHP) retval++;
+                if (a.actionType == actionEnum.attackWithHero)
+                {
+                    if (p.enemyMinions.Find(m => m.entityID == a.target.entityID) != null) retval -= a.target.Angr;
+                    if (p.enemyHero.Hp <= p.attackFaceHP) retval++;
+                    if (p.ownHeroName == HeroEnum.warrior && useAbili) retval -= 1;
+                }
                 if (a.actionType == actionEnum.useHeroPower) useAbili = true;
-                if (p.ownHeroName == HeroEnum.warrior && a.actionType == actionEnum.attackWithHero && useAbili) retval -= 1;
                 //if (a.actionType == actionEnum.useHeroPower && a.card.card.name == CardDB.cardName.lesserheal && (!a.target.own)) retval -= 5;
                 if (a.actionType != actionEnum.playcard) continue;
                 if (a.card.card.name == CardDB.cardName.thecoin)
