@@ -19,7 +19,8 @@ namespace HREngine.Bots
             if (count < 6)
             {
                 List<Minion> temp = (own.own) ? p.ownMinions : p.enemyMinions;
-                Minion kidminion = temp[own.zonepos-1]; //barnes isn't on the playfield yet but the kid is where barnes will be
+                int pos = Math.Min(own.zonepos - 1, temp.Count - 1);
+                Minion kidminion = temp[pos]; //barnes isn't on the playfield yet but the kid is where barnes will be
 
                 int angr = 1 - kidminion.Angr;
                 int hp = 1 - kidminion.maxHp;
