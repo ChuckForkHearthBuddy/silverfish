@@ -1,4 +1,6 @@
-﻿namespace HREngine.Bots
+﻿using System.Security.Cryptography;
+
+namespace HREngine.Bots
 {
     using System;
     using System.Collections.Generic;
@@ -114,6 +116,7 @@
             this.boardToSimulate = -1;
             string og = "";
             string eg = "";
+            string td = "";
 
             string omd = "";
             string emd = "";
@@ -479,7 +482,7 @@
                 }
                 if (s.StartsWith("td:"))
                 {
-                    //todo sepefeets - read the turn deck
+                    td = s;
                     continue;
                 }
                 if (s.StartsWith("tdc:")) //ignore it, will eventually be removed
@@ -607,7 +610,7 @@
 
                 if (readstate == 1 && counter >= 5) // secrets
                 {
-                    if (!(s.StartsWith("enemyhero:") || s.StartsWith("cthunbonus:")))
+                    if (!(s.StartsWith("enemyhero:") || s.StartsWith("cthunbonus:") || s.StartsWith("jadegolems:")))
                     {
                         ownsecretlist.Add(s.Replace(" ", ""));
                     }
@@ -1056,6 +1059,7 @@
 
             if (og != "") Probabilitymaker.Instance.readGraveyards(og, eg);
             if (omd != "") Probabilitymaker.Instance.readTurnGraveYard(omd, emd);
+            if (td != "") Hrtprozis.Instance.setTurnDeck(td);
             //Ai.Instance.enemyTurnSim.maxwide = ets;
             //Ai.Instance.enemySecondTurnSim.maxwide = ents;
             Settings.Instance.enemyTurnMaxWide = ets;

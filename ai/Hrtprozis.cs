@@ -189,7 +189,24 @@
             startDeck.Add(card, num);
             turnDeck.Add(card, num);
         }
-        
+
+        public void setTurnDeck(string td)
+        {
+            turnDeck.Clear();
+            string temp = td.Replace("td: ", "");
+            foreach (string s in temp.Split(';'))
+            {
+                string ss = s.Replace(" ", "");
+                if (ss == "" || ss == " ") continue;
+                string[] pair = ss.Split(',');
+                CardDB.cardIDEnum card = CardDB.Instance.cardIdstringToEnum(pair[0]);
+                int num = 1;
+                if (pair.Length > 1) num = Convert.ToInt32(pair[1]);
+
+                turnDeck.Add(card, num);
+            }
+        }
+
         public void setDeckName(string deckname)
         {
             this.deckName = deckname;
