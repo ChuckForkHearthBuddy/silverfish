@@ -283,6 +283,7 @@ namespace HREngine.Bots
                 if (card.name != CardDB.cardName.upgrade) return 25 * ((p.ownWeaponAttack * p.ownWeaponDurability) - (2 * alsoEquipsWeaponDB[card.name]));
             }
             if (card.name == CardDB.cardName.spiritclaws && p.ownWeaponName == CardDB.cardName.spiritclaws) return 500;
+            if (card.name == CardDB.cardName.jadeclaws) return 25; //to counter the value a jade golems a bit
 
             if (card.type == CardDB.cardtype.WEAPON && card.Attack <= p.ownWeaponAttack)
             {
