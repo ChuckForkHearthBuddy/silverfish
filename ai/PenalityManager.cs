@@ -2249,20 +2249,11 @@ namespace HREngine.Bots
                 if (m.Angr == 0) return 30;
                 if (p.enemyMinions.Count == 1) return 30;
             }
+            
 
-
-
-
-            if (name == CardDB.cardName.bite)
+            if (heroAttackBuffDatabase.ContainsKey(name))
             {
-                if ((p.ownHero.numAttacksThisTurn == 0 || (p.ownHero.windfury && p.ownHero.numAttacksThisTurn == 1)) && !p.ownHero.frozen)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return 20;
-                }
+                return ((p.ownHero.numAttacksThisTurn == 0) && !p.ownHero.frozen) ? 0 : 20;
             }
 
             if (name == CardDB.cardName.deadlypoison)
