@@ -2404,12 +2404,14 @@ namespace HREngine.Bots
 
                 if (!target.own && !target.isHero)
                 {
-                    int hexpen = 10;  // base penalty so we don't waste the spell on small minions
+                    int hexpen = 30 - (2 * target.Angr) - target.Hp;  // base penalty so we don't waste the spell on small minions
                     if (target.allreadyAttacked) hexpen += 30;
-                    Minion frog = target;
-                    if (!frog.silenced && this.priorityTargets.ContainsKey(frog.name) && this.priorityTargets[frog.name] >= 5) return hexpen;
-                    if (frog.Angr >= 4 && frog.Hp >= 4) return 0;  // no base penalty because minion is not small
-                    if (frog.Angr >= 4 && !frog.silenced && this.silenceTargets.ContainsKey(frog.name)) return hexpen+5;
+                    if (!target.silenced)
+                    {
+                        if (specialMinions.ContainsKey(target.name)) hexpen -= specialMinions[target.name];
+                        if (this.priorityTargets.ContainsKey(target.name) && this.priorityTargets[target.name] >= 5) return hexpen;
+                        if (target.Angr >= 4 && this.silenceTargets.ContainsKey(target.name)) return hexpen;
+                    }
                     return hexpen+30;
                 }
             }
@@ -3582,6 +3584,7 @@ namespace HREngine.Bots
 
             //== everything with an effect (other than battlecry and normal stuff like taunt, charge, divshield)
             //also deathrattles?
+            // value used for hex/poly priority
             this.specialMinions.Add(CardDB.cardName.amaniberserker, 0);
             this.specialMinions.Add(CardDB.cardName.angrychicken, 0);
             this.specialMinions.Add(CardDB.cardName.abomination, 0);
@@ -3639,8 +3642,9 @@ namespace HREngine.Bots
             this.specialMinions.Add(CardDB.cardName.prophetvelen, 0);
             this.specialMinions.Add(CardDB.cardName.questingadventurer, 0);
             this.specialMinions.Add(CardDB.cardName.ragingworgen, 0);
+            this.specialMinions.Add(CardDB.cardName.ragnarosthefirelord, 10);
             this.specialMinions.Add(CardDB.cardName.raidleader, 0);
-            this.specialMinions.Add(CardDB.cardName.savannahhighmane, 0);
+            this.specialMinions.Add(CardDB.cardName.savannahhighmane, 20);
             this.specialMinions.Add(CardDB.cardName.scavenginghyena, 0);
             this.specialMinions.Add(CardDB.cardName.secretkeeper, 0);
             this.specialMinions.Add(CardDB.cardName.sorcerersapprentice, 0);
@@ -3773,6 +3777,7 @@ namespace HREngine.Bots
             this.specialMinions.Add(CardDB.cardName.wilfredfizzlebang, 0);
             this.specialMinions.Add(CardDB.cardName.orgrimmaraspirant, 0);
             this.specialMinions.Add(CardDB.cardName.magnatauralpha, 0);
+            this.specialMinions.Add(CardDB.cardName.chillmaw, 20);
 
             //LOE (week 1 and 2 :D)
             this.specialMinions.Add(CardDB.cardName.obsidiandestroyer, 0);
@@ -3801,7 +3806,7 @@ namespace HREngine.Bots
             specialMinions.Add(CardDB.cardName.hoodedacolyte, 0);
             specialMinions.Add(CardDB.cardName.infestedtauren, 0);
             specialMinions.Add(CardDB.cardName.infestedwolf, 0);
-            specialMinions.Add(CardDB.cardName.ragnaroslightlord, 0);
+            specialMinions.Add(CardDB.cardName.ragnaroslightlord, 10);
             specialMinions.Add(CardDB.cardName.scalednightmare, 0);
             specialMinions.Add(CardDB.cardName.shiftingshade, 0);
             specialMinions.Add(CardDB.cardName.southseasquidface, 0);
@@ -3860,6 +3865,7 @@ namespace HREngine.Bots
             specialMinions.Add(CardDB.cardName.redmanawyrm, 0);
             specialMinions.Add(CardDB.cardName.windupburglebot, 0);
             specialMinions.Add(CardDB.cardName.mayornoggenfogger, 0);
+            specialMinions.Add(CardDB.cardName.ayablackpaw, 10);
 
         }
 
@@ -4276,6 +4282,9 @@ namespace HREngine.Bots
             silenceTargets.Add(CardDB.cardName.usherofsouls, 0);
             silenceTargets.Add(CardDB.cardName.wobblingrunts, 0);
             silenceTargets.Add(CardDB.cardName.yshaarjrageunbound, 0);
+
+
+            silenceTargets.Add(CardDB.cardName.ayablackpaw, 0);
 
         }
 
