@@ -1,23 +1,23 @@
 // This File: settings.txt
 // Author: scottbreak
-// Version: 1.1 (19-Jan-17)
+// Version: 1.2 (26-Jan-17)
 // Deck Name: Wild Pirate Warrior
 // Hero: Warrior
 // Deck Type: Aggro
 
 enfacehp = 30;
-maxwide = 9000;
-twotsamount = 1800;
+maxwide = 7000;
+twotsamount = 1400;
 simEnemySecondTurn = true;
 playarround = false;
 playaroundprob = 50;
 playaroundprob2 = 80;
 enemyTurnMaxWide = 40;
-enemyTurnMaxWideSecondTime = 360;
+enemyTurnMaxWideSecondTime = 280;
 enemySecondTurnMaxWide = 40;
 nextTurnDeep = 6;
-nextTurnMaxWide = 36;
-nextTurnTotalBoards = 360;
+nextTurnMaxWide = 40;
+nextTurnTotalBoards = 280;
 useSecretsPlayArround = false;
 alpha = 50;
 simulatePlacement = true;
