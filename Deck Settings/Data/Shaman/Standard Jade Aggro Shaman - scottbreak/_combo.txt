@@ -1,18 +1,21 @@
 // This File: _combo.txt
 // Author: scottbreak
-// Version: 0.2 (11-Dec-16)
+// Version: 0.3 (6-Feb-17)
 // Deck Name: Jade Aggro Shaman
 // Hero: Shaman
 // Deck Type: Aggro
 
 // [Combo] Tunnel Trogg (LOE_018) > The Coin (GAME_005) + Feral Spirit (EX1_248)
-LOE_018,0;nxttrn;GAME_005,1;EX1_248,0;mana:1;bonusfirst:10;bonussecond:11;hero:shaman
+LOE_018,0;nxttrn;GAME_005,1;EX1_248,0;mana:1;bonusfirst:10;bonussecond:10;hero:shaman
 
 // [Nudge] Tunnel Trogg (LOE_018) > Totem Golem (AT_052)
 LOE_018,0;nxttrn;AT_052,0;mana:1;bonusfirst:10;bonussecond:2;hero:shaman
 
 // [Nudge] The Coin (GAME_005) + Tunnel Trogg (LOE_018) + Tunnel Trogg (LOE_018)
-GAME_005,0;LOE_018,0;LOE_018,0;bonus:20;hero:shaman
+GAME_005,0;LOE_018,0;LOE_018,0;mana:1;bonus:10;hero:shaman
+
+// [Nudge] The Coin (GAME_005) + Small-Time Buccaneer (CFM_325) + Spirit Claws (KAR_063)
+GAME_005,0;CFM_325,0;KAR_063,0;mana:1;bonus:9;hero:shaman
 
 // [NUDGE] Bloodmage Thalnos (EX1_012) + Maelstrom Portal (KAR_073)
 EX1_012,5;KAR_073,0;bonus:3;hero:shaman
@@ -20,17 +23,23 @@ EX1_012,5;KAR_073,0;bonus:3;hero:shaman
 // [NUDGE] Bloodmage Thalnos (EX1_012) + Spirit Claws (KAR_063)
 EX1_012,5;KAR_063,0;bonus:2;hero:shaman
 
-// [NUDGE] Kobold Geomancer (CS2_142) + Maelstrom Portal (KAR_073)
-CS2_142,5;KAR_073,0;bonus:3;hero:shaman
+// Cardvalue Small-Time Buccaneer (CFM_325)
+cardvalue:CFM_325,-1
 
-// [NUDGE] Kobold Geomancer (CS2_142) + Spirit Claws x2 (KAR_063)
-CS2_142,5;KAR_063,0;bonus:2;hero:shaman
+// Cardvalue Totem Golem (AT_052)
+cardvalue:AT_052,-2
 
-// [Combo] The Coin (GAME_005) + 2x Small-Time Buccaneer (CFM_325) > Flametongue Totem (EX1_565)
-GAME_005,1;CFM_325,0;CFM_325,0;nxttrn;EX1_565,0;mana:1;bonusfirst:25;bonussecond:50;hero:shaman
+// Cardvalue Astral Communion (AT_043)
+cardvalue:AT_043,500
 
-// [Combo] The Coin (GAME_005) + 2x Tunnel Trogg (LOE_018) > Flametongue Totem (EX1_565)
-GAME_005,1;LOE_018,0;LOE_018,0;nxttrn;EX1_565,0;mana:1;bonusfirst:25;bonussecond:50;hero:shaman
+// Cardvalue Bloodmage Thalnos (EX1_012)
+cardvalue:EX1_012,10
 
-// [Combo] The Coin (GAME_005) + 2x Argent squire (EX1_008) > Flametongue Totem (EX1_565)
-GAME_005,1;EX1_008,0;EX1_008,0;nxttrn;EX1_565,0;mana:1;bonusfirst:25;bonussecond:50;hero:shaman
+// Cardvalue Lava Burst (EX1_241)
+cardvalue:EX1_241,10
+
+// Cardvalue Lightning Bolt (EX1_238)
+cardvalue:EX1_238,8
+
+// Cardvalue Jade Lightning (CFM_707)
+cardvalue:CFM_707,5

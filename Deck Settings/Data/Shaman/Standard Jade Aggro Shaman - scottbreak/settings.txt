@@ -1,11 +1,12 @@
+
 // This File: settings.txt
 // Author: scottbreak
-// Version: 0.1 (10-Dec-16)
+// Version: 0.2 (6-Feb-17)
 // Deck Name: Jade Aggro Shaman
 // Hero: Shaman
 // Deck Type: Aggro
 
-enfacehp = 30;
+enfacehp = 29;
 maxwide = 7000;
 twotsamount = 1400;
 simEnemySecondTurn = true;
@@ -16,7 +17,7 @@ enemyTurnMaxWide = 40;
 enemyTurnMaxWideSecondTime = 280;
 enemySecondTurnMaxWide = 40;
 nextTurnDeep = 6;
-nextTurnMaxWide = 28;
+nextTurnMaxWide = 40;
 nextTurnTotalBoards = 280;
 useSecretsPlayArround = false;
 alpha = 50;
@@ -25,4 +26,4 @@ useExternalProcess = true;
 passiveWaiting = false;
 behave = face;
 concedeOnBadBoard = false;
-speed = false; 
+speed = false;

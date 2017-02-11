@@ -1,6 +1,6 @@
 // This File: _discovery.txt
 // Author: scottbreak
-// Version: 0.1 (12-Dec-16)
+// Version: 0.2 (6-Feb-17)
 // Deck Name: Jade Aggro Shaman
 // Hero: Shaman
 // Deck Type: Aggro
@@ -9,10 +9,10 @@
 DS1h_292,9;all;all
 //Life Tap
 CS2_056,8;all;all
-//Shapeshift
-CS2_017,7;all;all
 //Fireblast
-CS2_034,6;all;all
+CS2_034,7;all;all
+//Shapeshift
+CS2_017,6;all;all
 //Reinforce
 CS2_101,5;all;all
 //Dagger Mastery
