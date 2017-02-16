@@ -1,0 +1,151 @@
+// This File: _mulligan.txt
+// Author: Dre
+// Version: 1.1 (15-feb-2017)
+// Deck Name: Jade Midrage Shaman
+// Hero: Shaman
+// Deck Type: Midrange (control)
+
+// - D E C K --------------------------------
+// [1] Patches the Pirate x1 (CFM_637)
+// [1] Small-Time Buccaneer x2 (CFM_325)
+// [1] Southsea Deckhand x1 (CS2_146)
+// [1] Spirit Claws x2 (KAR_063)
+// [2] Bloodmage Thalnos 1x (EX1_012)
+// [2] Flametongue Totem ×2 (EX1_565)
+// [2] Jade Claws x2 (CFM_717)
+// [2] Maelstrom Portal x2 (KAR_073)
+// [3] Hex ×2 (EX1_246)
+// [3] Lightning Storm x1 (EX1_259)
+// [3] Mana Tide Totem ×1 (EX1_575)
+// [4] Jade Lightning x2 (CFM_707)
+// [4] Jade Spirit 2x (CFM_715)
+// [4] Jinyu Waterspeaker x2 (CFM_061)
+// [5] Azure Drake x2 (EX1_284)
+// [6] Thing from Below ×2 (OG_028)
+// [6] Aya Blackpaw x1 (CFM_902)
+// [7] Jade Chieftain x2 (CFM_312)
+
+
+// - A L L --------------------------------------
+// 1-DROP
+// Small-Time Buccaneer
+hold;shaman;all;CFM_325
+
+// 1x Flametongue Totem + Small-Time Buccaneer
+hold;shaman;all;EX1_565:1:CFM_325
+
+
+// - D R U I D ----------------------------------
+// 2-DROP
+// Jade Claws
+hold;shaman;druid;CFM_717:1
+
+// 3-DROP
+// Mana Tide Totem
+hold;shaman;druid;EX1_575:1
+
+
+// - H U N T E R -------------------------------- 
+// 1-DROP
+// Spirit Claws
+hold;shaman;hunter;KAR_063:1
+// Southsea Deckhand
+hold;shaman;hunter;CS2_146:1
+
+// 2-DROP
+// Jade Claws
+hold;shaman;druid;CFM_717:1
+// Discard Jade claws when you have Spirit Claws
+discard;shaman;druid;CFM_717:2:KAR_063
+
+
+// - M A G E ------------------------------------
+// 2-DROP
+// Jade Claws
+hold;shaman;mage;CFM_717:1
+
+// 3-DROP
+// Mana Tide Totem
+hold;shaman;mage;EX1_575:1
+
+// - P A L A D I N ------------------------------
+// 1-DROP
+// Spirit Claws
+hold;shaman;pala;KAR_063:1
+
+// 3-DROP
+// Mana Tide Totem
+hold;shaman;pala;EX1_575:1
+
+// 4-DROP
+// Jade Spirit
+hold;shaman;pala;CFM_715:1
+
+
+// - P R I E S T --------------------------------
+// 1-DROP
+// Spirit Claws
+hold;shaman;priest;KAR_063:1
+
+// 2-DROP
+// 1x Bloodmage Thalnos + Spirit Claws
+hold;shaman;priest;EX1_012:1:KAR_063
+// Jade Claws
+hold;shaman;priest;CFM_717:1
+// Discard Jade claws when you have Spirit Claws
+discard;shaman;priest;CFM_717:2:KAR_063
+
+// 4-DROP
+hold;shaman;priest;CFM_707:1
+
+
+// - R O G U E ----------------------------------
+// 2-DROP
+// Jade Claws
+hold;shaman;thief;CFM_717:1
+
+// 3-DROP
+// Lightning Storm
+hold;shaman;thief;EX1_259:1
+// Hex
+hold;shaman;thief;EX1_246:1
+
+
+// - S H A M A N --------------------------------
+// 1-DROP
+// Spirit Claws
+hold;shaman;priest;KAR_063:1
+
+// 2-DROP
+// 1x Bloodmage Thalnos + Spirit Claws
+hold;shaman;shaman;EX1_012:1:KAR_063
+// Jade Claws
+hold;shaman;shaman;CFM_717:1
+// Discard Jade claws when you have Spirit Claws
+discard;shaman;shaman;CFM_717:2:KAR_063
+
+// 3-DROP
+// Lightning Storm
+hold;shaman;shaman;EX1_259:1
+
+
+// - W A R L O C K ------------------------------
+// 3-DROP
+// Hex
+hold;shaman;warlock;EX1_246:1
+// Mana Tide Totem
+hold;shaman;warlock;EX1_575:1
+
+
+// - W A R R I O R ------------------------------
+// 1-DROP
+// Spirit Claws
+hold;shaman;warrior;KAR_063:1
+
+// 2-DROP
+// Maelstrom Portal
+hold;shaman;warrior;KAR_073:1
+
+// 3-DROP
+// Lightning Storm
+hold;shaman;warrior;EX1_259:1

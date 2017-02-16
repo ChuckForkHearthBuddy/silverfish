@@ -1,0 +1,25 @@
+// This File: decklist.txt
+// Author: Dre
+// Version: 1.1 (15-feb-2017)
+// Deck Name: Jade Midrage Shaman
+// Hero: Shaman
+// Deck Type: Midrange (control)
+
+Patches the Pirate x1
+Small-Time Buccaneer x2
+Southsea Deckhand x1
+Spirit Claws x2
+Bloodmage Thalnos x1
+Flametongue Totem x2
+Jade Claws x2
+Maelstrom Portal x2
+Hex x2
+Lightning Storm x1
+Mana Tide Totem x1
+Jade Lightning x2
+Jade Spirit x2
+Jinyu waterspeaker x2
+Azure Drake x2
+Thing from Below ×2
+Aya Blackpaw x1
+Jade Chieftain x2

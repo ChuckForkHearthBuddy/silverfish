@@ -1,0 +1,36 @@
+// This File: _combo.txt
+// Author: Dre
+// Version: 1.1 (15-feb-2017)
+// Deck Name: Jade Midrage Shaman
+// Hero: Shaman
+// Deck Type: Midrange (control)
+
+// [Nudge] Force [1] Small-Time Buccaneer (CFM_325)
+CFM_325,0;mana:1;bonus:3;hero:shaman
+
+// [Nudge] [0] The Coin (GAME_005) + [1] Small-Time Buccaneer (CFM_325) + [1] Spirit Claws (KAR_063)
+GAME_005,0;CFM_325,0;KAR_063,0;mana:1;bonus:19;hero:shaman
+
+// [NUDGE] [2] Bloodmage Thalnos (EX1_012) + [2] Maelstrom Portal (KAR_073)
+EX1_012,5;KAR_073,0;bonus:3;hero:shaman
+
+// Cardvalue Lightning Storm (EX1_259)
+cardvalue:EX1_259,14
+
+// Cardvalue Bloodmage Thalnos (EX1_012)
+cardvalue:EX1_012,11
+
+// Cardvalue Jade Lightning (CFM_707)
+cardvalue:CFM_707,5
+
+// Cardvalue Mana Tide Totem (EX1_575) 
+cardvalue:EX1_575,3
+
+// Cardvalue Astral Communion (AT_043) 
+cardvalue:AT_043,500
+
+// Cardvalue Hex (EX1_246)
+cardvalue:EX1_246,-2
+
+// Cardvalue Thing from Below (OG_028)
+cardvalue:OG_028,-1
