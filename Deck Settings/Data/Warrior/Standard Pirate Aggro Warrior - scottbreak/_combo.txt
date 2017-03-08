@@ -1,0 +1,15 @@
+// This File: _combo.txt
+// Author: scottbreak
+// Version: 1.0 (6-Mar-17)
+// Deck Name: Standard Pirate Warrior
+// Hero: Warrior
+// Deck Type: Aggro
+
+// [Nudge] The Coin (GAME_005) + N'Zoth's First Mate (OG_312) + Southsea Deckhand (CS2_146)
+GAME_005,0;OG_312,0;CS2_146,0;mana:1;bonus:50;hero:warrior
+
+// [Nudge] The Coin (GAME_005) + N'Zoth's First Mate (OG_312) + Sir Finley Mrrgglton (LOE_076)
+GAME_005,0;OG_312,0;LOE_076,0;mana:1;bonus:40;hero:warrior
+
+// Cardvalue Astral Communion (AT_043)
+cardvalue:AT_043,500

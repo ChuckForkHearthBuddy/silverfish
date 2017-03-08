@@ -1,0 +1,24 @@
+// This File: decklist.txt
+// Author: scottbreak
+// Version: 1.0 (6-Mar-17)
+// Deck Name: Standard Pirate Warrior
+// Hero: Warrior
+// Deck Type: Aggro
+
+N'Zoth's First Mate x2
+Patches the Pirate x1
+Sir Finley Mrrgglton x1
+Southsea Deckhand x2
+Upgrade! x2
+Acidic Swamp Ooze x1
+Bloodsail Raider x2
+Fiery War Axe x2
+Heroic Strike x2
+Bash x2
+Bloodsail Cultist x2
+Frothing Berserker x2
+Dread Corsair x2
+Kor'kron Elite x2
+Mortal Strike x2
+Arcanite Reaper x2
+Leeroy Jenkins x1
