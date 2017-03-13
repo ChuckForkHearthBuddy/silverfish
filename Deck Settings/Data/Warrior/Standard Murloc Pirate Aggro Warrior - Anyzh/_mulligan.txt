@@ -1,0 +1,46 @@
+// This File: _mulligan.txt
+// Author: originally: scottbreak, adjustments: Anyzh
+// Version: 1.0
+// Deck Name: Murloc Pirate
+// Hero: Warrior
+// Deck Type: Aggro
+
+//- D E C K ------------------------------
+// [1] N'Zoth's First Mate x2 (OG_312)
+// [1] Patches the Pirate x1 (CFM_637)
+// [1] Sir Finley Mrrgglton x1 (LOE_076)
+// [1] Southsea Deckhand x2 (CS2_146)
+// [1] Upgrade! x2 (EX1_409)
+// [2] Bloodsail Raider x2 (NEW1_018)
+// [2] Bluegill Warrior x2
+// [2] Fiery War Axe x2 (CS2_106)
+// [2] Heroic Strike x2 (CS2_105)
+// [3] Bloodsail Cultist x2 (OG_315)
+// [3] Frothing Berserker x2
+// [3] Murloc Warleader x2
+// [4] Dread Corsair x2 (NEW1_022)
+// [4] Kor'kron Elite x2 (NEW1_011)
+// [5] Arcanite Reaper x2 (CS2_112)
+// [5] Finja, the Flying Star x1 (CFM_344)
+// [5] Leeroy Jenkins x1
+
+
+// - A L L --------------------------------------
+// DISCARD Patches the Pirate (CFM_637)
+discard;warrior;all;CFM_637
+// N'Zoth's First Mate (OG_312)
+hold;warrior;all;OG_312:1
+// Finja, the Flying Star (CFM_344)
+hold;warrior;all;CFM_344
+// Sir Finley Mrrgglton (LOE_076)
+hold;warrior;all;LOE_076
+// Southsea Deckhand (CS2_146) + N'Zoth's First Mate (OG_312)
+hold;warrior;all;CS2_146:2:OG_312
+// Fiery War Axe (CS2_106)
+hold;warrior;all;CS2_106:1
+// Bloodsail Raider (NEW1_018) + Fiery War Axe (CS2_106)/N'Zoth's First Mate (OG_312)
+hold;warrior;all;NEW1_018:1:CS2_106/OG_312
+// Bloodsail Cultist (OG_315) + N'Zoth's First Mate (OG_312) + Coin
+hold;warrior;all;OG_315:1:OG_312;coin
+// Dread Corsair (NEW1_022) + Fiery War Axe (CS2_106)
+hold;warrior;all;NEW1_022:1:CS2_106

@@ -1,0 +1,18 @@
+//- D E C K ------------------------------
+// [1] N'Zoth's First Mate x2 (OG_312)
+// [1] Patches the Pirate x1 (CFM_637)
+// [1] Sir Finley Mrrgglton x1 (LOE_076)
+// [1] Southsea Deckhand x2 (CS2_146)
+// [1] Upgrade! x2 (EX1_409)
+// [2] Bloodsail Raider x2 (NEW1_018)
+// [2] Bluegill Warrior x2
+// [2] Fiery War Axe x2 (CS2_106)
+// [2] Heroic Strike x2 (CS2_105)
+// [3] Bloodsail Cultist x2 (OG_315)
+// [3] Frothing Berserker x2
+// [3] Murloc Warleader x2
+// [4] Dread Corsair x2 (NEW1_022)
+// [4] Kor'kron Elite x2 (NEW1_011)
+// [5] Arcanite Reaper x2 (CS2_112)
+// [5] Finja, the Flying Star x1 (CFM_344)
+// [5] Leeroy Jenkins x1
